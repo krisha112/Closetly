@@ -5,13 +5,13 @@ require("dotenv").config();
 const dashboardRoutes = require("./routes/dashboardRoutes");
 
 const app = express();
-
+const notificationRoutes = require("./routes/notificationRoutes");
 // Middleware
 app.use(cors());
 app.use(express.json());
 
 app.use("/api/dashboard", dashboardRoutes);
-
+app.use("/api/notifications", notificationRoutes);
 // Test Route
 app.get("/", (req, res) => {
     res.send("🚀 Closetly Backend is Running Successfully!");

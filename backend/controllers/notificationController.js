@@ -22,7 +22,7 @@ const addNotification = async (req, res) => {
             data: savedNotification
         });
         
-    } catch (error) //catch any errors  {
+    } catch (error) {
 
         res.status(500).json({
             success: false,

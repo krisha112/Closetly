@@ -1,0 +1,134 @@
+.sidebar{
+
+    width:270px;
+    height:100vh;
+
+    background:#44422D;
+
+    color:white;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:space-between;
+
+    padding:30px 20px;
+
+    transition:0.3s;
+}
+
+.logo{
+
+    text-align:center;
+
+}
+
+.logo h1{
+
+    color:#FFF9F3;
+
+    font-size:30px;
+
+    font-weight:700;
+
+}
+
+.logo p{
+
+    color:#DBC4A5;
+
+    margin-top:8px;
+
+    font-size:14px;
+
+}
+
+nav{
+
+    margin-top:40px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:12px;
+
+}
+
+nav a{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+    padding:14px 18px;
+
+    border-radius:12px;
+
+    cursor:pointer;
+
+    text-decoration:none;
+
+    color:#FFF9F3;
+
+    transition:.3s;
+
+}
+
+nav a:hover{
+
+    background:#72583E;
+
+}
+
+.active{
+
+    background:#72583E;
+    border-left:4px solid #DBC4A5;
+}
+
+.logout{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+    padding:15px;
+
+    border-radius:12px;
+
+    cursor:pointer;
+
+    color:#FFF9F3;
+
+    transition:.3s;
+}
+
+.logout:hover{
+
+    background:#755151;
+
+}
+
+mat-icon{
+
+    font-size:22px;
+    display:flex;
+    align-items:center;
+
+}
+nav a:hover{
+
+    transform:translateX(5px);
+
+}
+.logo{
+
+    margin-bottom:25px;
+
+}

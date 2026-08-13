@@ -4,7 +4,7 @@
 
     min-height:100vh;
 
-    background:#FFF9F3;
+    background:var(--linen);
 
 }
 
@@ -16,14 +16,30 @@
 
     flex-direction:column;
 
-    overflow:hidden;
 }
 
 .dashboard-body{
 
     padding:35px;
 
-    overflow-y:auto;
+}
 
+.welcome{
+
+    font-size:28px;
+
+    margin-bottom:30px;
+
+    color:var(--olive);
+
+}
+
+.cards{
+
+    display:grid;
+
+    grid-template-columns:repeat(4,1fr);
+
+    gap:25px;
 
 }

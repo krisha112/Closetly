@@ -8,7 +8,43 @@
 
         <div class="dashboard-body">
 
-            Dashboard Content
+            <h2 class="welcome">
+                Welcome Back 👋
+            </h2>
+
+            <div class="cards">
+
+                <!-- Total Clothes -->
+                <app-dashboard-card
+                    title="Total Clothes"
+                    [value]="dashboardData.totalClothes"
+                    icon="checkroom">
+                </app-dashboard-card>
+
+                <!-- Total Outfits -->
+                <app-dashboard-card
+                    title="Total Outfits"
+                    [value]="dashboardData.totalOutfits"
+                    icon="style">
+                </app-dashboard-card>
+
+                <!-- Favorite Outfits -->
+                <app-dashboard-card
+                    title="Favorite Outfits"
+                    [value]="dashboardData.favoriteOutfits"
+                    icon="favorite">
+                </app-dashboard-card>
+
+                <!-- Recently Added -->
+                <app-dashboard-card
+                    title="Recently Added"
+                    [value]="dashboardData.recentClothes.length"
+                    icon="new_releases">
+                </app-dashboard-card>
+
+            </div>
+            <app-charts></app-charts>
+            <app-recent-activity></app-recent-activity>
 
         </div>
 

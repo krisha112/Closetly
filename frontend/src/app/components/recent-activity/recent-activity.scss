@@ -1,0 +1,139 @@
+.activity-card {
+    margin-top: 24px;
+    background: white;
+    border-radius: 18px;
+    padding: 26px;
+    box-shadow: var(--shadow);
+    border: 1px solid rgba(68, 66, 45, 0.06);
+}
+
+.activity-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+}
+
+.section-label {
+    display: block;
+    color: var(--latte);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    margin-bottom: 6px;
+}
+
+.activity-header h3 {
+    color: var(--olive);
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.view-all {
+    border: none;
+    background: transparent;
+    color: var(--clockwork);
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.25s ease;
+}
+
+.view-all:hover {
+    color: var(--mauve);
+    transform: translateX(3px);
+}
+
+.activity-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.activity-item {
+    display: grid;
+    grid-template-columns: 46px 1fr auto;
+    align-items: center;
+    gap: 16px;
+
+    padding: 16px 0;
+
+    border-bottom: 1px solid rgba(68, 66, 45, 0.08);
+
+    transition: 0.25s ease;
+}
+
+.activity-item:last-child {
+    border-bottom: none;
+}
+
+.activity-item:hover {
+    transform: translateX(4px);
+}
+
+.activity-icon {
+    width: 44px;
+    height: 44px;
+
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #f3ece3;
+    color: var(--clockwork);
+}
+
+.activity-icon mat-icon {
+    font-size: 21px;
+}
+
+.activity-content h4 {
+    margin: 0 0 4px;
+
+    color: var(--olive);
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.activity-content p {
+    margin: 0;
+
+    color: var(--cedar);
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.activity-time {
+    color: var(--cedar);
+    font-size: 11px;
+    white-space: nowrap;
+}
+
+
+/* Responsive */
+
+@media (max-width: 700px) {
+
+    .activity-item {
+        grid-template-columns: 44px 1fr;
+    }
+
+    .activity-time {
+        grid-column: 2;
+    }
+
+}
+
+@media (max-width: 500px) {
+
+    .activity-card {
+        padding: 20px;
+    }
+
+    .activity-header h3 {
+        font-size: 18px;
+    }
+
+}

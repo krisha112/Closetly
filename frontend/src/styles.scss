@@ -21,17 +21,15 @@ body{
 }
 
 /* Color Variables */
-:root{
+:root {
+    --linen: #FFF9F3;
+    --olive: #44422D;
+    --clockwork: #72583E;
+    --cedar: #7C7960;
+    --latte: #DBC4A5;
+    --mauve: #755151;
 
-    --linen:#FFF9F3;
-    --olive:#44422D;
-    --clockwork:#72583E;
-    --cedar:#7C7960;
-    --latte:#DBC4A5;
-    --mauve:#755151;
-
-    --shadow:0 8px 20px rgba(0,0,0,0.08);
-
+    --shadow: 0 8px 20px rgba(0,0,0,0.08);
 }
 a{
 
@@ -55,8 +53,4 @@ img{
     display:block;
 
 }
-:root{
 
-    --shadow:0 8px 20px rgba(0,0,0,.08);
-
-}

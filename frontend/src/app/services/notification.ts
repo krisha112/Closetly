@@ -11,6 +11,11 @@ export interface NotificationData {
   createdAt?: string;
   updatedAt?: string;
 }
+export interface NotificationResponse {
+  success: boolean;
+  count: number;
+  data: NotificationData[];
+}
 
 @Injectable({
   providedIn: 'root'
@@ -21,10 +26,12 @@ export class NotificationService {
 
   constructor(private http: HttpClient) {}
 
-  getNotifications(): Observable<NotificationData[]> {
-    return this.http.get<NotificationData[]>(this.apiUrl);
-  }
-
+  getNotifications(userId: string): Observable<NotificationResponse> {
+  return this.http.get<NotificationResponse>(
+    `${this.apiUrl}?userId=${userId}`
+  );
+}
+ 
   markAsRead(id: string): Observable<NotificationData> {
     return this.http.patch<NotificationData>(
       `${this.apiUrl}/${id}/read`,

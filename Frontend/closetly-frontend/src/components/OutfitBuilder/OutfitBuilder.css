@@ -1,0 +1,1361 @@
+/* =========================================================
+   CLOSETLY - OUTFIT BUILDER
+   Responsive Outfit Builder Layout
+========================================================= */
+
+:root {
+  --cream: #fff9f3;
+  --linen: #f7f2ec;
+  --white: #ffffff;
+
+  --brown-dark: #443223;
+  --brown: #72583e;
+  --brown-light: #a08670;
+
+  --beige: #dbc4a5;
+  --beige-light: #eee3d6;
+
+  --olive: #7c7960;
+
+  --border: #dccfc1;
+  --text-muted: #796b5e;
+
+  --shadow: 0 8px 25px rgba(68, 50, 35, 0.08);
+}
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+.cl-app {
+  min-height: 100vh;
+  width: 100%;
+
+  background: var(--cream);
+  color: var(--brown-dark);
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+}
+
+.cl-app *,
+.cl-app *::before,
+.cl-app *::after {
+  box-sizing: border-box;
+}
+
+.cl-app button {
+  font-family: inherit;
+}
+
+
+/* =========================================================
+   NAVBAR
+========================================================= */
+
+.cl-nav {
+  width: 100%;
+  height: 70px;
+
+  background: var(--cream);
+
+  border-bottom: 1px solid var(--border);
+}
+
+.cl-nav-inner {
+  width: min(1400px, 92%);
+  height: 100%;
+
+  margin: 0 auto;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 25px;
+}
+
+.cl-logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  color: var(--brown-dark);
+
+  font-family: Georgia, serif;
+  font-size: 28px;
+  font-weight: 700;
+
+  text-decoration: none;
+
+  white-space: nowrap;
+}
+
+.cl-logo-icon {
+  width: 20px;
+  height: 20px;
+}
+
+.cl-nav-links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: clamp(14px, 2vw, 30px);
+}
+
+.cl-nav-link {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  padding: 8px 10px;
+
+  border-radius: 9px;
+
+  color: var(--text-muted);
+
+  text-decoration: none;
+
+  font-size: 14px;
+
+  transition: 0.2s ease;
+}
+
+.cl-nav-link:hover {
+  color: var(--brown-dark);
+  background: var(--beige-light);
+}
+
+.cl-nav-link.is-active {
+  color: var(--brown-dark);
+  background: var(--beige);
+  font-weight: 600;
+}
+
+.cl-nav-icon {
+  width: 17px;
+  height: 17px;
+}
+
+.cl-nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cl-icon-btn,
+.cl-avatar {
+  width: 38px;
+  height: 38px;
+
+  display: grid;
+  place-items: center;
+
+  border: 1px solid var(--border);
+  border-radius: 50%;
+
+  background: var(--white);
+  color: var(--brown);
+
+  cursor: pointer;
+
+  transition: 0.2s ease;
+}
+
+.cl-icon-btn:hover,
+.cl-avatar:hover {
+  background: var(--beige-light);
+}
+
+.cl-icon-btn svg,
+.cl-avatar svg {
+  width: 18px;
+  height: 18px;
+}
+
+
+/* =========================================================
+   MAIN
+========================================================= */
+
+.cl-main {
+  width: 100%;
+
+  /*
+    Keep the builder inside the visible viewport
+    on normal laptops.
+  */
+  height: calc(100vh - 70px);
+
+  min-height: 600px;
+
+  padding: 20px clamp(16px, 3vw, 42px);
+
+  overflow: hidden;
+}
+
+
+/* =========================================================
+   MAIN WORKSPACE
+
+   CLOSED:
+   ┌──────────────────────────────────────────────┐
+   │              PREVIEW             TOOLBAR     │
+   └──────────────────────────────────────────────┘
+
+   OPEN:
+   ┌───────────────┬──────────────────────┐
+   │ PANEL         │ PREVIEW       TOOLBAR│
+   └───────────────┴──────────────────────┘
+========================================================= */
+
+.cl-workspace {
+  width: 100%;
+  height: 100%;
+
+  max-width: 1500px;
+
+  margin: 0 auto;
+
+  display: grid;
+
+  grid-template-columns: minmax(0, 1fr) auto;
+
+  gap: 16px;
+
+  position: relative;
+}
+
+
+/* When panel opens */
+
+.cl-workspace.has-panel {
+  grid-template-columns:
+    minmax(260px, 330px)
+    minmax(0, 1fr)
+    auto;
+}
+
+
+/* =========================================================
+   LEFT DYNAMIC PANEL
+========================================================= */
+
+.cl-panel {
+  grid-column: 1;
+
+  width: 100%;
+  height: 100%;
+
+  min-width: 0;
+
+  background: var(--white);
+
+  border: 1px solid var(--border);
+  border-radius: 20px;
+
+  box-shadow: var(--shadow);
+
+  overflow: hidden;
+
+  display: flex;
+  flex-direction: column;
+
+  position: relative;
+  z-index: 10;
+}
+
+
+/* =========================================================
+   PANEL HEADER
+========================================================= */
+
+.cl-panel-head {
+  flex-shrink: 0;
+
+  padding: 18px 18px 14px;
+
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  gap: 12px;
+
+  border-bottom: 1px solid var(--border);
+}
+
+.cl-panel-title {
+  margin: 0;
+
+  color: var(--brown-dark);
+
+  font-family: Georgia, serif;
+
+  font-size: 24px;
+}
+
+.cl-panel-sub {
+  margin: 5px 0 0;
+
+  color: var(--text-muted);
+
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.cl-panel-close {
+  width: 34px;
+  height: 34px;
+
+  flex-shrink: 0;
+
+  display: grid;
+  place-items: center;
+
+  border: 1px solid var(--border);
+  border-radius: 9px;
+
+  background: var(--cream);
+  color: var(--brown);
+
+  cursor: pointer;
+}
+
+.cl-panel-close:hover {
+  background: var(--beige-light);
+}
+
+.cl-panel-close svg {
+  width: 18px;
+  height: 18px;
+}
+
+
+/* =========================================================
+   PANEL BODY
+========================================================= */
+
+.cl-panel-body {
+  flex: 1;
+
+  min-height: 0;
+
+  padding: 16px;
+
+  overflow-y: auto;
+
+  scrollbar-width: thin;
+  scrollbar-color: var(--beige) transparent;
+}
+
+
+/* =========================================================
+   BODY SHAPE GRID
+========================================================= */
+
+.cl-shape-grid {
+  display: grid;
+
+  grid-template-columns: 1fr 1fr;
+
+  gap: 10px;
+}
+
+.cl-shape-card {
+  min-width: 0;
+
+  position: relative;
+
+  padding: 10px;
+
+  border: 1px solid var(--border);
+  border-radius: 13px;
+
+  background: var(--cream);
+  color: var(--brown-dark);
+
+  cursor: pointer;
+
+  text-align: left;
+
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+.cl-shape-card:hover {
+  border-color: var(--brown-light);
+  background: var(--beige-light);
+
+  transform: translateY(-1px);
+}
+
+.cl-shape-card.is-selected {
+  border: 2px solid var(--brown);
+
+  background: #f4ebe1;
+}
+
+.cl-shape-check {
+  position: absolute;
+
+  top: 7px;
+  right: 7px;
+
+  width: 22px;
+  height: 22px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 50%;
+
+  background: var(--brown);
+  color: white;
+}
+
+.cl-shape-check svg {
+  width: 13px;
+  height: 13px;
+}
+
+.cl-shape-figure {
+  width: 100%;
+  height: 110px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-bottom: 7px;
+}
+
+.cl-shape-figure img {
+  width: 100%;
+  height: 100%;
+
+  object-fit: contain;
+}
+
+.cl-shape-name {
+  display: block;
+
+  color: var(--brown-dark);
+
+  font-size: 14px;
+  font-weight: 700;
+
+  margin-bottom: 3px;
+}
+
+.cl-shape-desc {
+  display: block;
+
+  color: var(--text-muted);
+
+  font-size: 11px;
+  line-height: 1.3;
+}
+
+
+/* =========================================================
+   CLOSET CATEGORY BUTTONS
+========================================================= */
+
+.cl-cat-grid {
+  display: grid;
+
+  grid-template-columns: 1fr 1fr;
+
+  gap: 9px;
+
+  margin-bottom: 14px;
+}
+
+.cl-cat-btn {
+  min-height: 48px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 7px;
+
+  border: 1px solid var(--border);
+  border-radius: 10px;
+
+  background: var(--cream);
+  color: var(--brown-dark);
+
+  font-size: 13px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: 0.2s ease;
+}
+
+.cl-cat-btn:hover {
+  background: var(--beige-light);
+  border-color: var(--brown-light);
+}
+
+.cl-cat-btn.is-active {
+  background: var(--brown);
+  border-color: var(--brown);
+
+  color: white;
+}
+
+.cl-cat-icon {
+  width: 18px;
+  height: 18px;
+}
+
+
+/* =========================================================
+   CLOTHING ITEMS
+========================================================= */
+
+.cl-items {
+  display: grid;
+
+  grid-template-columns: repeat(3, 1fr);
+
+  gap: 9px;
+}
+
+.cl-item {
+  aspect-ratio: 0.82;
+
+  min-width: 0;
+
+  padding: 7px;
+
+  border: 1px solid var(--border);
+  border-radius: 11px;
+
+  background: var(--cream);
+
+  cursor: pointer;
+
+  transition:
+    border-color 0.2s ease,
+    transform 0.2s ease,
+    background 0.2s ease;
+}
+
+.cl-item:hover {
+  border-color: var(--brown-light);
+
+  background: var(--beige-light);
+
+  transform: translateY(-2px);
+}
+
+.cl-item.is-selected {
+  border: 2px solid var(--brown);
+
+  background: #f4ebe1;
+}
+
+.cl-item img {
+  width: 100%;
+  height: 100%;
+
+  object-fit: contain;
+}
+
+
+/* =========================================================
+   VIEW PANEL
+========================================================= */
+
+.cl-view-grid {
+  display: grid;
+
+  grid-template-columns: 1fr 1fr 1fr;
+
+  gap: 9px;
+}
+
+.cl-view-btn {
+  padding: 10px 6px;
+
+  border: 1px solid var(--border);
+  border-radius: 12px;
+
+  background: var(--cream);
+  color: var(--brown-dark);
+
+  cursor: pointer;
+
+  transition: 0.2s ease;
+}
+
+.cl-view-btn:hover {
+  background: var(--beige-light);
+}
+
+.cl-view-btn.is-active {
+  background: var(--brown);
+
+  border-color: var(--brown);
+
+  color: white;
+}
+
+.cl-view-tile {
+  height: 55px;
+
+  display: grid;
+  place-items: center;
+}
+
+.cl-view-tile svg {
+  width: 38px;
+  height: 38px;
+}
+
+.cl-view-label {
+  display: block;
+
+  margin-top: 5px;
+
+  font-size: 12px;
+  font-weight: 600;
+}
+
+
+/* =========================================================
+   MAIN OUTFIT PREVIEW
+========================================================= */
+
+.cl-stage {
+  grid-column: 1 / -1;
+
+  height: 100%;
+
+  min-width: 0;
+
+  position: relative;
+
+  background:
+    radial-gradient(
+      circle at center,
+      #fffdf9 0%,
+      #f8f2eb 65%,
+      #f3e9df 100%
+    );
+
+  border: 1px solid var(--border);
+  border-radius: 22px;
+
+  box-shadow: var(--shadow);
+
+  display: flex;
+  flex-direction: column;
+
+  overflow: hidden;
+}
+
+
+/*
+When panel is open, stage occupies
+the second grid column.
+*/
+
+.cl-workspace.has-panel .cl-stage {
+  grid-column: 2;
+}
+
+
+/* =========================================================
+   STAGE HEADER
+========================================================= */
+
+.cl-stage-head {
+  flex-shrink: 0;
+
+  padding: 18px 22px 10px;
+
+  display: flex;
+
+  align-items: flex-start;
+  justify-content: space-between;
+
+  gap: 20px;
+}
+
+.cl-title {
+  margin: 0;
+
+  color: var(--brown-dark);
+
+  font-family: Georgia, serif;
+
+  font-size: clamp(28px, 3vw, 42px);
+
+  line-height: 1.1;
+}
+
+.cl-subtitle {
+  margin: 5px 0 0;
+
+  color: var(--text-muted);
+
+  font-size: 14px;
+}
+
+.cl-stage-tags {
+  display: flex;
+  gap: 7px;
+
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.cl-tag {
+  padding: 6px 10px;
+
+  border-radius: 20px;
+
+  background: var(--beige-light);
+
+  color: var(--brown);
+
+  font-size: 11px;
+  font-weight: 600;
+
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   MANNEQUIN AREA
+========================================================= */
+
+.cl-mannequin-wrap {
+  flex: 1;
+
+  min-height: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 8px 25px;
+}
+
+.cl-mannequin {
+  position: relative;
+
+  height: min(68vh, 570px);
+
+  width: min(100%, 380px);
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+}
+
+.cl-mannequin-img {
+  width: 100%;
+  height: 100%;
+
+  object-fit: contain;
+
+  position: relative;
+
+  z-index: 1;
+
+  transition:
+    opacity 0.25s ease,
+    transform 0.25s ease;
+}
+
+
+/* =========================================================
+   CLOTHING LAYERS
+========================================================= */
+
+.cl-layer {
+  position: absolute;
+
+  left: 50%;
+
+  width: 100%;
+
+  object-fit: contain;
+
+  transform: translateX(-50%);
+
+  pointer-events: none;
+
+  z-index: 2;
+}
+
+
+/*
+Outerwear should appear above top/bottom.
+*/
+
+.cl-mannequin .cl-layer[style*="20%"] {
+  z-index: 4;
+}
+
+.cl-mannequin .cl-layer[style*="22%"] {
+  z-index: 3;
+}
+
+
+/* =========================================================
+   ACTION BUTTONS
+========================================================= */
+
+.cl-actions {
+  flex-shrink: 0;
+
+  display: flex;
+
+  justify-content: center;
+
+  gap: 10px;
+
+  padding: 10px 20px 18px;
+}
+
+.cl-btn {
+  min-height: 42px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 7px;
+
+  padding: 10px 18px;
+
+  border-radius: 10px;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: 0.2s ease;
+}
+
+.cl-btn-icon {
+  width: 17px;
+  height: 17px;
+}
+
+.cl-btn-ghost {
+  border: 1px solid var(--brown-light);
+
+  background: var(--cream);
+
+  color: var(--brown);
+}
+
+.cl-btn-ghost:hover {
+  background: var(--beige-light);
+}
+
+.cl-btn-primary {
+  border: 1px solid var(--brown);
+
+  background: var(--brown);
+
+  color: white;
+}
+
+.cl-btn-primary:hover {
+  background: var(--brown-dark);
+}
+
+
+/* =========================================================
+   TOOLBAR
+========================================================= */
+
+.cl-toolbar {
+  grid-column: 2;
+
+  height: fit-content;
+
+  align-self: center;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 9px;
+
+  padding: 9px;
+
+  background: var(--white);
+
+  border: 1px solid var(--border);
+  border-radius: 16px;
+
+  box-shadow: var(--shadow);
+
+  z-index: 20;
+}
+
+
+/*
+When panel is open:
+
+panel = column 1
+stage = column 2
+toolbar = column 3
+*/
+
+.cl-workspace.has-panel .cl-toolbar {
+  grid-column: 3;
+}
+
+
+/* =========================================================
+   TOOL BUTTON
+========================================================= */
+
+.cl-tool {
+  width: 76px;
+  min-height: 70px;
+
+  padding: 8px 5px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  gap: 5px;
+
+  border: 1px solid transparent;
+  border-radius: 11px;
+
+  background: transparent;
+
+  color: var(--text-muted);
+
+  cursor: pointer;
+
+  transition: 0.2s ease;
+}
+
+.cl-tool:hover {
+  background: var(--beige-light);
+
+  color: var(--brown-dark);
+}
+
+.cl-tool.is-active {
+  background: var(--brown);
+
+  color: white;
+
+  border-color: var(--brown);
+}
+
+.cl-tool-icon {
+  width: 22px;
+  height: 22px;
+}
+
+.cl-tool-label {
+  font-size: 11px;
+  font-weight: 600;
+
+  text-align: center;
+}
+
+
+/* =========================================================
+   SCRIM
+========================================================= */
+
+.cl-scrim {
+  display: none;
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1050px) {
+
+  .cl-nav-links {
+    gap: 8px;
+  }
+
+  .cl-nav-link {
+    padding: 7px;
+    font-size: 13px;
+  }
+
+  .cl-main {
+    padding: 15px;
+  }
+
+  .cl-workspace.has-panel {
+    grid-template-columns:
+      minmax(220px, 280px)
+      minmax(0, 1fr)
+      auto;
+  }
+
+  .cl-tool {
+    width: 68px;
+  }
+
+  .cl-mannequin {
+    height: min(62vh, 500px);
+  }
+}
+
+
+/* =========================================================
+   TABLET / SMALL LAPTOP
+========================================================= */
+
+@media (max-width: 800px) {
+
+  .cl-main {
+    height: auto;
+    min-height: calc(100vh - 70px);
+
+    overflow: visible;
+  }
+
+  .cl-workspace {
+    height: auto;
+
+    min-height: calc(100vh - 105px);
+
+    grid-template-columns: 1fr auto;
+  }
+
+  .cl-workspace.has-panel {
+    grid-template-columns: 1fr auto;
+  }
+
+  /*
+    On tablet, the panel becomes an overlay
+    instead of shrinking the preview too much.
+  */
+
+  .cl-panel {
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: min(330px, 80vw);
+
+    height: 100%;
+
+    z-index: 50;
+  }
+
+  .cl-scrim {
+    display: block;
+
+    position: fixed;
+
+    inset: 0;
+
+    background: rgba(68, 50, 35, 0.18);
+
+    z-index: 40;
+  }
+
+  .cl-stage,
+  .cl-workspace.has-panel .cl-stage {
+    grid-column: 1;
+  }
+
+  .cl-toolbar,
+  .cl-workspace.has-panel .cl-toolbar {
+    grid-column: 2;
+  }
+
+  .cl-mannequin {
+    height: min(60vh, 470px);
+  }
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+
+  .cl-nav {
+    height: auto;
+  }
+
+  .cl-nav-inner {
+    width: 94%;
+
+    padding: 12px 0;
+
+    flex-wrap: wrap;
+  }
+
+  .cl-logo {
+    font-size: 25px;
+  }
+
+  .cl-nav-links {
+    width: 100%;
+
+    order: 3;
+
+    justify-content: space-between;
+
+    border-top: 1px solid var(--border);
+
+    padding-top: 9px;
+  }
+
+  .cl-nav-link {
+    font-size: 11px;
+  }
+
+  .cl-nav-actions {
+    margin-left: auto;
+  }
+
+
+  .cl-main {
+    min-height: calc(100vh - 125px);
+
+    padding: 10px;
+  }
+
+  .cl-workspace,
+  .cl-workspace.has-panel {
+    min-height: calc(100vh - 145px);
+
+    grid-template-columns: 1fr;
+  }
+
+
+  /* Main preview */
+
+  .cl-stage,
+  .cl-workspace.has-panel .cl-stage {
+    grid-column: 1;
+
+    min-height: calc(100vh - 145px);
+
+    border-radius: 18px;
+  }
+
+  .cl-stage-head {
+    padding: 15px 15px 8px;
+
+    flex-direction: column;
+
+    gap: 8px;
+  }
+
+  .cl-title {
+    font-size: 28px;
+  }
+
+  .cl-subtitle {
+    font-size: 12px;
+  }
+
+  .cl-stage-tags {
+    justify-content: flex-start;
+  }
+
+
+  /* Mannequin */
+
+  .cl-mannequin-wrap {
+    padding: 5px 15px;
+  }
+
+  .cl-mannequin {
+    width: min(90vw, 320px);
+
+    height: min(58vh, 440px);
+  }
+
+
+  /* Toolbar becomes horizontal */
+
+  .cl-toolbar,
+  .cl-workspace.has-panel .cl-toolbar {
+    position: fixed;
+
+    left: 50%;
+
+    bottom: 12px;
+
+    transform: translateX(-50%);
+
+    z-index: 60;
+
+    grid-column: auto;
+
+    width: min(94vw, 390px);
+
+    height: auto;
+
+    flex-direction: row;
+
+    justify-content: space-around;
+
+    padding: 6px;
+
+    border-radius: 15px;
+  }
+
+  .cl-tool {
+    width: auto;
+
+    flex: 1;
+
+    min-height: 52px;
+
+    padding: 5px 3px;
+  }
+
+  .cl-tool-icon {
+    width: 19px;
+    height: 19px;
+  }
+
+  .cl-tool-label {
+    font-size: 9px;
+  }
+
+
+  /* Mobile panel = bottom sheet */
+
+  .cl-panel {
+    position: fixed;
+
+    left: 0;
+    bottom: 0;
+    top: auto;
+
+    width: 100%;
+    height: min(70vh, 560px);
+
+    border-radius: 22px 22px 0 0;
+
+    z-index: 70;
+
+    animation: slideUp 0.22s ease;
+  }
+
+  @keyframes slideUp {
+    from {
+      transform: translateY(30px);
+      opacity: 0;
+    }
+
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  .cl-panel-body {
+    padding-bottom: 90px;
+  }
+
+
+  /* Shape cards */
+
+  .cl-shape-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .cl-shape-figure {
+    height: 100px;
+  }
+
+
+  /* Clothing grid */
+
+  .cl-items {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+
+  /* View */
+
+  .cl-view-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+
+  /* Buttons */
+
+  .cl-actions {
+    padding-bottom: 78px;
+
+    flex-wrap: wrap;
+  }
+
+  .cl-btn {
+    flex: 1;
+
+    min-width: 145px;
+  }
+}
+
+
+/* =========================================================
+   VERY SMALL PHONES
+========================================================= */
+
+@media (max-width: 380px) {
+
+  .cl-nav-link {
+    font-size: 10px;
+  }
+
+  .cl-nav-icon {
+    width: 14px;
+    height: 14px;
+  }
+
+  .cl-title {
+    font-size: 25px;
+  }
+
+  .cl-mannequin {
+    height: min(54vh, 370px);
+  }
+
+  .cl-shape-figure {
+    height: 85px;
+  }
+
+  .cl-shape-desc {
+    font-size: 10px;
+  }
+
+  .cl-items {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

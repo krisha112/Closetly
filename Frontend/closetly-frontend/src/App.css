@@ -1,175 +1,625 @@
-#root {
-  min-height: 100vh;
-}
+/* =========================
+   GLOBAL RESET
+========================= */
 
 * {
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
 }
 
-body {
-  margin: 0;
-  background-color: #FFF9F3;
-  color: #443223;
-  font-family: Arial, sans-serif;
+html,
+body,
+#root {
+  width: 100%;
+  min-height: 100%;
 }
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background: #F7F3EE;
+  color: #443223;
+}
+
+button {
+  font-family: inherit;
+}
+
+
+/* =========================
+   MAIN APP
+========================= */
 
 .home {
   min-height: 100vh;
-  padding: 40px 8%;
+  width: 100%;
+  background: #F7F3EE;
 }
 
+
+/* =========================
+   NAVBAR
+========================= */
+
 .navbar {
+  height: 76px;
+  width: 100%;
+  padding: 0 6%;
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #DBC4A5;
+  background: #F7F3EE;
 }
 
 .logo {
-  font-size: 32px;
-  font-weight: bold;
+  font-family: Georgia, serif;
+  font-size: 2.2rem;
   color: #443223;
+  cursor: pointer;
+  letter-spacing: -1px;
 }
 
 .nav-links {
   display: flex;
-  gap: 30px;
+  align-items: center;
+  gap: 36px;
 }
 
 .nav-links span {
+  font-size: 1.05rem;
+  color: #443223;
   cursor: pointer;
+  transition: 0.2s;
 }
 
+.nav-links span:hover {
+  color: #72583E;
+}
+
+
+/* =========================
+   HOME PAGE
+========================= */
+
 .hero {
+  min-height: calc(100vh - 76px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   text-align: center;
-  margin-top: 100px;
+  padding: 40px 20px;
 }
 
 .hero h1 {
-  font-size: 55px;
-  margin-bottom: 15px;
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
   color: #443223;
+  margin-bottom: 18px;
 }
 
 .hero p {
-  font-size: 20px;
+  font-size: 1.2rem;
   color: #72583E;
+  margin-bottom: 28px;
 }
+
 .hero-buttons {
-  margin-top: 35px;
   display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
   justify-content: center;
-  gap: 15px;
 }
 
 .hero-buttons button {
-  padding: 12px 25px;
-  border-radius: 8px;
-  font-size: 16px;
+  padding: 13px 24px;
+  border-radius: 10px;
+  border: none;
+  background: #443223;
+  color: #FFFFFF;
+  font-size: 1rem;
   cursor: pointer;
 }
 
-.primary-btn {
-  background-color: #443223;
-  color: white;
-  border: 1px solid #443223;
+.hero-buttons .secondary-btn {
+  background: transparent;
+  color: #443223;
+  border: 1px solid #72583E;
 }
 
-.secondary-btn {
-  background-color: transparent;
-  color: #443223;
-  border: 1px solid #443223;
+
+/* =========================
+   OUTFIT BUILDER PAGE
+========================= */
+
+.outfit-builder-page {
+  width: 100%;
+  min-height: calc(100vh - 76px);
+  padding: 18px 5% 20px;
+  background: #F7F3EE;
 }
-.page-content {
+
+.builder-title {
   text-align: center;
-  margin-top: 70px;
+  font-size: clamp(2rem, 3vw, 2.8rem);
+  color: #443223;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.builder-subtitle {
+  text-align: center;
+  color: #72583E;
+  font-size: 1rem;
+  margin-bottom: 16px;
+}
+
+
+/* =========================
+   3 COLUMN BUILDER LAYOUT
+========================= */
+
+.builder-container {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+
+  display: grid;
+  grid-template-columns: minmax(230px, 0.85fr) minmax(330px, 1.25fr) minmax(260px, 0.95fr);
+  gap: 18px;
+
+  align-items: stretch;
+}
+
+.builder-panel {
+  background: #FFFFFF;
+  border: 1px solid #DBC4A5;
+  border-radius: 18px;
+  padding: 20px;
+  box-shadow: 0 5px 20px rgba(68, 50, 35, 0.05);
+}
+
+.builder-panel h2 {
+  text-align: center;
+  color: #443223;
+  font-size: 1.45rem;
+  margin-bottom: 8px;
+}
+
+
+/* =========================
+   LEFT - BODY SHAPE
+========================= */
+
+.body-shape-panel > p {
+  color: #72583E;
+  text-align: center;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  margin-bottom: 16px;
+}
+
+.body-shape-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.body-shape-buttons button {
+  min-height: 58px;
+  padding: 10px;
+  border-radius: 10px;
+
+  border: 1px solid #DBC4A5;
+  background: #F7F3EE;
+  color: #443223;
+
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+
+  transition: all 0.2s ease;
+}
+
+.body-shape-buttons button:hover {
+  background: #EFE5D8;
+}
+
+.body-shape-buttons button.active-shape {
+  background: #443223;
+  border-color: #443223;
+  color: #FFFFFF;
+}
+
+
+/* =========================
+   CENTER - MANNEQUIN
+========================= */
+
+.mannequin-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.mannequin-panel h2 {
+  margin-bottom: 6px;
+}
+
+.mannequin {
+  position: relative;
+  width: 290px;
+  height: 480px;
+  margin: auto;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+
+/* HEAD */
+
+.mannequin-head {
+  width: 72px;
+  height: 82px;
+  background: #E2CBAA;
+  border: 3px solid #A98E6C;
+  border-radius: 48% 48% 45% 45%;
+  flex-shrink: 0;
+}
+
+
+/* NECK */
+
+.mannequin-neck {
+  width: 28px;
+  height: 38px;
+  background: #E2CBAA;
+  border-left: 3px solid #A98E6C;
+  border-right: 3px solid #A98E6C;
+}
+
+
+/* BODY AREA */
+
+.mannequin-body-wrapper {
+  position: relative;
+  width: 100%;
+  height: 240px;
+
+  display: flex;
+  justify-content: center;
+}
+
+
+/* ARMS */
+
+.mannequin-arm {
+  position: absolute;
+  width: 48px;
+  height: 180px;
+
+  background: #E2CBAA;
+  border: 3px solid #A98E6C;
+  border-radius: 30px;
+
+  top: 16px;
+}
+
+.left-arm {
+  left: 22px;
+  transform: rotate(5deg);
+}
+
+.right-arm {
+  right: 22px;
+  transform: rotate(-5deg);
+}
+
+
+/* TORSO */
+
+.mannequin-torso {
+  position: absolute;
+  top: 0;
+  height: 235px;
+  background: #6D705A;
+  border: 3px solid #443223;
+}
+
+
+/* =========================
+   BODY SHAPE VARIATIONS
+========================= */
+
+/* HOURGLASS */
+
+.mannequin.hourglass .mannequin-torso {
+  width: 150px;
+
+  clip-path: polygon(
+    20% 0%,
+    80% 0%,
+    100% 28%,
+    72% 50%,
+    100% 100%,
+    0% 100%,
+    28% 50%,
+    0% 28%
+  );
+}
+
+
+/* PEAR */
+
+.mannequin.pear .mannequin-torso {
+  width: 165px;
+
+  clip-path: polygon(
+    22% 0%,
+    78% 0%,
+    70% 32%,
+    88% 100%,
+    12% 100%,
+    30% 32%
+  );
+}
+
+
+/* RECTANGLE */
+
+.mannequin.rectangle .mannequin-torso {
+  width: 145px;
+  border-radius: 26px 26px 18px 18px;
+}
+
+
+/* APPLE */
+
+.mannequin.apple .mannequin-torso {
+  width: 175px;
+  border-radius: 48% 48% 32% 32%;
+}
+
+
+/* =========================
+   LEGS
+========================= */
+
+.mannequin-legs {
+  width: 130px;
+  height: 120px;
+
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+}
+
+.mannequin-leg {
+  width: 52px;
+  height: 115px;
+
+  background: #E2CBAA;
+  border: 3px solid #A98E6C;
+  border-radius: 22px 22px 15px 15px;
+}
+
+
+/* BODY SHAPE LEG CHANGES */
+
+.mannequin.pear .mannequin-leg {
+  width: 58px;
+}
+
+.mannequin.apple .mannequin-leg {
+  width: 50px;
+}
+
+.mannequin.rectangle .mannequin-leg {
+  width: 54px;
+}
+
+
+/* =========================
+   RIGHT - CLOTHING
+========================= */
+
+.clothing-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.clothing-tabs button {
+  min-height: 52px;
+  padding: 10px;
+
+  border-radius: 10px;
+  border: 1px solid #DBC4A5;
+
+  background: #F7F3EE;
+  color: #443223;
+
+  font-size: 1rem;
+  font-weight: 500;
+
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.clothing-tabs button:hover {
+  background: #EFE5D8;
+}
+
+.clothing-tabs button.active-category {
+  background: #72583E;
+  border-color: #72583E;
+  color: #FFFFFF;
+}
+
+
+/* =========================
+   CLOTHING DISPLAY
+========================= */
+
+.clothing-display {
+  margin-top: 16px;
+  min-height: 170px;
+
+  border: 1px dashed #DBC4A5;
+  border-radius: 14px;
+
+  padding: 25px 16px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+}
+
+.clothing-display h3 {
+  color: #443223;
+  font-size: 1.15rem;
+  margin-bottom: 10px;
+}
+
+.clothing-display p {
+  color: #72583E;
+  line-height: 1.5;
+}
+
+
+/* =========================
+   OTHER PAGES
+========================= */
+
+.page-content {
+  min-height: calc(100vh - 76px);
+  padding: 50px 8%;
+  text-align: center;
 }
 
 .page-content h1 {
-  font-size: 42px;
-  margin-bottom: 10px;
   color: #443223;
+  margin-bottom: 12px;
 }
 
 .page-content p {
-  font-size: 18px;
-  color: #72583E;
-  margin-bottom: 35px;
-}
-
-.wardrobe-form {
-  width: 400px;
-  margin: 0 auto;
-  padding: 30px;
-  background-color: #FFFFFF;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(68, 50, 35, 0.12);
-}
-
-.wardrobe-form h2 {
-  margin-top: 0;
-  margin-bottom: 25px;
-  color: #443223;
-}
-
-.wardrobe-form input,
-.wardrobe-form select {
-  width: 100%;
-  padding: 13px;
-  margin-bottom: 15px;
-  border: 1px solid #C9B8A8;
-  border-radius: 6px;
-  font-size: 16px;
-  box-sizing: border-box;
-}
-
-.wardrobe-form button {
-  width: 100%;
-  padding: 13px;
-  background-color: #443223;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  font-size: 16px;
-  cursor: pointer;
-}
-
-.wardrobe-form button:hover {
-  background-color: #72583E;
-}
-.clothes-list {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 20px;
-  margin: 40px auto;
-  max-width: 900px;
-}
-
-.clothing-card {
-  width: 220px;
-  padding: 20px;
-  text-align: left;
-  background-color: #FFFFFF;
-  border: 1px solid #DBC4A5;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(68, 50, 35, 0.1);
-}
-
-.clothing-card h3 {
-  margin-top: 0;
-  margin-bottom: 12px;
-  color: #443223;
-}
-
-.clothing-card p {
-  margin: 6px 0;
-  font-size: 15px;
   color: #72583E;
 }
-.clothing-image {
-  width: 100%;
-  height: 180px;
-  object-fit: cover;
-  border-radius: 8px;
-  margin-bottom: 15px;
+
+
+/* =========================
+   TABLET
+========================= */
+
+@media (max-width: 1000px) {
+
+  .builder-container {
+    grid-template-columns: 1fr 1.2fr;
+  }
+
+  .clothing-panel {
+    grid-column: 1 / -1;
+  }
+
+  .clothing-tabs {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .clothing-display {
+    min-height: 120px;
+  }
+
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 700px) {
+
+  .navbar {
+    height: auto;
+    min-height: 70px;
+    padding: 14px 20px;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .logo {
+    font-size: 2rem;
+  }
+
+  .nav-links {
+    width: 100%;
+    justify-content: space-between;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .nav-links span {
+    font-size: 0.85rem;
+  }
+
+  .outfit-builder-page {
+    min-height: auto;
+    padding: 18px 16px 30px;
+  }
+
+  .builder-title {
+    font-size: 2rem;
+  }
+
+  .builder-subtitle {
+    font-size: 0.95rem;
+    margin-bottom: 14px;
+  }
+
+  .builder-container {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .builder-panel {
+    padding: 18px;
+  }
+
+  .clothing-panel {
+    grid-column: auto;
+  }
+
+  .mannequin {
+    transform: scale(0.9);
+    transform-origin: top center;
+    margin-bottom: -35px;
+  }
+
+  .clothing-tabs {
+    grid-template-columns: 1fr 1fr;
+  }
+
+}
+
+
+/* =========================
+   SMALL MOBILE
+========================= */
+
+@media (max-width: 400px) {
+
+  .body-shape-buttons {
+    grid-template-columns: 1fr;
+  }
+
+  .nav-links {
+    justify-content: center;
+  }
+
 }

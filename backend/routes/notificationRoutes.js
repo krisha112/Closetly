@@ -13,17 +13,14 @@ const {
 // Create Notification
 router.post("/", addNotification);
 
-
-// Get Notifications
+// Get User Notifications
 router.get("/", getNotifications);
 
-
-// Mark All Notifications As Read
-router.patch("/read-all", markAllAsRead);
-
-
-// Mark One Notification As Read
+// Mark One Notification as Read
 router.patch("/:id/read", markAsRead);
+
+// Mark All Notifications as Read
+router.patch("/read-all", markAllAsRead);
 
 
 module.exports = router;

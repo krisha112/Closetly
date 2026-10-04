@@ -1,10 +1,7 @@
-import { Component, ViewChild } from '@angular/core';
-
+import { Component } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-
 import { NotificationPanelComponent } from '../notification-panel/notification-panel';
-
 @Component({
   selector: 'app-navbar',
   standalone: true,
@@ -18,17 +15,14 @@ import { NotificationPanelComponent } from '../notification-panel/notification-p
 })
 export class NavbarComponent {
 
-  @ViewChild(NotificationPanelComponent)
-  notificationPanel?: NotificationPanelComponent;
-
   showNotifications = false;
+  unreadCount = 0;
 
+  updateUnreadCount(count: number): void {
+  this.unreadCount = count;
+  }
   toggleNotifications(): void {
     this.showNotifications = !this.showNotifications;
-  }
-
-  get unreadCount(): number {
-    return this.notificationPanel?.unreadCount ?? 0;
   }
 
 }

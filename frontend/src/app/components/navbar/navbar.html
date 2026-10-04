@@ -35,21 +35,23 @@
     <span class="notification-badge">
         {{ unreadCount }}
     </span>
-
+    
 }
 
             </button>
 
 
-            @if (showNotifications) {
+           @if (showNotifications) {
 
-                <div class="notification-dropdown">
+    <div class="notification-dropdown">
 
-                    <app-notification-panel></app-notification-panel>
+        <app-notification-panel
+            (unreadCountChange)="updateUnreadCount($event)">
+        </app-notification-panel>
 
-                </div>
+    </div>
 
-            }
+}
 
         </div>
 

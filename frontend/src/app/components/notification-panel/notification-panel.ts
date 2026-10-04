@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { CommonModule, DatePipe } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 
 import {
@@ -11,98 +11,69 @@ import {
   selector: 'app-notification-panel',
   standalone: true,
   imports: [
-    CommonModule,
-    MatIconModule
-  ],
+  CommonModule,
+  DatePipe,
+  MatIconModule
+],
   templateUrl: './notification-panel.html',
   styleUrl: './notification-panel.scss'
 })
 export class NotificationPanelComponent implements OnInit {
+  @Output() unreadCountChange = new EventEmitter<number>();
+  notifications: NotificationData[] = [];
 
-  // Temporary notifications.
-  // These remain available until MongoDB and authentication are connected.
-  notifications: NotificationData[] = [
-    {
-      message: 'White Linen Shirt was added to your wardrobe.',
-      type: 'clothes',
-      isRead: false
-    },
-    {
-      message: 'Your Casual Summer outfit has been saved.',
-      type: 'outfit',
-      isRead: false
-    },
-    {
-      message: 'Weekend Chic was added to your favorites.',
-      type: 'outfit',
-      isRead: true
-    },
-    {
-      message: 'A new item was added to your wishlist.',
-      type: 'wishlist',
-      isRead: true
-    }
-  ];
-
-  /*
-   * Temporary user ID.
-   *
-   * Authentication is not connected yet, so we are NOT sending
-   * a real user ID to the backend at this stage.
-   */
-  private userId = '';
+  // Temporary user ID
+  // Later this will come from the logged-in user.
+  userId = '';
 
   constructor(
     private notificationService: NotificationService
   ) {}
 
   ngOnInit(): void {
-
-    // Only try the backend when a real user ID is available.
-    if (this.userId) {
-      this.loadNotifications();
-    }
-
+    this.loadNotifications();
   }
 
+  // Load notifications from backend
   loadNotifications(): void {
+
+    if (!this.userId) {
+      console.log('User ID not available yet.');
+      return;
+    }
 
     this.notificationService
       .getNotifications(this.userId)
       .subscribe({
-
         next: (response) => {
+  this.notifications = response.data;
+  this.emitUnreadCount();
 
-          if (response.success && response.data) {
-
-            this.notifications = response.data;
-
-          }
-
-        },
+  console.log('Notifications loaded:', this.notifications);
+},
 
         error: (error) => {
-
           console.log(
-            'Could not load notifications from backend.',
-            'Using temporary notifications instead.',
+            'Unable to load notifications from backend.',
             error
           );
-
         }
-
       });
 
   }
 
+  // Count unread notifications
   get unreadCount(): number {
+  return this.notifications.filter(
+    notification => !notification.isRead
+  ).length;
+}
 
-    return this.notifications.filter(
-      notification => !notification.isRead
-    ).length;
+emitUnreadCount(): void {
+  this.unreadCountChange.emit(this.unreadCount);
+}
 
-  }
-
+  // Select icon according to notification type
   getIcon(type: string): string {
 
     switch (type) {
@@ -129,78 +100,60 @@ export class NotificationPanelComponent implements OnInit {
 
   }
 
+  // Mark one notification as read
   markAsRead(notification: NotificationData): void {
 
     notification.isRead = true;
-
+    this.emitUnreadCount();
     if (notification._id) {
 
       this.notificationService
         .markAsRead(notification._id)
         .subscribe({
-
           next: () => {
-
-            console.log(
-              'Notification marked as read.'
-            );
-
+            console.log('Notification marked as read.');
           },
 
           error: (error) => {
-
             console.log(
-              'Backend not connected yet. Local status updated.',
+              'Backend error while marking notification as read.',
               error
             );
-
           }
-
         });
 
     }
 
   }
 
-  markAllAsRead(): void {
+  // Mark all notifications as read
+ markAllAsRead(): void {
 
-    this.notifications.forEach(
-      notification => notification.isRead = true
-    );
+  this.notifications.forEach(
+    notification => notification.isRead = true
+  );
 
-    /*
-     * We only call the backend when we have a real user ID.
-     * This prevents unnecessary API errors while authentication
-     * and MongoDB are still being configured.
-     */
+  this.emitUnreadCount();
 
-    if (this.userId) {
-
-      this.notificationService
-        .markAllAsRead()
-        .subscribe({
-
-          next: () => {
-
-            console.log(
-              'All notifications marked as read.'
-            );
-
-          },
-
-          error: (error) => {
-
-            console.log(
-              'Backend not connected yet. Local status updated.',
-              error
-            );
-
-          }
-
-        });
-
-    }
-
+  // Do not call backend until a user ID is available.
+  if (!this.userId) {
+    console.log('User ID not available. Notifications marked as read locally.');
+    return;
   }
+
+  this.notificationService
+    .markAllAsRead(this.userId)
+    .subscribe({
+      next: () => {
+        console.log('All notifications marked as read.');
+      },
+      error: (error) => {
+        console.log(
+          'Backend error while marking notifications as read.',
+          error
+        );
+      }
+    });
+}
 
 }

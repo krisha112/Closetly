@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { MatIconModule } from '@angular/material/icon';
 
 import { SidebarComponent } from '../../components/sidebar/sidebar';
 import { NavbarComponent } from '../../components/navbar/navbar';
-import { DashboardCardComponent } from '../../components/dashboard-card/dashboard-card';
 import { ChartsComponent } from '../../components/charts/charts';
 import { RecentActivityComponent } from '../../components/recent-activity/recent-activity';
 
@@ -15,9 +15,9 @@ import {
   selector: 'app-dashboard',
   standalone: true,
   imports: [
+    MatIconModule,
     SidebarComponent,
     NavbarComponent,
-    DashboardCardComponent,
     ChartsComponent,
     RecentActivityComponent
   ],

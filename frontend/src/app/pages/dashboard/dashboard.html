@@ -1,52 +1,509 @@
-<div class="dashboard-container">
+<div class="closetly-dashboard">
+
+    <!-- =========================
+         SIDEBAR
+    ========================== -->
 
     <app-sidebar></app-sidebar>
 
-    <div class="main-content">
 
+    <!-- =========================
+         MAIN AREA
+    ========================== -->
+
+    <div class="dashboard-main">
+
+        <!-- Existing navbar -->
         <app-navbar></app-navbar>
 
-        <div class="dashboard-body">
 
-            <h2 class="welcome">
-                Welcome Back 👋
-            </h2>
+        <!-- =========================
+             CONTENT
+        ========================== -->
 
-            <div class="cards">
+        <main class="dashboard-content">
+
+
+            <!-- =========================
+                 HERO
+            ========================== -->
+
+            <section class="hero-section">
+
+                <div class="hero-copy">
+
+                    <span class="eyebrow">
+                        YOUR DIGITAL WARDROBE
+                    </span>
+
+                    <h1>
+                        Welcome back,
+                        <span>Anushka</span>
+                        <span class="heart">♡</span>
+                    </h1>
+
+                    <p>
+                        Here's a quick look at your wardrobe
+                        and your latest style activity.
+                    </p>
+
+                    <button class="add-button">
+                        <mat-icon>add</mat-icon>
+                        Add New Item
+                    </button>
+
+                </div>
+
+
+                <div class="hero-image">
+
+                    <div class="hero-overlay">
+
+                        <span>
+                            Good
+                        </span>
+
+                        <span>
+                            Outfits
+                        </span>
+
+                        <span>
+                            Better
+                        </span>
+
+                        <span>
+                            Days ♡
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =========================
+                 STATISTICS
+            ========================== -->
+
+            <section class="stats-grid">
+
 
                 <!-- Total Clothes -->
-                <app-dashboard-card
-                    title="Total Clothes"
-                    [value]="dashboardData.totalClothes"
-                    icon="checkroom">
-                </app-dashboard-card>
+
+                <article class="stat-card clothes-card">
+
+                    <div class="stat-icon">
+                        <mat-icon>checkroom</mat-icon>
+                    </div>
+
+                    <div class="stat-content">
+
+                        <span class="stat-title">
+                            TOTAL CLOTHES
+                        </span>
+
+                        <strong>
+                            {{ dashboardData.totalClothes }}
+                        </strong>
+
+                        <small>
+                            Items in your wardrobe
+                        </small>
+
+                    </div>
+
+                    <div class="stat-arrow">
+                        <mat-icon>arrow_forward</mat-icon>
+                    </div>
+
+                </article>
+
 
                 <!-- Total Outfits -->
-                <app-dashboard-card
-                    title="Total Outfits"
-                    [value]="dashboardData.totalOutfits"
-                    icon="style">
-                </app-dashboard-card>
 
-                <!-- Favorite Outfits -->
-                <app-dashboard-card
-                    title="Favorite Outfits"
-                    [value]="dashboardData.favoriteOutfits"
-                    icon="favorite">
-                </app-dashboard-card>
+                <article class="stat-card outfits-card">
 
-                <!-- Recently Added -->
-                <app-dashboard-card
-                    title="Recently Added"
-                    [value]="dashboardData.recentClothes.length"
-                    icon="new_releases">
-                </app-dashboard-card>
+                    <div class="stat-icon">
+                        <mat-icon>style</mat-icon>
+                    </div>
 
-            </div>
-            <app-charts></app-charts>
-            <app-recent-activity></app-recent-activity>
+                    <div class="stat-content">
 
-        </div>
+                        <span class="stat-title">
+                            TOTAL OUTFITS
+                        </span>
+
+                        <strong>
+                            {{ dashboardData.totalOutfits }}
+                        </strong>
+
+                        <small>
+                            Looks created
+                        </small>
+
+                    </div>
+
+                    <div class="stat-arrow">
+                        <mat-icon>arrow_forward</mat-icon>
+                    </div>
+
+                </article>
+
+
+                <!-- Favourites -->
+
+                <article class="stat-card favourites-card">
+
+                    <div class="stat-icon">
+                        <mat-icon>favorite_border</mat-icon>
+                    </div>
+
+                    <div class="stat-content">
+
+                        <span class="stat-title">
+                            FAVOURITES
+                        </span>
+
+                        <strong>
+                            {{ dashboardData.favoriteOutfits }}
+                        </strong>
+
+                        <small>
+                            Your favourite looks
+                        </small>
+
+                    </div>
+
+                    <div class="stat-arrow">
+                        <mat-icon>arrow_forward</mat-icon>
+                    </div>
+
+                </article>
+
+
+                <!-- Recent Items -->
+
+                <article class="stat-card recent-card">
+
+                    <div class="stat-icon">
+                        <mat-icon>auto_awesome</mat-icon>
+                    </div>
+
+                    <div class="stat-content">
+
+                        <span class="stat-title">
+                            RECENT ITEMS
+                        </span>
+
+                        <strong>
+                            {{ dashboardData.recentClothes.length }}
+                        </strong>
+
+                        <small>
+                            Recently added
+                        </small>
+
+                    </div>
+
+                    <div class="stat-arrow">
+                        <mat-icon>arrow_forward</mat-icon>
+                    </div>
+
+                </article>
+
+            </section>
+
+
+            <!-- =========================
+                 THREE COLUMN SECTION
+            ========================== -->
+
+            <section class="dashboard-columns">
+
+
+                <!-- QUICK OVERVIEW -->
+
+                <div class="content-card overview-card">
+
+                    <div class="card-heading">
+
+                        <div>
+
+                            <span class="section-label">
+                                QUICK OVERVIEW
+                            </span>
+
+                            <h2>
+                                Your wardrobe
+                            </h2>
+
+                            <p>
+                                Your wardrobe at a glance
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="overview-list">
+
+
+                        <div class="overview-row">
+
+                            <div class="overview-icon">
+                                <mat-icon>checkroom</mat-icon>
+                            </div>
+
+                            <div class="overview-text">
+
+                                <strong>
+                                    Wardrobe Collection
+                                </strong>
+
+                                <span>
+                                    {{ dashboardData.totalClothes }}
+                                    clothing items
+                                </span>
+
+                            </div>
+
+                            <mat-icon class="row-arrow">
+                                chevron_right
+                            </mat-icon>
+
+                        </div>
+
+
+                        <div class="overview-row">
+
+                            <div class="overview-icon">
+                                <mat-icon>style</mat-icon>
+                            </div>
+
+                            <div class="overview-text">
+
+                                <strong>
+                                    Outfit Collection
+                                </strong>
+
+                                <span>
+                                    {{ dashboardData.totalOutfits }}
+                                    outfits created
+                                </span>
+
+                            </div>
+
+                            <mat-icon class="row-arrow">
+                                chevron_right
+                            </mat-icon>
+
+                        </div>
+
+
+                        <div class="overview-row">
+
+                            <div class="overview-icon mauve">
+                                <mat-icon>
+                                    favorite_border
+                                </mat-icon>
+                            </div>
+
+                            <div class="overview-text">
+
+                                <strong>
+                                    Favourite Looks
+                                </strong>
+
+                                <span>
+                                    {{ dashboardData.favoriteOutfits }}
+                                    saved favourites
+                                </span>
+
+                            </div>
+
+                            <mat-icon class="row-arrow">
+                                chevron_right
+                            </mat-icon>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- RECENT ACTIVITY -->
+
+                <div class="content-card activity-card">
+
+                    <app-recent-activity></app-recent-activity>
+
+                </div>
+
+
+                <!-- STYLE ANALYTICS -->
+
+                <div class="content-card analytics-card">
+
+                    <div class="analytics-top">
+
+                        <div>
+
+                            <span class="section-label">
+                                WARDROBE INSIGHTS
+                            </span>
+
+                            <h2>
+                                Style Analytics
+                            </h2>
+
+                            <p>
+                                Understand how your wardrobe
+                                is organised.
+                            </p>
+
+                        </div>
+
+                        <button class="period-button">
+
+                            This Month
+
+                            <mat-icon>
+                                expand_more
+                            </mat-icon>
+
+                        </button>
+
+                    </div>
+
+
+                    <div class="analytics-content">
+
+                        <app-charts></app-charts>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =========================
+                 RECENTLY ADDED
+            ========================== -->
+
+            <section class="collection-section">
+
+                <div class="collection-heading">
+
+                    <div>
+
+                        <span class="section-label">
+                            YOUR COLLECTION
+                        </span>
+
+                        <h2>
+                            Recently Added
+                        </h2>
+
+                    </div>
+
+                    <button class="view-all">
+                        View All
+                        <mat-icon>
+                            arrow_forward
+                        </mat-icon>
+                    </button>
+
+                </div>
+
+
+                @if (dashboardData.recentClothes.length > 0) {
+
+                    <div class="clothing-grid">
+
+                        @for (
+                            item of dashboardData.recentClothes;
+                            track $index
+                        ) {
+
+                            <article class="clothing-card">
+
+                                <div class="clothing-image">
+
+                                    <div class="clothing-placeholder">
+                                        <mat-icon>
+                                            checkroom
+                                        </mat-icon>
+                                    </div>
+
+                                    <button class="favorite-button">
+                                        <mat-icon>
+                                            favorite_border
+                                        </mat-icon>
+                                    </button>
+
+                                </div>
+
+                                <div class="clothing-info">
+
+                                    <strong>
+                                        {{ item.name || 'Clothing Item' }}
+                                    </strong>
+
+                                    <span>
+                                        Recently added
+                                    </span>
+
+                                </div>
+
+                            </article>
+
+                        }
+
+                    </div>
+
+                } @else {
+
+                    <div class="empty-collection">
+
+                        <div class="empty-illustration">
+                            <mat-icon>
+                                checkroom
+                            </mat-icon>
+                        </div>
+
+                        <div class="empty-copy">
+
+                            <span class="section-label">
+                                YOUR WARDROBE
+                            </span>
+
+                            <h3>
+                                Start building your collection
+                            </h3>
+
+                            <p>
+                                Add your first clothing item and
+                                start creating your digital wardrobe.
+                            </p>
+
+                        </div>
+
+                        <button class="add-button">
+                            <mat-icon>add</mat-icon>
+                            Add Item
+                        </button>
+
+                    </div>
+
+                }
+
+            </section>
+
+        </main>
 
     </div>
 

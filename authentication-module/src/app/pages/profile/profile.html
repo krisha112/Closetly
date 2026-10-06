@@ -1,0 +1,711 @@
+<div class="profile-page">
+
+  <!-- =====================================================
+       SIDEBAR
+       ===================================================== -->
+
+  <aside class="sidebar">
+
+    <!-- BRAND -->
+    <div class="brand">
+
+      <div class="brand-mark">
+        <i class="fa-solid fa-shirt"></i>
+      </div>
+
+      <div class="brand-content">
+
+        <div class="brand-name">
+          Closetly
+        </div>
+
+        <div class="brand-tagline">
+          YOUR STYLE. YOUR SPACE.
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- NAVIGATION -->
+    <nav class="sidebar-nav">
+
+      <!-- Dashboard -->
+      <a
+        routerLink="/dashboard"
+        routerLinkActive="active"
+        class="nav-item"
+      >
+
+        <i class="fa-solid fa-house"></i>
+
+        <span>
+          Dashboard
+        </span>
+
+      </a>
+
+
+      <!-- My Wardrobe -->
+      <a
+        routerLink="/wardrobe"
+        routerLinkActive="active"
+        class="nav-item"
+      >
+
+        <i class="fa-solid fa-shirt"></i>
+
+        <span>
+          My Wardrobe
+        </span>
+
+      </a>
+
+
+      <!-- Outfit Builder -->
+      <a
+        routerLink="/outfit-builder"
+        routerLinkActive="active"
+        class="nav-item"
+      >
+
+        <i class="fa-solid fa-scissors"></i>
+
+        <span>
+          Outfit Builder
+        </span>
+
+      </a>
+
+
+      <!-- Outfits -->
+      <a
+        routerLink="/outfits"
+        routerLinkActive="active"
+        class="nav-item"
+      >
+
+        <i class="fa-solid fa-layer-group"></i>
+
+        <span>
+          Outfits
+        </span>
+
+      </a>
+
+
+      <!-- Favorites -->
+      <a
+        routerLink="/favorites"
+        routerLinkActive="active"
+        class="nav-item"
+      >
+
+        <i class="fa-regular fa-heart"></i>
+
+        <span>
+          Favorites
+        </span>
+
+      </a>
+
+
+      <!-- Calendar Plan -->
+      <a
+        routerLink="/calendar"
+        routerLinkActive="active"
+        class="nav-item"
+      >
+
+        <i class="fa-regular fa-calendar"></i>
+
+        <span>
+          Calendar Plan
+        </span>
+
+      </a>
+
+
+      <!-- Settings -->
+      <a
+        routerLink="/profile"
+        routerLinkActive="active"
+        class="nav-item"
+      >
+
+        <i class="fa-solid fa-gear"></i>
+
+        <span>
+          Settings
+        </span>
+
+      </a>
+
+    </nav>
+
+
+    <!-- LOGOUT -->
+    <div class="sidebar-bottom">
+
+      <button
+        class="logout-button"
+        (click)="logout()"
+      >
+
+        <i
+          class="fa-solid fa-arrow-right-from-bracket"
+        ></i>
+
+        <span>
+          Logout
+        </span>
+
+      </button>
+
+    </div>
+
+  </aside>
+
+
+  <!-- =====================================================
+       MAIN CONTENT
+       ===================================================== -->
+
+  <main class="main-content">
+
+
+    <!-- TOP HEADER -->
+
+    <header class="page-header">
+
+      <div>
+
+        <div class="page-eyebrow">
+          ACCOUNT SETTINGS
+        </div>
+
+        <h1>
+          My Profile
+        </h1>
+
+        <p>
+          Manage your personal information and account details.
+        </p>
+
+      </div>
+
+
+      <button
+        *ngIf="!isEditing"
+        class="edit-profile-button"
+        (click)="editProfile()"
+      >
+
+        <i class="fa-solid fa-pen"></i>
+
+        Edit Profile
+
+      </button>
+
+    </header>
+
+
+
+    <!-- =====================================================
+         PROFILE HERO
+         ===================================================== -->
+
+    <section class="profile-card">
+
+
+      <!-- Decorative circle -->
+
+      <div class="profile-decoration"></div>
+
+
+      <!-- PROFILE PHOTO -->
+
+      <div class="profile-photo-section">
+
+        <div class="photo-wrapper">
+
+
+          <!-- Uploaded photo -->
+
+          <img
+            *ngIf="profileImage"
+            [src]="profileImage"
+            alt="Profile Photo"
+            class="profile-photo"
+          >
+
+
+          <!-- Initials -->
+
+          <div
+            *ngIf="!profileImage"
+            class="profile-placeholder"
+          >
+
+            {{ getInitials() }}
+
+          </div>
+
+
+          <!-- Camera button -->
+
+          <label
+            for="profilePhoto"
+            class="camera-button"
+            title="Change profile photo"
+          >
+
+            <i class="fa-solid fa-camera"></i>
+
+          </label>
+
+
+          <input
+            id="profilePhoto"
+            type="file"
+            accept="image/*"
+            hidden
+            (change)="onPhotoSelected($event)"
+          >
+
+        </div>
+
+
+        <button
+          *ngIf="profileImage"
+          class="remove-photo-button"
+          (click)="removePhoto()"
+        >
+
+          Remove photo
+
+        </button>
+
+
+        <label
+          *ngIf="!profileImage"
+          for="profilePhoto"
+          class="change-photo-text"
+        >
+
+          Change photo
+
+        </label>
+
+      </div>
+
+
+
+      <!-- PROFILE INTRO -->
+
+      <div class="profile-intro">
+
+        <div class="profile-label">
+          CLOSETLY MEMBER
+        </div>
+
+        <h2>
+          {{ fullName }}
+        </h2>
+
+        <p class="profile-email">
+          {{ email }}
+        </p>
+
+
+        <div class="profile-tags">
+
+          <span class="pronoun-tag">
+
+            <i class="fa-regular fa-comment"></i>
+
+            {{ pronouns }}
+
+          </span>
+
+
+          <span class="member-tag">
+
+            <i class="fa-regular fa-calendar"></i>
+
+            Member since {{ memberSince }}
+
+          </span>
+
+        </div>
+
+      </div>
+
+
+
+      <!-- STATUS -->
+
+      <div class="profile-status">
+
+        <span class="status-dot"></span>
+
+        <span>
+          {{ accountStatus }}
+        </span>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         EDIT PANEL
+         ===================================================== -->
+
+    <section
+      *ngIf="isEditing"
+      class="edit-section"
+    >
+
+      <div class="section-heading">
+
+        <div>
+
+          <span>
+            EDIT PROFILE
+          </span>
+
+          <h2>
+            Update your information
+          </h2>
+
+        </div>
+
+      </div>
+
+
+      <div class="edit-grid">
+
+
+        <!-- FULL NAME -->
+
+        <div class="form-group">
+
+          <label>
+            Full Name
+          </label>
+
+          <div class="input-wrapper">
+
+            <i class="fa-regular fa-user"></i>
+
+            <input
+              type="text"
+              [(ngModel)]="editedFullName"
+              placeholder="Enter your full name"
+            >
+
+          </div>
+
+        </div>
+
+
+        <!-- EMAIL -->
+
+        <div class="form-group">
+
+          <label>
+            Email Address
+          </label>
+
+          <div class="input-wrapper">
+
+            <i class="fa-regular fa-envelope"></i>
+
+            <input
+              type="email"
+              [(ngModel)]="editedEmail"
+              placeholder="Enter your email"
+            >
+
+          </div>
+
+        </div>
+
+
+        <!-- PRONOUNS -->
+
+        <div class="form-group">
+
+          <label>
+            Pronouns
+          </label>
+
+          <div class="input-wrapper">
+
+            <i class="fa-regular fa-comment"></i>
+
+            <select
+              [(ngModel)]="editedPronouns"
+            >
+
+              <option
+                *ngFor="let option of pronounOptions"
+                [value]="option"
+              >
+
+                {{ option }}
+
+              </option>
+
+            </select>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- EDIT BUTTONS -->
+
+      <div class="edit-actions">
+
+        <button
+          class="cancel-button"
+          (click)="cancelEdit()"
+        >
+
+          Cancel
+
+        </button>
+
+
+        <button
+          class="save-button"
+          (click)="saveProfile()"
+        >
+
+          <i class="fa-solid fa-check"></i>
+
+          Save Changes
+
+        </button>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         ACCOUNT INFORMATION
+         ===================================================== -->
+
+    <section class="account-section">
+
+      <div class="section-heading">
+
+        <div>
+
+          <span>
+            ACCOUNT INFORMATION
+          </span>
+
+          <h2>
+            Your account
+          </h2>
+
+        </div>
+
+      </div>
+
+
+      <div class="account-grid">
+
+
+        <!-- MEMBER SINCE -->
+
+        <div class="account-info-card">
+
+          <div class="info-icon">
+
+            <i class="fa-regular fa-calendar"></i>
+
+          </div>
+
+          <div>
+
+            <span>
+              MEMBER SINCE
+            </span>
+
+            <strong>
+              {{ memberSince }}
+            </strong>
+
+            <small>
+              Account creation date
+            </small>
+
+          </div>
+
+        </div>
+
+
+        <!-- LAST UPDATED -->
+
+        <div class="account-info-card">
+
+          <div class="info-icon">
+
+            <i class="fa-solid fa-rotate"></i>
+
+          </div>
+
+          <div>
+
+            <span>
+              LAST UPDATED
+            </span>
+
+            <strong>
+              {{ lastUpdated }}
+            </strong>
+
+            <small>
+              Most recent profile update
+            </small>
+
+          </div>
+
+        </div>
+
+
+        <!-- ACCOUNT STATUS -->
+
+        <div class="account-info-card">
+
+          <div class="info-icon status-icon">
+
+            <i class="fa-solid fa-circle-check"></i>
+
+          </div>
+
+          <div>
+
+            <span>
+              ACCOUNT STATUS
+            </span>
+
+            <strong class="active-text">
+              {{ accountStatus }}
+            </strong>
+
+            <small>
+              Your account is active
+            </small>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         SECURITY
+         ===================================================== -->
+
+    <section class="security-section">
+
+      <div class="section-heading">
+
+        <div>
+
+          <span>
+            ACCOUNT & SECURITY
+          </span>
+
+          <h2>
+            Keep your account secure
+          </h2>
+
+        </div>
+
+      </div>
+
+
+      <div class="security-card">
+
+
+        <div class="security-left">
+
+          <div class="security-icon">
+
+            <i class="fa-solid fa-lock"></i>
+
+          </div>
+
+
+          <div>
+
+            <h3>
+              Password
+            </h3>
+
+            <p>
+              Your password is protected.
+              Change it regularly to keep your account secure.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <a
+          routerLink="/change-password"
+          class="change-password-button"
+        >
+
+          Change Password
+
+          <i class="fa-solid fa-arrow-right"></i>
+
+        </a>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         FOOTER
+         ===================================================== -->
+
+    <footer class="profile-footer">
+
+      <span class="footer-brand">
+        Closetly
+      </span>
+
+      <span>
+        •
+      </span>
+
+      <span>
+        YOUR STYLE. YOUR SPACE.
+      </span>
+
+    </footer>
+
+  </main>
+
+</div>

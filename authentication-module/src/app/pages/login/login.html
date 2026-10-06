@@ -1,0 +1,242 @@
+<div class="login-page">
+
+  <!-- Decorative Background -->
+  <div class="circle circle-one"></div>
+  <div class="circle circle-two"></div>
+  <div class="circle circle-three"></div>
+
+
+  <!-- Main Login Card -->
+  <div class="login-card">
+
+
+    <!-- =====================================
+         LEFT BRAND SECTION
+    ====================================== -->
+
+    <section class="brand-section">
+
+      <!-- Logo -->
+      <div class="brand-logo">
+
+        <div class="logo-icon">
+          C
+        </div>
+
+        <div class="brand-name">
+          Closetly
+        </div>
+
+      </div>
+
+
+      <!-- Brand Content -->
+      <div class="brand-content">
+
+        <p class="small-text">
+          WELCOME BACK TO YOUR STYLE
+        </p>
+
+        <h1>
+          Your style,
+          <br>
+          <span>your space.</span>
+        </h1>
+
+        <p class="brand-description">
+          Step back into your personal wardrobe.
+          Discover your clothes, create new looks,
+          and make every outfit beautifully yours.
+        </p>
+
+
+        <!-- Fashion Quote -->
+        <div class="fashion-quote">
+
+          <div class="quote-mark">
+            “
+          </div>
+
+          <p>
+            Fashion is the art of expressing
+            who you are without saying a word.
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <!-- Footer -->
+      <div class="brand-footer">
+
+        <span>✦</span>
+
+        Curate. Create. Wear.
+
+      </div>
+
+    </section>
+
+
+
+    <!-- =====================================
+         RIGHT LOGIN FORM
+    ====================================== -->
+
+    <section class="form-section">
+
+
+      <!-- Header -->
+      <div class="form-header">
+
+        <p class="welcome-text">
+          WELCOME BACK TO CLOSETLY
+        </p>
+
+        <h2>
+          Welcome back.
+        </h2>
+
+        <p class="subtitle">
+          Sign in to continue your style journey.
+        </p>
+
+      </div>
+
+
+      <!-- Login Form -->
+      <form
+        class="login-form"
+        (ngSubmit)="loginUser()"
+      >
+
+
+        <!-- Email -->
+        <div class="input-group">
+
+          <label for="email">
+            Email Address
+          </label>
+
+          <div class="input-wrapper">
+
+            <span class="input-icon">
+              ✉
+            </span>
+
+            <input
+              type="email"
+              id="email"
+              name="email"
+              [(ngModel)]="email"
+              placeholder="you@example.com"
+            >
+
+          </div>
+
+        </div>
+
+
+        <!-- Password -->
+        <div class="input-group">
+
+          <label for="password">
+            Password
+          </label>
+
+          <div class="input-wrapper">
+
+            <span class="input-icon">
+              ◇
+            </span>
+
+            <input
+              [type]="showPassword ? 'text' : 'password'"
+              id="password"
+              name="password"
+              [(ngModel)]="password"
+              placeholder="Enter your password"
+            >
+
+            <!-- Show / Hide Password -->
+            <button
+              type="button"
+              class="password-toggle"
+              (click)="togglePassword()"
+            >
+              {{ showPassword ? 'Hide' : 'Show' }}
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <!-- Forgot Password -->
+        <div class="forgot-password">
+
+          <a routerLink="/forgot-password">
+            Forgot Password?
+          </a>
+
+        </div>
+
+
+        <!-- Error Message -->
+        <div
+          class="error-message"
+          *ngIf="errorMessage"
+        >
+          {{ errorMessage }}
+        </div>
+
+
+        <!-- Success Message -->
+        <div
+          class="success-message"
+          *ngIf="successMessage"
+        >
+          {{ successMessage }}
+        </div>
+
+
+        <!-- Login Button -->
+        <button
+          type="submit"
+          class="login-button"
+        >
+
+          <span>
+            {{ isLoading ? 'Signing In...' : 'Sign In to Closetly' }}
+          </span>
+
+          <span class="arrow">
+            →
+          </span>
+
+        </button>
+
+
+      </form>
+
+
+      <!-- Register Link -->
+      <div class="register-link">
+
+        <span>
+          Don't have an account?
+        </span>
+
+        <a routerLink="/register">
+          Create one
+        </a>
+
+      </div>
+
+
+    </section>
+
+  </div>
+
+</div>

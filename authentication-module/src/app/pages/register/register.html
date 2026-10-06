@@ -1,0 +1,388 @@
+<!-- =========================================================
+     CLOSETLY — REGISTRATION PAGE
+========================================================= -->
+
+<div class="register-page">
+
+  <!-- =======================================================
+       BACKGROUND DECORATIONS
+  ======================================================== -->
+
+  <div class="circle circle-one"></div>
+  <div class="circle circle-two"></div>
+  <div class="circle circle-three"></div>
+
+
+  <!-- =======================================================
+       MAIN REGISTRATION CARD
+  ======================================================== -->
+
+  <div class="register-card">
+
+
+    <!-- =====================================================
+         LEFT BRAND SECTION
+    ====================================================== -->
+
+    <section class="brand-section">
+
+      <!-- Logo -->
+
+      <div class="brand-logo">
+
+        <div class="logo-icon">
+          C
+        </div>
+
+        <div class="brand-name">
+          Closetly
+        </div>
+
+      </div>
+
+
+      <!-- Brand Content -->
+
+      <div class="brand-content">
+
+        <div class="small-text">
+          YOUR STYLE. YOUR SPACE.
+        </div>
+
+        <h1>
+          Your wardrobe,
+          <span>beautifully yours.</span>
+        </h1>
+
+        <p class="brand-description">
+          Create your personal closet, discover new looks,
+          and make every outfit feel like you.
+        </p>
+
+
+        <!-- Fashion Quote -->
+
+        <div class="fashion-quote">
+
+          <div class="quote-mark">
+            “
+          </div>
+
+          <p>
+            Style is a way to say who you are without having to speak.
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <!-- Brand Footer -->
+
+      <div class="brand-footer">
+
+        <span>✦</span>
+        Curate. Create. Wear.
+
+      </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         RIGHT FORM SECTION
+    ====================================================== -->
+
+    <section class="form-section">
+
+
+      <!-- ===================================================
+           FORM HEADER
+      ==================================================== -->
+
+      <div class="form-header">
+
+        <div class="welcome-text">
+          WELCOME TO CLOSETLY
+        </div>
+
+        <h2>
+          Create your account
+        </h2>
+
+        <p class="subtitle">
+          Start building your personal digital wardrobe.
+        </p>
+
+      </div>
+
+
+
+      <!-- ===================================================
+           ERROR MESSAGE
+      ==================================================== -->
+
+      <div
+        class="message error-message"
+        *ngIf="errorMessage"
+      >
+        {{ errorMessage }}
+      </div>
+
+
+      <!-- ===================================================
+           SUCCESS MESSAGE
+      ==================================================== -->
+
+      <div
+        class="message success-message"
+        *ngIf="successMessage"
+      >
+        {{ successMessage }}
+      </div>
+
+
+
+      <!-- ===================================================
+           REGISTRATION FORM
+      ==================================================== -->
+
+      <form
+        (ngSubmit)="registerUser()"
+        novalidate
+      >
+
+
+        <!-- =================================================
+             FULL NAME
+        ================================================== -->
+
+        <div class="input-group">
+
+          <label for="fullName">
+            Full Name
+          </label>
+
+          <div class="input-wrapper">
+
+            <span class="input-icon">
+              ♙
+            </span>
+
+            <input
+              type="text"
+              id="fullName"
+              name="fullName"
+              [(ngModel)]="fullName"
+              placeholder="Enter your full name"
+              autocomplete="name"
+            />
+
+          </div>
+
+        </div>
+
+
+
+        <!-- =================================================
+             EMAIL ADDRESS
+        ================================================== -->
+
+        <div class="input-group">
+
+          <label for="email">
+            Email Address
+          </label>
+
+          <div class="input-wrapper">
+
+            <span class="input-icon">
+              ✉
+            </span>
+
+            <input
+              type="email"
+              id="email"
+              name="email"
+              [(ngModel)]="email"
+              placeholder="Enter your email address"
+              autocomplete="email"
+            />
+
+          </div>
+
+        </div>
+
+
+
+        <!-- =================================================
+             PASSWORD
+        ================================================== -->
+
+        <div class="input-group password-group">
+
+          <label for="password">
+            Password
+          </label>
+
+          <div class="input-wrapper">
+
+            <span class="input-icon">
+              ⌑
+            </span>
+
+            <input
+              [type]="showPassword ? 'text' : 'password'"
+              id="password"
+              name="password"
+              [(ngModel)]="password"
+              placeholder="Create a password"
+              autocomplete="new-password"
+            />
+
+            <button
+              type="button"
+              class="password-toggle"
+              (click)="togglePassword()"
+            >
+              {{ showPassword ? 'Hide' : 'Show' }}
+            </button>
+
+          </div>
+
+
+          <!-- =================================================
+               PASSWORD REQUIREMENTS
+               Shows ONLY while Password section is focused
+          ================================================== -->
+
+          <div class="password-requirements">
+
+  <div [class.valid]="hasMinLength()">
+    <span>•</span>
+    8+ characters
+  </div>
+
+  <div [class.valid]="hasNumber()">
+    <span>•</span>
+    1 number
+  </div>
+
+  <div [class.valid]="hasUppercase()">
+    <span>•</span>
+    1 uppercase
+  </div>
+
+  <div [class.valid]="hasSpecialSymbol()">
+    <span>•</span>
+    1 special symbol
+  </div>
+
+</div>
+</div>
+
+
+        <!-- =================================================
+             CONFIRM PASSWORD
+        ================================================== -->
+
+        <div class="input-group">
+
+          <label for="confirmPassword">
+            Confirm Password
+          </label>
+
+          <div class="input-wrapper">
+
+            <span class="input-icon">
+              ⌑
+            </span>
+
+            <input
+              [type]="showConfirmPassword ? 'text' : 'password'"
+              id="confirmPassword"
+              name="confirmPassword"
+              [(ngModel)]="confirmPassword"
+              placeholder="Confirm your password"
+              autocomplete="new-password"
+            />
+
+            <button
+              type="button"
+              class="password-toggle"
+              (click)="toggleConfirmPassword()"
+            >
+              {{ showConfirmPassword ? 'Hide' : 'Show' }}
+            </button>
+
+          </div>
+
+        </div>
+
+
+
+        <!-- =================================================
+             TERMS & CONDITIONS
+        ================================================== -->
+
+        <div class="terms">
+
+          <input
+            type="checkbox"
+            id="terms"
+            name="terms"
+            [(ngModel)]="termsAccepted"
+          />
+
+          <label for="terms">
+            I agree to the
+            <span>Terms &amp; Conditions</span>
+          </label>
+
+        </div>
+
+
+
+        <!-- =================================================
+             REGISTER BUTTON
+        ================================================== -->
+
+        <button
+          type="submit"
+          class="register-button"
+        >
+
+          <span>
+            {{ isLoading ? 'Creating Account...' : 'Create My Closetly' }}
+          </span>
+
+          <span class="arrow">
+            →
+          </span>
+
+        </button>
+
+      </form>
+
+
+
+      <!-- ===================================================
+           LOGIN LINK
+      ==================================================== -->
+
+      <div class="login-link">
+
+        Already have an account?
+
+        <a routerLink="/login">
+          Sign in
+        </a>
+
+      </div>
+
+    </section>
+
+  </div>
+
+</div>

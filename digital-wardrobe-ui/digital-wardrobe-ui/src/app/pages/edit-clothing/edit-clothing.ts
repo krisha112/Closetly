@@ -1,140 +1,180 @@
-import { Component, EventEmitter, Input, Output, OnChanges } from '@angular/core';
-
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-edit-clothing',
   standalone: true,
-  imports: [FormsModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './edit-clothing.html',
   styleUrl: './edit-clothing.css',
 })
 export class EditClothing {
-  // --------------------------------------------------
-  // CLOTHING RECEIVED FROM DETAILS PAGE
-  // --------------------------------------------------
+  @Input() clothing: any = null;
 
-  @Input()
-  clothing: any = null;
+  @Output() backToDetails = new EventEmitter<void>();
+  @Output() clothingUpdated = new EventEmitter<any>();
 
-  // --------------------------------------------------
-  // EVENTS
-  // --------------------------------------------------
+  editedClothing: any = null;
 
-  @Output()
-  backToDetails = new EventEmitter<void>();
+  imagePreview = '';
 
-  @Output()
-  clothingUpdated = new EventEmitter<any>();
+  submitted = false;
+  showSuccess = false;
+  errorMessage = '';
 
-  // --------------------------------------------------
-  // LOCAL EDITABLE COPY
-  // --------------------------------------------------
+  categories = ['Tops', 'Bottoms', 'Dresses', 'Shoes', 'Accessories'];
 
-  editedClothing = {
-    id: null as number | null,
+  colors = [
+    'Black',
+    'White',
+    'Brown',
+    'Beige',
+    'Cream',
+    'Blue',
+    'Green',
+    'Olive',
+    'Mauve',
+    'Pink',
+    'Red',
+    'Grey',
+    'Yellow',
+    'Other',
+  ];
 
-    name: '',
+  sizes = ['XS', 'S', 'M', 'L', 'XL', 'XXL', '28', '30', '32', '34', '36', 'One Size'];
 
-    category: '',
+  seasons = ['All Season', 'Summer', 'Winter', 'Spring', 'Monsoon'];
 
-    color: '',
+  occasions = ['Casual', 'Formal', 'Semi Formal', 'Party', 'College', 'Work', 'Travel', 'Sports'];
 
-    brand: '',
+  ngOnInit(): void {
+    this.prepareClothing();
+  }
 
-    size: '',
+  ngOnChanges(): void {
+    this.prepareClothing();
+  }
 
-    season: '',
-
-    occasion: '',
-
-    notes: '',
-
-    image: '',
-  };
-
-  // --------------------------------------------------
-  // LOAD SELECTED CLOTHING
-  // --------------------------------------------------
-
-  ngOnChanges() {
+  private prepareClothing(): void {
     if (!this.clothing) {
+      this.editedClothing = null;
+      this.imagePreview = '';
       return;
     }
 
-    // Create a separate copy so the original
-    // clothing is not changed while editing.
-
     this.editedClothing = {
-      id: this.clothing.id ?? null,
-
-      name: this.clothing.name ?? '',
-
-      category: this.clothing.category ?? '',
-
-      color: this.clothing.color ?? '',
-
-      brand: this.clothing.brand ?? '',
-
-      size: this.clothing.size ?? '',
-
-      season: this.clothing.season ?? '',
-
-      occasion: this.clothing.occasion ?? '',
-
-      notes: this.clothing.notes ?? '',
-
-      image: this.clothing.image ?? '',
+      id: this.clothing.id,
+      name: this.clothing.name || '',
+      category: this.clothing.category || 'Tops',
+      color: this.clothing.color || '',
+      brand: this.clothing.brand || '',
+      size: this.clothing.size || '',
+      season: this.clothing.season || 'All Season',
+      occasion: this.clothing.occasion || 'Casual',
+      image: this.clothing.image || '',
+      notes: this.clothing.notes || '',
     };
+
+    this.imagePreview = this.editedClothing.image;
+    this.submitted = false;
+    this.errorMessage = '';
+    this.showSuccess = false;
   }
 
-  // --------------------------------------------------
-  // GO BACK
-  // --------------------------------------------------
-
-  goBack() {
+  goBack(): void {
     this.backToDetails.emit();
   }
 
-  // --------------------------------------------------
-  // SAVE CHANGES
-  // --------------------------------------------------
-
-  saveChanges() {
-    // Basic validation
-
-    if (!this.editedClothing.name.trim()) {
-      alert('Please enter a clothing name.');
-
+  onImageUrlChange(): void {
+    if (!this.editedClothing) {
       return;
     }
 
-    if (!this.editedClothing.category) {
-      alert('Please select a category.');
+    this.imagePreview = this.editedClothing.image.trim();
 
+    if (this.imagePreview) {
+      this.errorMessage = '';
+    }
+  }
+
+  isFormValid(): boolean {
+    if (!this.editedClothing) {
+      return false;
+    }
+
+    return (
+      this.editedClothing.name.trim().length > 0 &&
+      this.editedClothing.category.trim().length > 0 &&
+      this.editedClothing.color.trim().length > 0 &&
+      this.editedClothing.size.trim().length > 0 &&
+      this.editedClothing.occasion.trim().length > 0
+    );
+  }
+
+  saveChanges(): void {
+    this.submitted = true;
+    this.errorMessage = '';
+
+    if (!this.editedClothing) {
+      this.errorMessage = 'No clothing piece is selected for editing.';
       return;
     }
 
-    // Create clean updated object
+    if (!this.isFormValid()) {
+      this.errorMessage = 'Please complete all required fields before saving.';
+      return;
+    }
 
     const updatedClothing = {
       ...this.editedClothing,
-
       name: this.editedClothing.name.trim(),
-
+      category: this.editedClothing.category.trim(),
       color: this.editedClothing.color.trim(),
-
       brand: this.editedClothing.brand.trim(),
-
+      size: this.editedClothing.size.trim(),
+      season: this.editedClothing.season.trim(),
+      occasion: this.editedClothing.occasion.trim(),
+      image: this.editedClothing.image.trim(),
       notes: this.editedClothing.notes.trim(),
     };
 
-    console.log('Updated clothing:', updatedClothing);
-
-    alert('Clothing updated successfully!');
-
-    // Send updated clothing back to App
+    this.editedClothing = updatedClothing;
+    this.imagePreview = updatedClothing.image;
 
     this.clothingUpdated.emit(updatedClothing);
+
+    this.showSuccess = true;
+
+    setTimeout(() => {
+      this.showSuccess = false;
+    }, 2500);
+  }
+
+  resetChanges(): void {
+    this.prepareClothing();
+  }
+
+  getFieldError(field: string): boolean {
+    if (!this.submitted || !this.editedClothing) {
+      return false;
+    }
+
+    switch (field) {
+      case 'name':
+        return !this.editedClothing.name.trim();
+
+      case 'color':
+        return !this.editedClothing.color.trim();
+
+      case 'size':
+        return !this.editedClothing.size.trim();
+
+      case 'occasion':
+        return !this.editedClothing.occasion.trim();
+
+      default:
+        return false;
+    }
   }
 }

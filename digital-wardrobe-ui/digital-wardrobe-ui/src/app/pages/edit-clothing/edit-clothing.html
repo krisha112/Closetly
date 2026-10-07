@@ -1,161 +1,390 @@
-<div class="edit-page">
-  <!-- ================= HEADER ================= -->
+<div class="edit-clothing-page">
+  <div class="edit-glow edit-glow-one"></div>
+  <div class="edit-glow edit-glow-two"></div>
 
-  <div class="edit-header">
-    <button type="button" class="back-button" (click)="goBack()">← Back to Details</button>
+  @if (editedClothing) {
+    <header class="edit-header">
+      <button type="button" class="back-button" (click)="goBack()">
+        <span class="back-icon">←</span>
+        <span>Back to Details</span>
+      </button>
 
-    <span class="page-label"> EDIT CLOTHING </span>
-  </div>
-
-  <!-- ================= FORM ================= -->
-
-  <div class="edit-container">
-    <!-- ================= HEADING ================= -->
-
-    <div class="form-heading">
-      <span class="eyebrow"> UPDATE YOUR PIECE </span>
-
-      <h1>Edit Clothing</h1>
-
-      <p>Update the details of your wardrobe piece.</p>
-    </div>
-
-    <!-- ================= EDIT FORM ================= -->
-
-    <div class="edit-form">
-      <!-- CLOTHING NAME -->
-
-      <div class="form-group">
-        <label> Clothing Name </label>
-
-        <input type="text" [(ngModel)]="editedClothing.name" placeholder="Enter clothing name" />
+      <div class="header-title">
+        <span class="eyebrow">DIGITAL WARDROBE</span>
+        <h1>Edit Piece</h1>
+        <p>Refine the details of your wardrobe piece.</p>
       </div>
 
-      <!-- CATEGORY + COLOR -->
+      <div class="header-spacer"></div>
+    </header>
 
-      <div class="form-row">
-        <div class="form-group">
-          <label> Category </label>
+    <main class="edit-content">
+      <section class="intro-section">
+        <div>
+          <span class="section-label">EDITING YOUR COLLECTION</span>
 
-          <select [(ngModel)]="editedClothing.category">
-            <option value="">Select category</option>
+          <h2>Make it just right.</h2>
 
-            <option value="Tops">Tops</option>
-
-            <option value="Bottoms">Bottoms</option>
-
-            <option value="Dresses">Dresses</option>
-
-            <option value="Shoes">Shoes</option>
-
-            <option value="Accessories">Accessories</option>
-          </select>
+          <p>Update the information below and keep your digital wardrobe beautifully organised.</p>
         </div>
 
-        <div class="form-group">
-          <label> Color </label>
+        <div class="edit-badge">EDIT MODE</div>
+      </section>
 
-          <input type="text" [(ngModel)]="editedClothing.color" placeholder="e.g. White" />
+      @if (errorMessage) {
+        <div class="error-banner">
+          <span class="error-icon">!</span>
+
+          <span>
+            {{ errorMessage }}
+          </span>
         </div>
+      }
+
+      <section class="form-layout">
+        <!-- =========================
+             IMAGE SECTION
+             ========================= -->
+
+        <div class="image-section">
+          <div class="image-card">
+            <div class="image-card-header">
+              <div>
+                <span class="section-label">VISUAL</span>
+                <h3>Clothing image</h3>
+              </div>
+
+              <span class="optional-label"> OPTIONAL </span>
+            </div>
+
+            <div class="image-preview">
+              @if (imagePreview) {
+                <img
+                  [src]="imagePreview"
+                  [alt]="editedClothing.name"
+                  class="preview-image"
+                  (error)="imagePreview = ''"
+                />
+
+                <div class="preview-overlay">
+                  <span>Current image</span>
+                </div>
+              } @else {
+                <div class="empty-preview">
+                  <div class="placeholder-circle">
+                    {{
+                      editedClothing.name ? editedClothing.name.substring(0, 2).toUpperCase() : 'CW'
+                    }}
+                  </div>
+
+                  <h4>No image available</h4>
+
+                  <p>Add an image URL on the right to give this piece a visual identity.</p>
+                </div>
+              }
+            </div>
+
+            <div class="image-note">
+              <span class="note-icon">✦</span>
+
+              <p>Use a clear image where the clothing item is the main focus.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- =========================
+             FORM SECTION
+             ========================= -->
+
+        <div class="details-section">
+          <form class="clothing-form" (ngSubmit)="saveChanges()" novalidate>
+            <!-- =========================
+                 BASIC DETAILS
+                 ========================= -->
+
+            <div class="form-card">
+              <div class="form-card-heading">
+                <div>
+                  <span class="section-label"> 01 / BASICS </span>
+
+                  <h3>Piece details</h3>
+                </div>
+              </div>
+
+              <div class="field-group full-width">
+                <label for="editClothingName">
+                  Clothing name
+                  <span>*</span>
+                </label>
+
+                <input
+                  id="editClothingName"
+                  type="text"
+                  name="name"
+                  [(ngModel)]="editedClothing.name"
+                  placeholder="e.g. Classic White Shirt"
+                  autocomplete="off"
+                  [class.invalid]="getFieldError('name')"
+                />
+
+                @if (getFieldError('name')) {
+                  <small class="field-error"> Please enter a clothing name. </small>
+                }
+              </div>
+
+              <div class="form-row">
+                <div class="field-group">
+                  <label for="editCategory">
+                    Category
+                    <span>*</span>
+                  </label>
+
+                  <select id="editCategory" name="category" [(ngModel)]="editedClothing.category">
+                    @for (category of categories; track category) {
+                      <option [value]="category">
+                        {{ category }}
+                      </option>
+                    }
+                  </select>
+                </div>
+
+                <div class="field-group">
+                  <label for="editColor">
+                    Colour
+                    <span>*</span>
+                  </label>
+
+                  <select
+                    id="editColor"
+                    name="color"
+                    [(ngModel)]="editedClothing.color"
+                    [class.invalid]="getFieldError('color')"
+                  >
+                    <option value="" disabled>Select colour</option>
+
+                    @for (color of colors; track color) {
+                      <option [value]="color">
+                        {{ color }}
+                      </option>
+                    }
+                  </select>
+
+                  @if (getFieldError('color')) {
+                    <small class="field-error"> Please select a colour. </small>
+                  }
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="field-group">
+                  <label for="editBrand">
+                    Brand
+                    <span class="optional">OPTIONAL</span>
+                  </label>
+
+                  <input
+                    id="editBrand"
+                    type="text"
+                    name="brand"
+                    [(ngModel)]="editedClothing.brand"
+                    placeholder="e.g. Zara"
+                    autocomplete="off"
+                  />
+                </div>
+
+                <div class="field-group">
+                  <label for="editSize">
+                    Size
+                    <span>*</span>
+                  </label>
+
+                  <select
+                    id="editSize"
+                    name="size"
+                    [(ngModel)]="editedClothing.size"
+                    [class.invalid]="getFieldError('size')"
+                  >
+                    <option value="" disabled>Select size</option>
+
+                    @for (size of sizes; track size) {
+                      <option [value]="size">
+                        {{ size }}
+                      </option>
+                    }
+                  </select>
+
+                  @if (getFieldError('size')) {
+                    <small class="field-error"> Please select a size. </small>
+                  }
+                </div>
+              </div>
+            </div>
+
+            <!-- =========================
+                 CLASSIFICATION
+                 ========================= -->
+
+            <div class="form-card">
+              <div class="form-card-heading">
+                <div>
+                  <span class="section-label"> 02 / CLASSIFICATION </span>
+
+                  <h3>When will you wear it?</h3>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="field-group">
+                  <label for="editSeason"> Season </label>
+
+                  <select id="editSeason" name="season" [(ngModel)]="editedClothing.season">
+                    @for (season of seasons; track season) {
+                      <option [value]="season">
+                        {{ season }}
+                      </option>
+                    }
+                  </select>
+                </div>
+
+                <div class="field-group">
+                  <label for="editOccasion">
+                    Occasion
+                    <span>*</span>
+                  </label>
+
+                  <select
+                    id="editOccasion"
+                    name="occasion"
+                    [(ngModel)]="editedClothing.occasion"
+                    [class.invalid]="getFieldError('occasion')"
+                  >
+                    @for (occasion of occasions; track occasion) {
+                      <option [value]="occasion">
+                        {{ occasion }}
+                      </option>
+                    }
+                  </select>
+
+                  @if (getFieldError('occasion')) {
+                    <small class="field-error"> Please select an occasion. </small>
+                  }
+                </div>
+              </div>
+            </div>
+
+            <!-- =========================
+                 PERSONALISATION
+                 ========================= -->
+
+            <div class="form-card">
+              <div class="form-card-heading">
+                <div>
+                  <span class="section-label"> 03 / PERSONALISE </span>
+
+                  <h3>Finishing touches</h3>
+                </div>
+              </div>
+
+              <div class="field-group full-width">
+                <label for="editImage">
+                  Image URL
+                  <span class="optional">OPTIONAL</span>
+                </label>
+
+                <div class="input-with-icon">
+                  <span class="input-icon"> ⌁ </span>
+
+                  <input
+                    id="editImage"
+                    type="url"
+                    name="image"
+                    [(ngModel)]="editedClothing.image"
+                    (ngModelChange)="onImageUrlChange()"
+                    placeholder="https://example.com/your-clothing-image.jpg"
+                  />
+                </div>
+
+                <small class="helper-text">
+                  Paste a direct image link to update the clothing preview.
+                </small>
+              </div>
+
+              <div class="field-group full-width">
+                <label for="editNotes">
+                  Notes
+                  <span class="optional">OPTIONAL</span>
+                </label>
+
+                <textarea
+                  id="editNotes"
+                  name="notes"
+                  [(ngModel)]="editedClothing.notes"
+                  rows="4"
+                  maxlength="300"
+                  placeholder="Add anything you want to remember about this piece..."
+                ></textarea>
+
+                <div class="character-count">{{ editedClothing.notes.length }}/300</div>
+              </div>
+            </div>
+
+            <!-- =========================
+                 ACTIONS
+                 ========================= -->
+
+            <div class="form-actions">
+              <button type="button" class="secondary-button" (click)="resetChanges()">
+                <span>↻</span>
+                Reset changes
+              </button>
+
+              <button type="submit" class="primary-button">
+                <span>Save changes</span>
+                <span class="button-arrow">→</span>
+              </button>
+            </div>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <!-- =========================
+         SUCCESS TOAST
+         ========================= -->
+
+    @if (showSuccess) {
+      <div class="success-toast">
+        <div class="success-check">✓</div>
+
+        <div>
+          <strong> Changes saved </strong>
+
+          <span> {{ editedClothing.name }} has been updated successfully. </span>
+        </div>
+
+        <button type="button" (click)="showSuccess = false" aria-label="Close notification">
+          ×
+        </button>
       </div>
+    }
+  } @else {
+    <!-- =========================
+         NO PIECE SELECTED
+         ========================= -->
 
-      <!-- BRAND + SIZE -->
+    <main class="no-piece">
+      <div class="no-piece-icon">♧</div>
 
-      <div class="form-row">
-        <div class="form-group">
-          <label> Brand </label>
+      <span class="eyebrow"> DIGITAL WARDROBE </span>
 
-          <input type="text" [(ngModel)]="editedClothing.brand" placeholder="e.g. Zara" />
-        </div>
+      <h2>No clothing piece selected</h2>
 
-        <div class="form-group">
-          <label> Size </label>
+      <p>Choose a clothing piece from your wardrobe before editing it.</p>
 
-          <select [(ngModel)]="editedClothing.size">
-            <option value="">Select size</option>
-
-            <option value="XS">XS</option>
-
-            <option value="S">S</option>
-
-            <option value="M">M</option>
-
-            <option value="L">L</option>
-
-            <option value="XL">XL</option>
-
-            <option value="XXL">XXL</option>
-          </select>
-        </div>
-      </div>
-
-      <!-- SEASON + OCCASION -->
-
-      <div class="form-row">
-        <div class="form-group">
-          <label> Season </label>
-
-          <select [(ngModel)]="editedClothing.season">
-            <option value="">Select season</option>
-
-            <option value="Summer">Summer</option>
-
-            <option value="Winter">Winter</option>
-
-            <option value="Spring">Spring</option>
-
-            <option value="Autumn">Autumn</option>
-
-            <option value="All Season">All Season</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label> Occasion </label>
-
-          <select [(ngModel)]="editedClothing.occasion">
-            <option value="">Select occasion</option>
-
-            <option value="Casual">Casual</option>
-
-            <option value="Everyday">Everyday</option>
-
-            <option value="Formal">Formal</option>
-
-            <option value="Party">Party</option>
-
-            <option value="College">College</option>
-
-            <option value="Evening">Evening</option>
-
-            <option value="Work">Work</option>
-
-            <option value="Travel">Travel</option>
-
-            <option value="Sports">Sports</option>
-          </select>
-        </div>
-      </div>
-
-      <!-- NOTES -->
-
-      <div class="form-group">
-        <label> Notes </label>
-
-        <textarea
-          [(ngModel)]="editedClothing.notes"
-          rows="5"
-          placeholder="Add some notes about this clothing..."
-        ></textarea>
-      </div>
-
-      <!-- ================= BUTTONS ================= -->
-
-      <div class="form-actions">
-        <button type="button" class="cancel-button" (click)="goBack()">Cancel</button>
-
-        <button type="button" class="save-button" (click)="saveChanges()">Save Changes</button>
-      </div>
-    </div>
-  </div>
+      <button type="button" class="return-button" (click)="goBack()">
+        Return to wardrobe
+        <span>→</span>
+      </button>
+    </main>
+  }
 </div>

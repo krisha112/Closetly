@@ -1,9 +1,4 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  Output
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -11,29 +6,29 @@ import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-digital-wardrobe',
   standalone: true,
-
-  imports: [
-    CommonModule,
-    FormsModule
-  ],
-
+  imports: [CommonModule, FormsModule],
   templateUrl: './digital-wardrobe.html',
-  styleUrl: './digital-wardrobe.css'
+  styleUrl: './digital-wardrobe.css',
 })
-export class DigitalWardrobe {
-
-  // ==================================================
-  // DATA RECEIVED FROM APP
-  // ==================================================
+export class DigitalWardrobe implements OnDestroy {
+  /* =====================================================
+     INPUTS FROM APP
+  ====================================================== */
 
   @Input() clothingItems: any[] = [];
 
   @Input() deletedClothing: string[] = [];
 
+  /*
+   * Favorites are controlled by App.
+   * This keeps the Favorites page and Wardrobe page
+   * synchronized.
+   */
+  @Input() favoriteItems: number[] = [];
 
-  // ==================================================
-  // EVENTS SENT TO APP
-  // ==================================================
+  /* =====================================================
+     OUTPUTS TO APP
+  ====================================================== */
 
   @Output() addClothing = new EventEmitter<void>();
 
@@ -41,139 +36,119 @@ export class DigitalWardrobe {
 
   @Output() deleteClothing = new EventEmitter<any>();
 
+  @Output() favoriteToggle = new EventEmitter<any>();
 
-  // ==================================================
-  // SEARCH
-  // ==================================================
+  @Output()
+  navigate = new EventEmitter<'wardrobe' | 'outfits' | 'favorites' | 'explore' | 'profile'>();
+
+  /* =====================================================
+     SEARCH / FILTER / SORT
+  ====================================================== */
 
   searchText = '';
 
-
-  // ==================================================
-  // CATEGORY FILTER
-  // ==================================================
-
   selectedCategory = 'All';
-
-
-  // ==================================================
-  // SORTING
-  // ==================================================
 
   selectedSort = 'recent';
 
-
-  // ==================================================
-  // FAVORITES
-  // ==================================================
-
-  favoriteItems: number[] = [];
-
-
-  // ==================================================
-  // FAVORITES VIEW
-  // ==================================================
-
   showFavorites = false;
 
-
-  // ==================================================
-  // MOBILE SIDEBAR
-  // ==================================================
+  /* =====================================================
+     SIDEBAR
+  ====================================================== */
 
   sidebarOpen = false;
 
-
-  // ==================================================
-  // DELETE CONFIRMATION MODAL
-  // ==================================================
+  /* =====================================================
+     DELETE MODAL
+  ====================================================== */
 
   showDeleteModal = false;
 
   clothingPendingDelete: any = null;
 
-
-  // ==================================================
-  // NOTIFICATION
-  // ==================================================
+  /* =====================================================
+     NOTIFICATION
+  ====================================================== */
 
   showNotification = false;
 
   notificationMessage = '';
 
-  notificationType:
-    | 'success'
-    | 'info'
-    | 'error' = 'success';
+  notificationType: 'success' | 'info' | 'error' = 'success';
 
+  private notificationTimer: ReturnType<typeof setTimeout> | null = null;
 
-  // ==================================================
-  // CATEGORIES
-  // ==================================================
+  /* =====================================================
+     CATEGORIES
+  ====================================================== */
 
-  categories = [
-    'All',
-    'Tops',
-    'Bottoms',
-    'Dresses',
-    'Shoes',
-    'Accessories'
-  ];
+  categories = ['All', 'Tops', 'Bottoms', 'Dresses', 'Shoes', 'Accessories'];
 
-
-  // ==================================================
-  // CATEGORY ICONS
-  // ==================================================
-
-  categoryIcons: { [key: string]: string } = {
-
+  categoryIcons: Record<string, string> = {
     All: '✦',
-
     Tops: '◒',
-
     Bottoms: '◓',
-
     Dresses: '◇',
-
     Shoes: '◈',
-
-    Accessories: '✧'
-
+    Accessories: '✧',
   };
 
+  /* =====================================================
+     NAVIGATION
+  ====================================================== */
 
-  // ==================================================
-  // OPEN ADD CLOTHING
-  // ==================================================
+  goToWardrobe(): void {
+    this.showFavorites = false;
+    this.selectedCategory = 'All';
 
-  openAddClothing() {
-
-    this.addClothing.emit();
-
+    this.navigate.emit('wardrobe');
   }
 
+  goToOutfits(): void {
+    this.navigate.emit('outfits');
+  }
 
-  // ==================================================
-  // OPEN CLOTHING DETAILS
-  // ==================================================
+  goToFavorites(): void {
+    this.showFavorites = true;
+    this.selectedCategory = 'All';
 
-  openClothingDetails(clothing: any) {
+    this.navigate.emit('favorites');
+  }
 
+  goToExplore(): void {
+    this.navigate.emit('explore');
+  }
+
+  goToProfile(): void {
+    this.navigate.emit('profile');
+  }
+
+  /* =====================================================
+     ADD CLOTHING
+  ====================================================== */
+
+  openAddClothing(): void {
+    this.addClothing.emit();
+  }
+
+  /* =====================================================
+     CLOTHING DETAILS
+  ====================================================== */
+
+  openClothingDetails(clothing: any): void {
     if (!clothing) {
       return;
     }
 
     this.clothingDetails.emit(clothing);
-
   }
 
+  /* =====================================================
+     DELETE
+  ====================================================== */
 
-  // ==================================================
-  // REQUEST DELETE
-  // ==================================================
-
-  deleteItem(clothing: any) {
-
+  deleteItem(clothing: any): void {
     if (!clothing) {
       return;
     }
@@ -181,16 +156,9 @@ export class DigitalWardrobe {
     this.clothingPendingDelete = clothing;
 
     this.showDeleteModal = true;
-
   }
 
-
-  // ==================================================
-  // CONFIRM DELETE
-  // ==================================================
-
-  confirmDelete() {
-
+  confirmDelete(): void {
     if (!this.clothingPendingDelete) {
       return;
     }
@@ -202,46 +170,27 @@ export class DigitalWardrobe {
     this.showDeleteModal = false;
 
     this.clothingPendingDelete = null;
-
   }
 
-
-  // ==================================================
-  // CANCEL DELETE
-  // ==================================================
-
-  cancelDelete() {
-
+  cancelDelete(): void {
     this.showDeleteModal = false;
 
     this.clothingPendingDelete = null;
-
   }
 
-
-  // ==================================================
-  // CHECK IF DELETED
-  // ==================================================
-
   isDeleted(clothing: any): boolean {
-
     if (!clothing) {
       return false;
     }
 
-    return this.deletedClothing.includes(
-      clothing.name
-    );
-
+    return this.deletedClothing.includes(clothing.name);
   }
 
-
-  // ==================================================
-  // SEARCH MATCH
-  // ==================================================
+  /* =====================================================
+     SEARCH
+  ====================================================== */
 
   isSearchMatch(clothing: any): boolean {
-
     if (!clothing) {
       return false;
     }
@@ -250,60 +199,36 @@ export class DigitalWardrobe {
       return true;
     }
 
-    const search =
-      this.searchText
-        .toLowerCase()
-        .trim();
-
+    const search = this.searchText.toLowerCase().trim();
 
     const searchableText = [
-
       clothing.name,
-
       clothing.brand,
-
       clothing.category,
-
       clothing.color,
-
       clothing.size,
-
       clothing.season,
-
       clothing.occasion,
-
-      clothing.notes
-
+      clothing.notes,
     ]
       .filter(Boolean)
       .join(' ')
       .toLowerCase();
 
-
     return searchableText.includes(search);
-
   }
 
+  /* =====================================================
+     CATEGORY FILTER
+  ====================================================== */
 
-  // ==================================================
-  // CATEGORY SELECT
-  // ==================================================
-
-  selectCategory(category: string) {
-
+  selectCategory(category: string): void {
     this.selectedCategory = category;
 
     this.showFavorites = false;
-
   }
 
-
-  // ==================================================
-  // CATEGORY MATCH
-  // ==================================================
-
   isCategoryMatch(clothing: any): boolean {
-
     if (!clothing) {
       return false;
     }
@@ -312,270 +237,133 @@ export class DigitalWardrobe {
       return true;
     }
 
-    return (
-      clothing.category ===
-      this.selectedCategory
-    );
-
+    return clothing.category === this.selectedCategory;
   }
 
+  /* =====================================================
+     FAVORITES
+  ====================================================== */
 
-  // ==================================================
-  // FAVORITE TOGGLE
-  // ==================================================
-
-  toggleFavorite(clothing: any) {
-
+  toggleFavorite(clothing: any): void {
     if (!clothing) {
       return;
     }
 
-    const id = clothing.id;
+    const wasFavorite = this.isFavorite(clothing);
 
+    /*
+     * App owns the actual favorite list.
+     * We only notify App that the user clicked.
+     */
+    this.favoriteToggle.emit(clothing);
 
-    if (
-      this.favoriteItems.includes(id)
-    ) {
-
-      this.favoriteItems =
-        this.favoriteItems.filter(
-          item => item !== id
-        );
-
-
-      this.displayNotification(
-        'Removed from your favorites.',
-        'info'
-      );
-
+    if (wasFavorite) {
+      this.displayNotification('Removed from your favorites.', 'info');
     } else {
-
-      this.favoriteItems = [
-        ...this.favoriteItems,
-        id
-      ];
-
-
-      this.displayNotification(
-        `${clothing.name || 'Piece'} added to favorites.`,
-        'success'
-      );
-
+      this.displayNotification(`${clothing.name || 'Piece'} added to favorites.`, 'success');
     }
-
   }
 
-
-  // ==================================================
-  // CHECK FAVORITE
-  // ==================================================
-
   isFavorite(clothing: any): boolean {
-
     if (!clothing) {
       return false;
     }
 
-    return this.favoriteItems.includes(
-      clothing.id
-    );
-
+    return this.favoriteItems.includes(clothing.id);
   }
-
-
-  // ==================================================
-  // FAVORITE COUNT
-  // ==================================================
 
   getFavoriteCount(): number {
-
     return this.favoriteItems.length;
-
   }
 
-
-  // ==================================================
-  // SHOW ALL CLOTHES
-  // ==================================================
-
-  showAllClothes() {
-
+  showAllClothes(): void {
     this.showFavorites = false;
-
   }
 
-
-  // ==================================================
-  // SHOW FAVORITES
-  // ==================================================
-
-  showFavoriteClothes() {
-
+  showFavoriteClothes(): void {
     this.showFavorites = true;
 
     this.selectedCategory = 'All';
-
   }
 
-
-  // ==================================================
-  // FAVORITE VIEW MATCH
-  // ==================================================
-
   isFavoriteViewMatch(clothing: any): boolean {
-
     if (!this.showFavorites) {
       return true;
     }
 
     return this.isFavorite(clothing);
-
   }
 
+  /* =====================================================
+     SORT
+  ====================================================== */
 
-  // ==================================================
-  // SORT
-  // ==================================================
-
-  changeSort(sort: string) {
-
+  changeSort(sort: string): void {
     this.selectedSort = sort;
-
   }
-
-
-  // ==================================================
-  // GET SORTED CLOTHING
-  // ==================================================
 
   getSortedItems(): any[] {
-
-    const visibleItems =
-      this.clothingItems.filter(
-        item =>
-          !this.isDeleted(item) &&
-          this.isSearchMatch(item) &&
-          this.isCategoryMatch(item) &&
-          this.isFavoriteViewMatch(item)
-      );
-
-
-    return [...visibleItems].sort(
-      (a, b) => {
-
-        if (this.selectedSort === 'name') {
-
-          return (a.name || '')
-            .localeCompare(
-              b.name || ''
-            );
-
-        }
-
-
-        if (
-          this.selectedSort ===
-          'category'
-        ) {
-
-          return (a.category || '')
-            .localeCompare(
-              b.category || ''
-            );
-
-        }
-
-
-        if (
-          this.selectedSort ===
-          'favorites'
-        ) {
-
-          const aFav =
-            this.isFavorite(a)
-              ? 1
-              : 0;
-
-          const bFav =
-            this.isFavorite(b)
-              ? 1
-              : 0;
-
-          return bFav - aFav;
-
-        }
-
-
-        return 0;
-
-      }
+    const visibleItems = this.clothingItems.filter(
+      (item) =>
+        !this.isDeleted(item) &&
+        this.isSearchMatch(item) &&
+        this.isCategoryMatch(item) &&
+        this.isFavoriteViewMatch(item),
     );
 
+    return [...visibleItems].sort((a, b) => {
+      if (this.selectedSort === 'name') {
+        return (a.name || '').localeCompare(b.name || '');
+      }
+
+      if (this.selectedSort === 'category') {
+        return (a.category || '').localeCompare(b.category || '');
+      }
+
+      if (this.selectedSort === 'favorites') {
+        const aFavorite = this.isFavorite(a) ? 1 : 0;
+
+        const bFavorite = this.isFavorite(b) ? 1 : 0;
+
+        return bFavorite - aFavorite;
+      }
+
+      /*
+       * "recent"
+       *
+       * App currently adds new items with Date.now(),
+       * so newer IDs appear first.
+       */
+      return (b.id || 0) - (a.id || 0);
+    });
   }
 
-
-  // ==================================================
-  // GET CLOTHING COUNT
-  // ==================================================
+  /* =====================================================
+     COUNTS
+  ====================================================== */
 
   getClothingCount(): number {
-
-    return this.clothingItems.filter(
-      item => !this.isDeleted(item)
-    ).length;
-
+    return this.clothingItems.filter((item) => !this.isDeleted(item)).length;
   }
 
-
-  // ==================================================
-  // GET CATEGORY COUNT
-  // ==================================================
-
-  getCategoryCount(
-    category: string
-  ): number {
-
-    return this.clothingItems.filter(
-      item =>
-        !this.isDeleted(item) &&
-        item.category === category
-    ).length;
-
+  getCategoryCount(category: string): number {
+    return this.clothingItems.filter((item) => !this.isDeleted(item) && item.category === category)
+      .length;
   }
-
-
-  // ==================================================
-  // GET SEARCH RESULT COUNT
-  // ==================================================
 
   getVisibleItemCount(): number {
-
     return this.getSortedItems().length;
-
   }
 
-
-  // ==================================================
-  // CHECK IF SEARCH/FILTER IS ACTIVE
-  // ==================================================
+  /* =====================================================
+     FILTER STATE
+  ====================================================== */
 
   hasActiveFilters(): boolean {
-
-    return (
-      this.searchText.trim() !== '' ||
-      this.selectedCategory !== 'All' ||
-      this.showFavorites
-    );
-
+    return this.searchText.trim() !== '' || this.selectedCategory !== 'All' || this.showFavorites;
   }
 
-
-  // ==================================================
-  // CLEAR FILTERS
-  // ==================================================
-
-  clearFilters() {
-
+  clearFilters(): void {
     this.searchText = '';
 
     this.selectedCategory = 'All';
@@ -583,88 +371,65 @@ export class DigitalWardrobe {
     this.showFavorites = false;
 
     this.selectedSort = 'recent';
-
   }
 
+  /* =====================================================
+     SIDEBAR
+  ====================================================== */
 
-  // ==================================================
-  // SIDEBAR
-  // ==================================================
-
-  toggleSidebar() {
-
-    this.sidebarOpen =
-      !this.sidebarOpen;
-
+  toggleSidebar(): void {
+    this.sidebarOpen = !this.sidebarOpen;
   }
 
-
-  // ==================================================
-  // CLOSE SIDEBAR
-  // ==================================================
-
-  closeSidebar() {
-
+  closeSidebar(): void {
     this.sidebarOpen = false;
-
   }
 
+  /* =====================================================
+     NOTIFICATIONS
+  ====================================================== */
 
-  // ==================================================
-  // NOTIFICATION
-  // ==================================================
+  displayNotification(message: string, type: 'success' | 'info' | 'error' = 'success'): void {
+    this.notificationMessage = message;
 
-  displayNotification(
-    message: string,
-    type:
-      | 'success'
-      | 'info'
-      | 'error' = 'success'
-  ) {
+    this.notificationType = type;
 
-    this.notificationMessage =
-      message;
+    this.showNotification = true;
 
-    this.notificationType =
-      type;
+    if (this.notificationTimer) {
+      clearTimeout(this.notificationTimer);
+    }
 
-    this.showNotification =
-      true;
-
-
-    setTimeout(() => {
-
-      this.showNotification =
-        false;
-
+    this.notificationTimer = setTimeout(() => {
+      this.showNotification = false;
     }, 3000);
-
   }
 
+  closeNotification(): void {
+    this.showNotification = false;
 
-  // ==================================================
-  // CLOSE NOTIFICATION
-  // ==================================================
+    if (this.notificationTimer) {
+      clearTimeout(this.notificationTimer);
 
-  closeNotification() {
-
-    this.showNotification =
-      false;
-
+      this.notificationTimer = null;
+    }
   }
 
+  /* =====================================================
+     TRACKING
+  ====================================================== */
 
-  // ==================================================
-  // TRACK BY
-  // ==================================================
-
-  trackByClothingId(
-    index: number,
-    clothing: any
-  ) {
-
-    return clothing.id ?? index;
-
+  trackByClothingId(index: number, clothing: any): number {
+    return clothing?.id ?? index;
   }
 
+  /* =====================================================
+     CLEANUP
+  ====================================================== */
+
+  ngOnDestroy(): void {
+    if (this.notificationTimer) {
+      clearTimeout(this.notificationTimer);
+    }
+  }
 }

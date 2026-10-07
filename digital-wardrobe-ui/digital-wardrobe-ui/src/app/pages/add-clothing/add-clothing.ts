@@ -1,248 +1,173 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-add-clothing',
   standalone: true,
-
-  imports: [FormsModule],
-
+  imports: [CommonModule, FormsModule],
   templateUrl: './add-clothing.html',
   styleUrl: './add-clothing.css',
 })
 export class AddClothing {
-  // ==================================================
-  // EVENTS
-  // ==================================================
-
-  @Output()
-  backToWardrobe = new EventEmitter<void>();
-
-  @Output()
-  clothingSaved = new EventEmitter<any>();
-
-  // ==================================================
-  // IMAGE PREVIEW
-  // ==================================================
-
-  imagePreview = '';
-
-  // ==================================================
-  // IN-PAGE MESSAGE
-  // ==================================================
-
-  messageVisible = false;
-
-  messageText = '';
-
-  messageType: 'success' | 'error' | 'info' = 'success';
-
-  // ==================================================
-  // CLOTHING FORM
-  // ==================================================
+  @Output() backToWardrobe = new EventEmitter<void>();
+  @Output() clothingSaved = new EventEmitter<any>();
 
   clothing = {
     name: '',
-
-    category: '',
-
+    category: 'Tops',
     color: '',
-
     brand: '',
-
     size: '',
-
-    season: '',
-
-    occasion: '',
-
-    notes: '',
-
+    season: 'All Season',
+    occasion: 'Casual',
     image: '',
+    notes: '',
   };
 
-  // ==================================================
-  // GO BACK
-  // ==================================================
+  imagePreview = '';
 
-  goBack() {
+  submitted = false;
+  showSuccess = false;
+  errorMessage = '';
+
+  categories = ['Tops', 'Bottoms', 'Dresses', 'Shoes', 'Accessories'];
+
+  colors = [
+    'Black',
+    'White',
+    'Brown',
+    'Beige',
+    'Cream',
+    'Blue',
+    'Green',
+    'Olive',
+    'Mauve',
+    'Pink',
+    'Red',
+    'Grey',
+    'Yellow',
+    'Other',
+  ];
+
+  sizes = ['XS', 'S', 'M', 'L', 'XL', 'XXL', '28', '30', '32', '34', '36', 'One Size'];
+
+  seasons = ['All Season', 'Summer', 'Winter', 'Spring', 'Monsoon'];
+
+  occasions = ['Casual', 'Formal', 'Semi Formal', 'Party', 'College', 'Work', 'Travel', 'Sports'];
+
+  /* =====================================================
+     NAVIGATION
+  ===================================================== */
+
+  goBack(): void {
     this.backToWardrobe.emit();
   }
 
-  // ==================================================
-  // IMAGE SELECTION
-  // ==================================================
+  /* =====================================================
+     IMAGE
+  ===================================================== */
 
-  onImageSelected(event: Event) {
-    const input = event.target as HTMLInputElement;
+  onImageUrlChange(): void {
+    this.imagePreview = this.clothing.image.trim();
 
-    if (!input.files || input.files.length === 0) {
-      return;
+    if (this.imagePreview) {
+      this.errorMessage = '';
     }
-
-    const file = input.files[0];
-
-    // Check image type
-
-    if (!file.type.startsWith('image/')) {
-      this.showMessage('Please select a valid image file.', 'error');
-
-      input.value = '';
-
-      return;
-    }
-
-    // Limit image size to 5 MB
-
-    if (file.size > 5 * 1024 * 1024) {
-      this.showMessage('Please select an image smaller than 5 MB.', 'error');
-
-      input.value = '';
-
-      return;
-    }
-
-    const reader = new FileReader();
-
-    reader.onload = () => {
-      this.imagePreview = reader.result as string;
-
-      this.clothing.image = this.imagePreview;
-    };
-
-    reader.onerror = () => {
-      this.showMessage('Something went wrong while loading the image.', 'error');
-    };
-
-    reader.readAsDataURL(file);
   }
 
-  // ==================================================
-  // REMOVE IMAGE
-  // ==================================================
+  /* =====================================================
+     FORM VALIDATION
+  ===================================================== */
 
-  removeImage() {
-    this.imagePreview = '';
-
-    this.clothing.image = '';
+  isFormValid(): boolean {
+    return (
+      this.clothing.name.trim().length > 0 &&
+      this.clothing.category.trim().length > 0 &&
+      this.clothing.color.trim().length > 0 &&
+      this.clothing.size.trim().length > 0 &&
+      this.clothing.occasion.trim().length > 0
+    );
   }
 
-  // ==================================================
-  // SAVE CLOTHING
-  // ==================================================
+  /* =====================================================
+     SAVE
+  ===================================================== */
 
-  saveClothing() {
-    // ----------------------------------------------
-    // Validate clothing name
-    // ----------------------------------------------
+  saveClothing(): void {
+    this.submitted = true;
+    this.errorMessage = '';
 
-    if (!this.clothing.name.trim()) {
-      this.showMessage('Please enter a clothing name.', 'error');
-
+    if (!this.isFormValid()) {
+      this.errorMessage = 'Please complete all required fields before saving.';
       return;
     }
 
-    // ----------------------------------------------
-    // Validate category
-    // ----------------------------------------------
-
-    if (!this.clothing.category) {
-      this.showMessage('Please select a category.', 'error');
-
-      return;
-    }
-
-    // ----------------------------------------------
-    // Create clean clothing object
-    // ----------------------------------------------
-
-    const savedClothing = {
+    const newClothing = {
       ...this.clothing,
-
       name: this.clothing.name.trim(),
-
       color: this.clothing.color.trim(),
-
       brand: this.clothing.brand.trim(),
-
+      size: this.clothing.size.trim(),
+      image: this.clothing.image.trim(),
       notes: this.clothing.notes.trim(),
     };
 
-    console.log('Clothing saved:', savedClothing);
+    this.clothingSaved.emit(newClothing);
 
-    // ----------------------------------------------
-    // Send clothing to App
-    // ----------------------------------------------
+    this.showSuccess = true;
 
-    this.clothingSaved.emit(savedClothing);
-
-    // ----------------------------------------------
-    // Show success message
-    // ----------------------------------------------
-
-    this.showMessage('Clothing added to your wardrobe.', 'success');
-
-    // ----------------------------------------------
-    // Reset form
-    // ----------------------------------------------
-
-    this.resetForm();
+    setTimeout(() => {
+      this.showSuccess = false;
+    }, 2500);
   }
 
-  // ==================================================
-  // RESET FORM
-  // ==================================================
+  /* =====================================================
+     RESET
+  ===================================================== */
 
-  resetForm() {
+  resetForm(): void {
     this.clothing = {
       name: '',
-
-      category: '',
-
+      category: 'Tops',
       color: '',
-
       brand: '',
-
       size: '',
-
-      season: '',
-
-      occasion: '',
-
-      notes: '',
-
+      season: 'All Season',
+      occasion: 'Casual',
       image: '',
+      notes: '',
     };
 
     this.imagePreview = '';
+    this.submitted = false;
+    this.errorMessage = '';
   }
 
-  // ==================================================
-  // SHOW MESSAGE
-  // ==================================================
+  /* =====================================================
+     FIELD HELPERS
+  ===================================================== */
 
-  showMessage(
-    message: string,
+  getFieldError(field: string): boolean {
+    if (!this.submitted) {
+      return false;
+    }
 
-    type: 'success' | 'error' | 'info' = 'success',
-  ) {
-    this.messageText = message;
+    switch (field) {
+      case 'name':
+        return !this.clothing.name.trim();
 
-    this.messageType = type;
+      case 'color':
+        return !this.clothing.color.trim();
 
-    this.messageVisible = true;
+      case 'size':
+        return !this.clothing.size.trim();
 
-    setTimeout(() => {
-      this.messageVisible = false;
-    }, 3500);
-  }
+      case 'occasion':
+        return !this.clothing.occasion.trim();
 
-  // ==================================================
-  // CLOSE MESSAGE
-  // ==================================================
-
-  closeMessage() {
-    this.messageVisible = false;
+      default:
+        return false;
+    }
   }
 }

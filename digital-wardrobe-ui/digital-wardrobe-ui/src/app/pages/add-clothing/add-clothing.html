@@ -1,293 +1,357 @@
-<div class="add-page">
-  <!-- ================= NOTIFICATION ================= -->
+<div class="add-clothing-page">
+  <!-- Decorative Background -->
+  <div class="decor decor-one"></div>
+  <div class="decor decor-two"></div>
+  <div class="decor decor-three"></div>
 
-  @if (messageVisible) {
-    <div
-      class="form-notification"
-      [class.success]="messageType === 'success'"
-      [class.error]="messageType === 'error'"
-      [class.info]="messageType === 'info'"
-    >
-      <div class="notification-icon">
-        @if (messageType === 'success') {
-          ✓
-        }
+  <!-- Top Navigation -->
+  <header class="add-header">
+    <button class="back-button" type="button" (click)="goBack()">
+      <span class="back-icon">←</span>
+      <span>Back to Wardrobe</span>
+    </button>
 
-        @if (messageType === 'error') {
-          !
-        }
-
-        @if (messageType === 'info') {
-          i
-        }
-      </div>
-
-      <div class="notification-content">
-        <strong>
-          @if (messageType === 'success') {
-            All set
-          }
-
-          @if (messageType === 'error') {
-            Almost there
-          }
-
-          @if (messageType === 'info') {
-            Just so you know
-          }
-        </strong>
-
-        <p>{{ messageText }}</p>
-      </div>
-
-      <button
-        type="button"
-        class="notification-close"
-        (click)="closeMessage()"
-        aria-label="Close notification"
-      >
-        ×
-      </button>
-    </div>
-  }
-
-  <!-- ================= HEADER ================= -->
-
-  <div class="form-header">
-    <div>
-      <span class="eyebrow"> YOUR COLLECTION </span>
-
-      <h1>Add a new piece<span>.</span></h1>
-
-      <p>Give your wardrobe something new to remember.</p>
+    <div class="header-title">
+      <span class="eyebrow">DIGITAL WARDROBE</span>
+      <h1>Add New Piece</h1>
+      <p>Give your wardrobe a new favourite.</p>
     </div>
 
-    <button type="button" class="back-button" (click)="goBack()">← Back to wardrobe</button>
-  </div>
+    <div class="header-spacer"></div>
+  </header>
 
-  <!-- ================= FORM CARD ================= -->
-
-  <div class="form-card">
-    <!-- ================= SECTION 01 ================= -->
-
-    <div class="form-section">
-      <div class="section-heading">
-        <span class="number"> 01 </span>
-
-        <div>
-          <h2>Basic details</h2>
-
-          <p>Tell us a little about this piece.</p>
-        </div>
+  <!-- Main Content -->
+  <main class="add-content">
+    <!-- Intro -->
+    <section class="intro-section">
+      <div>
+        <span class="section-label">NEW ADDITION</span>
+        <h2>Tell us about your clothing</h2>
+        <p>Add the details below so Closetly can keep your wardrobe beautifully organised.</p>
       </div>
 
-      <div class="form-grid">
-        <!-- CLOTHING NAME -->
-
-        <div class="form-group full">
-          <label> Clothing name </label>
-
-          <input type="text" placeholder="e.g. Classic White Shirt" [(ngModel)]="clothing.name" />
-        </div>
-
-        <!-- CATEGORY -->
-
-        <div class="form-group">
-          <label> Category </label>
-
-          <select [(ngModel)]="clothing.category">
-            <option value="">Select category</option>
-
-            <option value="Tops">Tops</option>
-
-            <option value="Bottoms">Bottoms</option>
-
-            <option value="Dresses">Dresses</option>
-
-            <option value="Shoes">Shoes</option>
-
-            <option value="Accessories">Accessories</option>
-          </select>
-        </div>
-
-        <!-- COLOR -->
-
-        <div class="form-group">
-          <label> Color </label>
-
-          <input type="text" placeholder="e.g. Deep Olive" [(ngModel)]="clothing.color" />
-        </div>
-
-        <!-- BRAND -->
-
-        <div class="form-group">
-          <label> Brand </label>
-
-          <input type="text" placeholder="e.g. Zara" [(ngModel)]="clothing.brand" />
-        </div>
-
-        <!-- SIZE -->
-
-        <div class="form-group">
-          <label> Size </label>
-
-          <select [(ngModel)]="clothing.size">
-            <option value="">Select size</option>
-
-            <option value="XS">XS</option>
-
-            <option value="S">S</option>
-
-            <option value="M">M</option>
-
-            <option value="L">L</option>
-
-            <option value="XL">XL</option>
-          </select>
-        </div>
+      <div class="step-indicator">
+        <span class="step-number">01</span>
+        <span>ADD PIECE</span>
       </div>
-    </div>
+    </section>
 
-    <div class="form-divider"></div>
-
-    <!-- ================= SECTION 02 ================= -->
-
-    <div class="form-section">
-      <div class="section-heading">
-        <span class="number"> 02 </span>
-
-        <div>
-          <h2>Style & occasion</h2>
-
-          <p>Help Closetly understand when you wear it.</p>
-        </div>
+    <!-- Error Message -->
+    @if (errorMessage) {
+      <div class="error-banner">
+        <span class="error-icon">!</span>
+        <span>{{ errorMessage }}</span>
       </div>
+    }
 
-      <div class="form-grid">
-        <!-- SEASON -->
+    <!-- Form Layout -->
+    <section class="form-layout">
+      <!-- Left: Image Preview -->
+      <div class="image-section">
+        <div class="image-card">
+          <div class="image-card-header">
+            <div>
+              <span class="section-label">VISUAL</span>
+              <h3>Clothing image</h3>
+            </div>
 
-        <div class="form-group">
-          <label> Season </label>
+            <span class="optional-label">OPTIONAL</span>
+          </div>
 
-          <select [(ngModel)]="clothing.season">
-            <option value="">Select season</option>
-
-            <option value="Summer">Summer</option>
-
-            <option value="Winter">Winter</option>
-
-            <option value="Spring">Spring</option>
-
-            <option value="Autumn">Autumn</option>
-
-            <option value="All Season">All Season</option>
-          </select>
-        </div>
-
-        <!-- OCCASION -->
-
-        <div class="form-group">
-          <label> Occasion </label>
-
-          <select [(ngModel)]="clothing.occasion">
-            <option value="">Select occasion</option>
-
-            <option value="Casual">Casual</option>
-
-            <option value="Formal">Formal</option>
-
-            <option value="Party">Party</option>
-
-            <option value="College">College</option>
-
-            <option value="Work">Work</option>
-
-            <option value="Travel">Travel</option>
-          </select>
-        </div>
-      </div>
-    </div>
-
-    <div class="form-divider"></div>
-
-    <!-- ================= SECTION 03 ================= -->
-
-    <div class="form-section">
-      <div class="section-heading">
-        <span class="number"> 03 </span>
-
-        <div>
-          <h2>Visual & notes</h2>
-
-          <p>Add an image and anything else worth remembering.</p>
-        </div>
-      </div>
-
-      <!-- ================= IMAGE UPLOAD ================= -->
-
-      <div class="upload-area">
-        <div class="upload-icon">+</div>
-
-        <h3>Upload clothing image</h3>
-
-        <p>Drag and drop your image here or browse your computer.</p>
-
-        <!-- HIDDEN FILE INPUT -->
-
-        <input
-          type="file"
-          id="clothingImage"
-          accept="image/*"
-          (change)="onImageSelected($event)"
-          hidden
-        />
-
-        <!-- CHOOSE IMAGE -->
-
-        @if (!imagePreview) {
-          <label for="clothingImage" class="browse-button"> Choose image </label>
-        }
-
-        <!-- IMAGE PREVIEW -->
-
-        @if (imagePreview) {
           <div class="image-preview">
-            <img [src]="imagePreview" alt="Selected clothing preview" />
+            @if (imagePreview) {
+              <img [src]="imagePreview" alt="Clothing preview" class="preview-image" />
 
-            <div class="preview-info">
-              <p>Image selected successfully</p>
+              <div class="preview-overlay">
+                <span>Preview</span>
+              </div>
+            } @else {
+              <div class="empty-preview">
+                <div class="hanger-icon">♧</div>
 
-              <button type="button" class="remove-image-button" (click)="removeImage()">
-                Remove image
-              </button>
+                <h4>Your piece will appear here</h4>
+
+                <p>Paste an image URL on the right to preview your clothing.</p>
+              </div>
+            }
+          </div>
+
+          <div class="image-note">
+            <span class="note-icon">✦</span>
+            <p>Use a clear image with the clothing item as the main focus.</p>
+          </div>
+        </div>
+
+        <!-- Mini Tip -->
+        <div class="style-tip">
+          <div class="tip-symbol">✧</div>
+
+          <div>
+            <span class="tip-label">CLOSETLY TIP</span>
+            <p>
+              Adding colours, occasions and seasons makes your wardrobe easier to search and
+              organise later.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Details Form -->
+      <div class="details-section">
+        <form class="clothing-form" (ngSubmit)="saveClothing()" novalidate>
+          <!-- Basic Details -->
+          <div class="form-card">
+            <div class="form-card-heading">
+              <div>
+                <span class="section-label">01 / BASICS</span>
+                <h3>Piece details</h3>
+              </div>
+            </div>
+
+            <!-- Clothing Name -->
+            <div class="field-group full-width">
+              <label for="clothingName">
+                Clothing name
+                <span>*</span>
+              </label>
+
+              <input
+                id="clothingName"
+                type="text"
+                name="name"
+                [(ngModel)]="clothing.name"
+                placeholder="e.g. Classic White Shirt"
+                autocomplete="off"
+                [class.invalid]="getFieldError('name')"
+              />
+
+              @if (getFieldError('name')) {
+                <small class="field-error"> Please enter a clothing name. </small>
+              }
+            </div>
+
+            <!-- Category + Color -->
+            <div class="form-row">
+              <div class="field-group">
+                <label for="category">
+                  Category
+                  <span>*</span>
+                </label>
+
+                <select id="category" name="category" [(ngModel)]="clothing.category">
+                  @for (category of categories; track category) {
+                    <option [value]="category">
+                      {{ category }}
+                    </option>
+                  }
+                </select>
+              </div>
+
+              <div class="field-group">
+                <label for="color">
+                  Colour
+                  <span>*</span>
+                </label>
+
+                <select
+                  id="color"
+                  name="color"
+                  [(ngModel)]="clothing.color"
+                  [class.invalid]="getFieldError('color')"
+                >
+                  <option value="" disabled>Select colour</option>
+
+                  @for (color of colors; track color) {
+                    <option [value]="color">
+                      {{ color }}
+                    </option>
+                  }
+                </select>
+
+                @if (getFieldError('color')) {
+                  <small class="field-error"> Please select a colour. </small>
+                }
+              </div>
+            </div>
+
+            <!-- Brand + Size -->
+            <div class="form-row">
+              <div class="field-group">
+                <label for="brand">
+                  Brand
+                  <span class="optional">*</span>
+                </label>
+
+                <input
+                  id="brand"
+                  type="text"
+                  name="brand"
+                  [(ngModel)]="clothing.brand"
+                  placeholder="e.g. Zara"
+                  autocomplete="off"
+                />
+              </div>
+
+              <div class="field-group">
+                <label for="size">
+                  Size
+                  <span>*</span>
+                </label>
+
+                <select
+                  id="size"
+                  name="size"
+                  [(ngModel)]="clothing.size"
+                  [class.invalid]="getFieldError('size')"
+                >
+                  <option value="" disabled>Select size</option>
+
+                  @for (size of sizes; track size) {
+                    <option [value]="size">
+                      {{ size }}
+                    </option>
+                  }
+                </select>
+
+                @if (getFieldError('size')) {
+                  <small class="field-error"> Please select a size. </small>
+                }
+              </div>
             </div>
           </div>
-        }
+
+          <!-- Wardrobe Classification -->
+          <div class="form-card">
+            <div class="form-card-heading">
+              <div>
+                <span class="section-label">02 / CLASSIFICATION</span>
+                <h3>When will you wear it?</h3>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <!-- Season -->
+              <div class="field-group">
+                <label for="season"> Season </label>
+
+                <select id="season" name="season" [(ngModel)]="clothing.season">
+                  @for (season of seasons; track season) {
+                    <option [value]="season">
+                      {{ season }}
+                    </option>
+                  }
+                </select>
+              </div>
+
+              <!-- Occasion -->
+              <div class="field-group">
+                <label for="occasion">
+                  Occasion
+                  <span>*</span>
+                </label>
+
+                <select
+                  id="occasion"
+                  name="occasion"
+                  [(ngModel)]="clothing.occasion"
+                  [class.invalid]="getFieldError('occasion')"
+                >
+                  @for (occasion of occasions; track occasion) {
+                    <option [value]="occasion">
+                      {{ occasion }}
+                    </option>
+                  }
+                </select>
+
+                @if (getFieldError('occasion')) {
+                  <small class="field-error"> Please select an occasion. </small>
+                }
+              </div>
+            </div>
+          </div>
+
+          <!-- Image + Notes -->
+          <div class="form-card">
+            <div class="form-card-heading">
+              <div>
+                <span class="section-label">03 / PERSONALISE</span>
+                <h3>Finishing touches</h3>
+              </div>
+            </div>
+
+            <!-- Image URL -->
+            <div class="field-group full-width">
+              <label for="image">
+                Image URL
+                <span class="optional">OPTIONAL</span>
+              </label>
+
+              <div class="input-with-icon">
+                <span class="input-icon">⌁</span>
+
+                <input
+                  id="image"
+                  type="url"
+                  name="image"
+                  [(ngModel)]="clothing.image"
+                  (ngModelChange)="onImageUrlChange()"
+                  placeholder="https://example.com/your-clothing-image.jpg"
+                />
+              </div>
+
+              <small class="helper-text">
+                Paste a direct image link to preview your clothing.
+              </small>
+            </div>
+
+            <!-- Notes -->
+            <div class="field-group full-width">
+              <label for="notes">
+                Notes
+                <span class="optional">OPTIONAL</span>
+              </label>
+
+              <textarea
+                id="notes"
+                name="notes"
+                [(ngModel)]="clothing.notes"
+                rows="4"
+                maxlength="300"
+                placeholder="Add anything you want to remember about this piece..."
+              ></textarea>
+
+              <div class="character-count">{{ clothing.notes.length }}/300</div>
+            </div>
+          </div>
+
+          <!-- Form Actions -->
+          <div class="form-actions">
+            <button type="button" class="secondary-button" (click)="resetForm()">
+              <span>↻</span>
+              Clear form
+            </button>
+
+            <button type="submit" class="primary-button">
+              <span>Add to wardrobe</span>
+              <span class="button-arrow">→</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- Success Toast -->
+  @if (showSuccess) {
+    <div class="success-toast">
+      <div class="success-check">✓</div>
+
+      <div>
+        <strong>Added to your wardrobe</strong>
+        <span>{{ clothing.name }} is now part of your collection.</span>
       </div>
 
-      <!-- ================= NOTES ================= -->
-
-      <div class="form-group notes">
-        <label> Notes </label>
-
-        <textarea
-          rows="4"
-          placeholder="Anything you'd like to remember about this piece..."
-          [(ngModel)]="clothing.notes"
-        ></textarea>
-      </div>
+      <button type="button" (click)="showSuccess = false" aria-label="Close notification">×</button>
     </div>
-
-    <!-- ================= FOOTER ================= -->
-
-    <div class="form-footer">
-      <button type="button" class="cancel-button" (click)="goBack()">Cancel</button>
-
-      <button type="button" class="save-button" (click)="saveClothing()">
-        Save to wardrobe
-
-        <span> → </span>
-      </button>
-    </div>
-  </div>
+  }
 </div>

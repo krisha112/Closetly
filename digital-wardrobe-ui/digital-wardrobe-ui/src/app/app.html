@@ -1,240 +1,22 @@
 <div class="app-shell">
-  <main class="app-content">
-    <!-- =========================
-         WARDROBE
-    ========================== -->
-
-    @if (currentPage === 'wardrobe') {
-      <app-digital-wardrobe
-        [clothingItems]="clothingItems"
-        [deletedClothing]="deletedClothing"
-        (addClothing)="showAddClothing()"
-        (clothingDetails)="showClothingDetails($event)"
-        (deleteClothing)="deleteClothing($event)"
-      >
-      </app-digital-wardrobe>
-    }
-
-    <!-- =========================
-         ADD CLOTHING
-    ========================== -->
-
-    @if (currentPage === 'add-clothing') {
-      <app-add-clothing
-        (backToWardrobe)="backFromAddClothing()"
-        (clothingSaved)="saveNewClothing($event)"
-      >
-      </app-add-clothing>
-    }
-
-    <!-- =========================
-         CLOTHING DETAILS
-    ========================== -->
-
-    @if (currentPage === 'clothing-details') {
-      <app-clothing-details
-        [clothing]="selectedClothing"
-        (backToWardrobe)="backFromDetails()"
-        (editClothing)="showEditClothing($event)"
-        (deleteClothingEvent)="deleteClothing($event)"
-      >
-      </app-clothing-details>
-    }
-
-    <!-- =========================
-         EDIT CLOTHING
-    ========================== -->
-
-    @if (currentPage === 'edit-clothing') {
-      <app-edit-clothing
-        [clothing]="selectedClothing"
-        (backToDetails)="backFromEdit()"
-        (clothingUpdated)="saveEditedClothing($event)"
-      >
-      </app-edit-clothing>
-    }
-
-    <!-- =========================
-         OUTFITS
-    ========================== -->
-
-    @if (currentPage === 'outfits') {
-      <section class="placeholder-page outfits-page">
-        <div class="placeholder-content">
-          <span class="placeholder-eyebrow"> YOUR STYLE STUDIO </span>
-
-          <h1>Outfit Studio<span>.</span></h1>
-
-          <p>Create, save and discover outfits using pieces from your wardrobe.</p>
-
-          <div class="placeholder-cards">
-            <div class="placeholder-card">
-              <span>01</span>
-
-              <h3>Everyday Edit</h3>
-
-              <p>Easy looks for everyday moments.</p>
-            </div>
-
-            <div class="placeholder-card">
-              <span>02</span>
-
-              <h3>Weekend Mood</h3>
-
-              <p>Relaxed pieces styled together.</p>
-            </div>
-
-            <div class="placeholder-card">
-              <span>03</span>
-
-              <h3>Evening Look</h3>
-
-              <p>Elegant combinations for going out.</p>
-            </div>
-          </div>
-
-          <button type="button" class="placeholder-button" (click)="showWardrobe()">
-            ← Back to wardrobe
-          </button>
-        </div>
-      </section>
-    }
-
-    <!-- =========================
-         FAVORITES
-    ========================== -->
-
-    @if (currentPage === 'favorites') {
-      <section class="placeholder-page favorites-page">
-        <div class="placeholder-content">
-          <span class="placeholder-eyebrow"> YOUR CURATED PICKS </span>
-
-          <h1>Favorite Pieces<span>.</span></h1>
-
-          <p>The pieces you love most will live here.</p>
-
-          @if (favoriteItems.length === 0) {
-            <div class="empty-placeholder">
-              <div class="empty-icon">♡</div>
-
-              <h3>Your favorites are waiting.</h3>
-
-              <p>Tap the heart on any wardrobe piece to add it to your favorites.</p>
-            </div>
-          }
-
-          <button type="button" class="placeholder-button" (click)="showWardrobe()">
-            Browse wardrobe
-          </button>
-        </div>
-      </section>
-    }
-
-    <!-- =========================
-         EXPLORE
-    ========================== -->
-
-    @if (currentPage === 'explore') {
-      <section class="placeholder-page explore-page">
-        <div class="placeholder-content">
-          <span class="placeholder-eyebrow"> STYLE INSPIRATION </span>
-
-          <h1>Explore<span>.</span></h1>
-
-          <p>Discover new ways to style the pieces you already own.</p>
-
-          <div class="explore-grid">
-            <div class="explore-card explore-one">
-              <span> SEASONAL </span>
-
-              <h3>Autumn Layers</h3>
-            </div>
-
-            <div class="explore-card explore-two">
-              <span> EVERYDAY </span>
-
-              <h3>Quiet Luxury</h3>
-            </div>
-
-            <div class="explore-card explore-three">
-              <span> OCCASION </span>
-
-              <h3>Evening Edit</h3>
-            </div>
-          </div>
-
-          <button type="button" class="placeholder-button" (click)="showWardrobe()">
-            ← Back to wardrobe
-          </button>
-        </div>
-      </section>
-    }
-
-    <!-- =========================
-         PROFILE
-    ========================== -->
-
-    @if (currentPage === 'profile') {
-      <section class="placeholder-page profile-page">
-        <div class="placeholder-content">
-          <span class="placeholder-eyebrow"> YOUR CLOSETLY PROFILE </span>
-
-          <div class="profile-large-avatar">R</div>
-
-          <h1>Rachel<span>.</span></h1>
-
-          <p>Your personal wardrobe space.</p>
-
-          <div class="profile-stats">
-            <div>
-              <strong>
-                {{ 48 + clothingItems.length }}
-              </strong>
-
-              <span> Pieces </span>
-            </div>
-
-            <div>
-              <strong>
-                {{ favoriteItems.length }}
-              </strong>
-
-              <span> Favorites </span>
-            </div>
-
-            <div>
-              <strong> 01 </strong>
-
-              <span> Wardrobe </span>
-            </div>
-          </div>
-
-          <button type="button" class="placeholder-button" (click)="showWardrobe()">
-            ← Back to wardrobe
-          </button>
-        </div>
-      </section>
-    }
-  </main>
-
-  <!-- =========================
-       NOTIFICATION
-  ========================== -->
+  <!-- =====================================================
+       GLOBAL APP NOTIFICATION
+  ====================================================== -->
 
   @if (notificationVisible) {
     <div
-      class="closetly-notification"
+      class="global-notification"
       [class.notification-success]="notificationType === 'success'"
       [class.notification-info]="notificationType === 'info'"
       [class.notification-error]="notificationType === 'error'"
     >
-      <div class="notification-icon">
+      <div class="global-notification-icon">
         @if (notificationType === 'success') {
           ✓
         }
 
         @if (notificationType === 'info') {
-          ♡
+          ✦
         }
 
         @if (notificationType === 'error') {
@@ -242,15 +24,638 @@
         }
       </div>
 
-      <div class="notification-content">
-        <strong> Closetly </strong>
+      <div class="global-notification-content">
+        <strong>Closetly</strong>
 
         <span>
           {{ notificationMessage }}
         </span>
       </div>
 
-      <button type="button" class="notification-close" (click)="closeNotification()">×</button>
+      <button
+        type="button"
+        class="global-notification-close"
+        (click)="closeNotification()"
+        aria-label="Close notification"
+      >
+        ×
+      </button>
+    </div>
+  }
+
+  <!-- =====================================================
+       WARDROBE
+  ====================================================== -->
+
+  @if (currentPage === 'wardrobe') {
+    <app-digital-wardrobe
+      [clothingItems]="clothingItems"
+      [deletedClothing]="deletedClothing"
+      [favoriteItems]="favoriteItems"
+      (addClothing)="showAddClothing()"
+      (clothingDetails)="showClothingDetails($event)"
+      (deleteClothing)="deleteClothing($event)"
+      (favoriteToggle)="toggleFavorite($event)"
+      (navigate)="navigateTo($event)"
+    ></app-digital-wardrobe>
+  }
+
+  <!-- =====================================================
+       ADD CLOTHING
+  ====================================================== -->
+
+  @if (currentPage === 'add-clothing') {
+    <app-add-clothing
+      (backToWardrobe)="backFromAddClothing()"
+      (clothingSaved)="saveNewClothing($event)"
+    ></app-add-clothing>
+  }
+
+  <!-- =====================================================
+       CLOTHING DETAILS
+  ====================================================== -->
+
+  @if (currentPage === 'clothing-details') {
+    @if (selectedClothing) {
+      <app-clothing-details
+        [clothing]="selectedClothing"
+        (backToWardrobe)="backFromDetails()"
+        (editClothing)="showEditClothing($event)"
+        (deleteClothingEvent)="deleteClothing($event)"
+      ></app-clothing-details>
+    }
+  }
+
+  <!-- =====================================================
+       EDIT CLOTHING
+  ====================================================== -->
+
+  @if (currentPage === 'edit-clothing') {
+    @if (selectedClothing) {
+      <app-edit-clothing
+        [clothing]="selectedClothing"
+        (backToDetails)="backFromEdit()"
+        (clothingUpdated)="saveEditedClothing($event)"
+      ></app-edit-clothing>
+    }
+  }
+
+  <!-- =====================================================
+       OUTFITS
+  ====================================================== -->
+
+  @if (currentPage === 'outfits') {
+    <div class="secondary-page outfits-page">
+      <!-- SIDEBAR -->
+
+      <aside class="secondary-sidebar">
+        <div class="secondary-brand">
+          <div class="secondary-brand-mark">C</div>
+
+          <div>
+            <strong>Closetly</strong>
+            <span>digital wardrobe</span>
+          </div>
+        </div>
+
+        <nav class="secondary-navigation">
+          <button type="button" class="secondary-nav-item" (click)="showWardrobe()">
+            <span>◈</span>
+            Wardrobe
+          </button>
+
+          <button type="button" class="secondary-nav-item active" (click)="showOutfits()">
+            <span>✦</span>
+            Outfits
+          </button>
+
+          <button type="button" class="secondary-nav-item" (click)="showFavorites()">
+            <span>♡</span>
+            Favorites
+
+            @if (getFavoriteCount() > 0) {
+              <small>
+                {{ getFavoriteCount() }}
+              </small>
+            }
+          </button>
+
+          <button type="button" class="secondary-nav-item" (click)="showExplore()">
+            <span>✧</span>
+            Explore
+          </button>
+        </nav>
+
+        <div class="secondary-sidebar-bottom">
+          <button type="button" class="secondary-profile" (click)="showProfile()">
+            <span class="secondary-avatar"> R </span>
+
+            <span>
+              <strong>Rachel</strong>
+              <small>My wardrobe</small>
+            </span>
+          </button>
+        </div>
+      </aside>
+
+      <!-- OUTFITS CONTENT -->
+
+      <main class="secondary-main">
+        <header class="secondary-header">
+          <div>
+            <span class="eyebrow"> YOUR LOOKBOOK </span>
+
+            <h1>Outfit Studio<span>.</span></h1>
+
+            <p>Create looks from the pieces you already love.</p>
+          </div>
+
+          <button
+            type="button"
+            class="secondary-action"
+            (click)="showNotification('Outfit creation is ready for the next stage.', 'info')"
+          >
+            + Create outfit
+          </button>
+        </header>
+
+        <section class="outfit-intro">
+          <div>
+            <span class="eyebrow"> STYLE YOUR STORY </span>
+
+            <h2>
+              Looks made
+              <em>for your wardrobe.</em>
+            </h2>
+
+            <p>Mix your favorite pieces and build complete looks for every part of your day.</p>
+          </div>
+
+          <div class="outfit-decoration">✦</div>
+        </section>
+
+        <section class="outfit-grid">
+          <article class="outfit-card">
+            <div class="outfit-card-image">
+              @if (clothingItems[0]?.image) {
+                <img [src]="clothingItems[0].image" [alt]="clothingItems[0].name" />
+              }
+
+              <span> EVERYDAY </span>
+            </div>
+
+            <div class="outfit-card-content">
+              <span> CASUAL </span>
+
+              <h3>Everyday Essentials</h3>
+
+              <p>Clean, comfortable pieces for everyday plans.</p>
+
+              <button type="button" (click)="showClothingDetails(clothingItems[0])">
+                View pieces →
+              </button>
+            </div>
+          </article>
+
+          <article class="outfit-card">
+            <div class="outfit-card-image">
+              @if (clothingItems[6]?.image) {
+                <img [src]="clothingItems[6].image" [alt]="clothingItems[6].name" />
+              }
+
+              <span> EVENING </span>
+            </div>
+
+            <div class="outfit-card-content">
+              <span> PARTY </span>
+
+              <h3>Evening Edit</h3>
+
+              <p>Elegant pieces for dinner dates and celebrations.</p>
+
+              <button type="button" (click)="showClothingDetails(clothingItems[6])">
+                View pieces →
+              </button>
+            </div>
+          </article>
+
+          <article class="outfit-card">
+            <div class="outfit-card-image">
+              @if (clothingItems[4]?.image) {
+                <img [src]="clothingItems[4].image" [alt]="clothingItems[4].name" />
+              }
+
+              <span> POLISHED </span>
+            </div>
+
+            <div class="outfit-card-content">
+              <span> FORMAL </span>
+
+              <h3>Polished Neutrals</h3>
+
+              <p>Refined silhouettes for meetings and special days.</p>
+
+              <button type="button" (click)="showClothingDetails(clothingItems[4])">
+                View pieces →
+              </button>
+            </div>
+          </article>
+
+          <article class="outfit-card">
+            <div class="outfit-card-image">
+              @if (clothingItems[8]?.image) {
+                <img [src]="clothingItems[8].image" [alt]="clothingItems[8].name" />
+              }
+
+              <span> WEEKEND </span>
+            </div>
+
+            <div class="outfit-card-content">
+              <span> RELAXED </span>
+
+              <h3>Weekend Mood</h3>
+
+              <p>Easy pieces that still look effortlessly put together.</p>
+
+              <button type="button" (click)="showClothingDetails(clothingItems[8])">
+                View pieces →
+              </button>
+            </div>
+          </article>
+        </section>
+      </main>
+    </div>
+  }
+
+  <!-- =====================================================
+       FAVORITES
+  ====================================================== -->
+
+  @if (currentPage === 'favorites') {
+    <div class="secondary-page favorites-page">
+      <!-- SIDEBAR -->
+
+      <aside class="secondary-sidebar">
+        <div class="secondary-brand">
+          <div class="secondary-brand-mark">C</div>
+
+          <div>
+            <strong>Closetly</strong>
+            <span>digital wardrobe</span>
+          </div>
+        </div>
+
+        <nav class="secondary-navigation">
+          <button type="button" class="secondary-nav-item" (click)="showWardrobe()">
+            <span>◈</span>
+            Wardrobe
+          </button>
+
+          <button type="button" class="secondary-nav-item" (click)="showOutfits()">
+            <span>✦</span>
+            Outfits
+          </button>
+
+          <button type="button" class="secondary-nav-item active" (click)="showFavorites()">
+            <span>♡</span>
+            Favorites
+
+            @if (getFavoriteCount() > 0) {
+              <small>
+                {{ getFavoriteCount() }}
+              </small>
+            }
+          </button>
+
+          <button type="button" class="secondary-nav-item" (click)="showExplore()">
+            <span>✧</span>
+            Explore
+          </button>
+        </nav>
+
+        <div class="secondary-sidebar-bottom">
+          <button type="button" class="secondary-profile" (click)="showProfile()">
+            <span class="secondary-avatar"> R </span>
+
+            <span>
+              <strong>Rachel</strong>
+              <small>My wardrobe</small>
+            </span>
+          </button>
+        </div>
+      </aside>
+
+      <!-- FAVORITES CONTENT -->
+
+      <main class="secondary-main">
+        <header class="secondary-header">
+          <div>
+            <span class="eyebrow"> YOUR SAVED PIECES </span>
+
+            <h1>Favorites<span>.</span></h1>
+
+            <p>The pieces you keep coming back to.</p>
+          </div>
+
+          <button type="button" class="secondary-action" (click)="showWardrobe()">
+            Browse wardrobe
+          </button>
+        </header>
+
+        @if (getFavoriteItems().length > 0) {
+          <section class="favorites-grid">
+            @for (clothing of getFavoriteItems(); track clothing.id) {
+              <article class="favorite-card" (click)="showClothingDetails(clothing)">
+                <div class="favorite-card-image">
+                  @if (clothing.image) {
+                    <img [src]="clothing.image" [alt]="clothing.name" />
+                  }
+
+                  <button
+                    type="button"
+                    class="favorite-remove"
+                    (click)="toggleFavorite(clothing); $event.stopPropagation()"
+                    aria-label="Remove from favorites"
+                  >
+                    ♥
+                  </button>
+                </div>
+
+                <div class="favorite-card-content">
+                  <span>
+                    {{ clothing.category }}
+                  </span>
+
+                  <h3>
+                    {{ clothing.name }}
+                  </h3>
+
+                  <p>
+                    {{ clothing.brand }}
+                  </p>
+                </div>
+              </article>
+            }
+          </section>
+        } @else {
+          <section class="secondary-empty-state">
+            <div>♡</div>
+
+            <span class="eyebrow"> YOUR FAVORITES </span>
+
+            <h2>Nothing saved yet.</h2>
+
+            <p>Tap the heart on any clothing piece to keep it close here.</p>
+
+            <button type="button" class="secondary-action" (click)="showWardrobe()">
+              Explore wardrobe
+            </button>
+          </section>
+        }
+      </main>
+    </div>
+  }
+
+  <!-- =====================================================
+       EXPLORE
+  ====================================================== -->
+
+  @if (currentPage === 'explore') {
+    <div class="secondary-page explore-page">
+      <!-- SIDEBAR -->
+
+      <aside class="secondary-sidebar">
+        <div class="secondary-brand">
+          <div class="secondary-brand-mark">C</div>
+
+          <div>
+            <strong>Closetly</strong>
+            <span>digital wardrobe</span>
+          </div>
+        </div>
+
+        <nav class="secondary-navigation">
+          <button type="button" class="secondary-nav-item" (click)="showWardrobe()">
+            <span>◈</span>
+            Wardrobe
+          </button>
+
+          <button type="button" class="secondary-nav-item" (click)="showOutfits()">
+            <span>✦</span>
+            Outfits
+          </button>
+
+          <button type="button" class="secondary-nav-item" (click)="showFavorites()">
+            <span>♡</span>
+            Favorites
+
+            @if (getFavoriteCount() > 0) {
+              <small>
+                {{ getFavoriteCount() }}
+              </small>
+            }
+          </button>
+
+          <button type="button" class="secondary-nav-item active" (click)="showExplore()">
+            <span>✧</span>
+            Explore
+          </button>
+        </nav>
+
+        <div class="secondary-sidebar-bottom">
+          <button type="button" class="secondary-profile" (click)="showProfile()">
+            <span class="secondary-avatar"> R </span>
+
+            <span>
+              <strong>Rachel</strong>
+              <small>My wardrobe</small>
+            </span>
+          </button>
+        </div>
+      </aside>
+
+      <!-- EXPLORE CONTENT -->
+
+      <main class="secondary-main">
+        <header class="secondary-header">
+          <div>
+            <span class="eyebrow"> DISCOVER YOUR STYLE </span>
+
+            <h1>Explore<span>.</span></h1>
+
+            <p>Discover patterns and possibilities inside your wardrobe.</p>
+          </div>
+        </header>
+
+        <section class="explore-hero">
+          <div>
+            <span class="eyebrow"> YOUR COLLECTION AT A GLANCE </span>
+
+            <h2>
+              Six categories.
+              <em>Endless combinations.</em>
+            </h2>
+
+            <p>
+              Your wardrobe already has everything you need to create a style that feels completely
+              yours.
+            </p>
+          </div>
+
+          <div class="explore-hero-mark">C</div>
+        </section>
+
+        <section class="explore-category-grid">
+          @for (category of getCategories(); track category) {
+            <button type="button" class="explore-category-card" (click)="showWardrobe()">
+              <span class="explore-category-icon"> ✦ </span>
+
+              <span class="explore-category-name">
+                {{ category }}
+              </span>
+
+              <strong>
+                {{ getCategoryCount(category) }}
+              </strong>
+
+              <small> pieces </small>
+
+              <span class="explore-arrow"> → </span>
+            </button>
+          }
+        </section>
+      </main>
+    </div>
+  }
+
+  <!-- =====================================================
+       PROFILE
+  ====================================================== -->
+
+  @if (currentPage === 'profile') {
+    <div class="secondary-page profile-page">
+      <!-- SIDEBAR -->
+
+      <aside class="secondary-sidebar">
+        <div class="secondary-brand">
+          <div class="secondary-brand-mark">C</div>
+
+          <div>
+            <strong>Closetly</strong>
+            <span>digital wardrobe</span>
+          </div>
+        </div>
+
+        <nav class="secondary-navigation">
+          <button type="button" class="secondary-nav-item" (click)="showWardrobe()">
+            <span>◈</span>
+            Wardrobe
+          </button>
+
+          <button type="button" class="secondary-nav-item" (click)="showOutfits()">
+            <span>✦</span>
+            Outfits
+          </button>
+
+          <button type="button" class="secondary-nav-item" (click)="showFavorites()">
+            <span>♡</span>
+            Favorites
+
+            @if (getFavoriteCount() > 0) {
+              <small>
+                {{ getFavoriteCount() }}
+              </small>
+            }
+          </button>
+
+          <button type="button" class="secondary-nav-item" (click)="showExplore()">
+            <span>✧</span>
+            Explore
+          </button>
+        </nav>
+
+        <div class="secondary-sidebar-bottom">
+          <button type="button" class="secondary-profile active" (click)="showProfile()">
+            <span class="secondary-avatar"> R </span>
+
+            <span>
+              <strong>Rachel</strong>
+              <small>My wardrobe</small>
+            </span>
+          </button>
+        </div>
+      </aside>
+
+      <!-- PROFILE CONTENT -->
+
+      <main class="secondary-main">
+        <header class="secondary-header">
+          <div>
+            <span class="eyebrow"> YOUR CLOSETLY PROFILE </span>
+
+            <h1>Profile<span>.</span></h1>
+
+            <p>Your personal wardrobe space.</p>
+          </div>
+        </header>
+
+        <section class="profile-card">
+          <div class="profile-large-avatar">R</div>
+
+          <div class="profile-details">
+            <span class="eyebrow"> MEMBER </span>
+
+            <h2>Rachel</h2>
+
+            <p>My personal digital wardrobe</p>
+          </div>
+
+          <div class="profile-stat">
+            <strong>
+              {{ getClothingCount() }}
+            </strong>
+
+            <span> wardrobe pieces </span>
+          </div>
+
+          <div class="profile-stat">
+            <strong>
+              {{ getFavoriteCount() }}
+            </strong>
+
+            <span> favorites </span>
+          </div>
+        </section>
+
+        <section class="profile-information">
+          <div class="information-card">
+            <span class="eyebrow"> WARDROBE SUMMARY </span>
+
+            <h3>Your collection</h3>
+
+            <p>
+              Keep building your wardrobe and Closetly will make it easier to discover what you
+              already own.
+            </p>
+
+            <button type="button" class="secondary-action" (click)="showWardrobe()">
+              Open wardrobe
+            </button>
+          </div>
+
+          <div class="information-card">
+            <span class="eyebrow"> YOUR FAVORITES </span>
+
+            <h3>{{ getFavoriteCount() }} saved pieces</h3>
+
+            <p>Your favorite clothing pieces are always just one click away.</p>
+
+            <button type="button" class="secondary-action" (click)="showFavorites()">
+              View favorites
+            </button>
+          </div>
+        </section>
+      </main>
     </div>
   }
 </div>

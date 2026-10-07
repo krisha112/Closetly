@@ -8,17 +8,11 @@ import { EditClothing } from './pages/edit-clothing/edit-clothing';
 @Component({
   selector: 'app-root',
   standalone: true,
-
   imports: [DigitalWardrobe, AddClothing, ClothingDetails, EditClothing],
-
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
 export class App {
-  // ==================================================
-  // CURRENT PAGE
-  // ==================================================
-
   currentPage:
     | 'wardrobe'
     | 'outfits'
@@ -29,15 +23,7 @@ export class App {
     | 'clothing-details'
     | 'edit-clothing' = 'wardrobe';
 
-  // ==================================================
-  // SELECTED CLOTHING
-  // ==================================================
-
   selectedClothing: any = null;
-
-  // ==================================================
-  // CLOTHING DATA
-  // ==================================================
 
   clothingItems: any[] = [
     {
@@ -53,7 +39,6 @@ export class App {
       image:
         'https://images.unsplash.com/photo-1603252110481-7ba873bf42ab?auto=format&fit=crop&w=900&q=85',
     },
-
     {
       id: 2,
       name: 'Olive Linen Top',
@@ -67,7 +52,6 @@ export class App {
       image:
         'https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?auto=format&fit=crop&w=900&q=85',
     },
-
     {
       id: 3,
       name: 'Mauve Knit Sweater',
@@ -81,7 +65,6 @@ export class App {
       image:
         'https://images.unsplash.com/photo-1576566588028-4147f3842f27?auto=format&fit=crop&w=900&q=85',
     },
-
     {
       id: 4,
       name: 'Vintage Blue Jeans',
@@ -95,7 +78,6 @@ export class App {
       image:
         'https://images.unsplash.com/photo-1541099649105-f69ad21f3246?auto=format&fit=crop&w=900&q=85',
     },
-
     {
       id: 5,
       name: 'Beige Wide Leg Pants',
@@ -109,7 +91,6 @@ export class App {
       image:
         'https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?auto=format&fit=crop&w=900&q=85',
     },
-
     {
       id: 6,
       name: 'Black Straight Trousers',
@@ -123,7 +104,6 @@ export class App {
       image:
         'https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?auto=format&fit=crop&w=900&q=85',
     },
-
     {
       id: 7,
       name: 'Satin Midi Dress',
@@ -137,7 +117,6 @@ export class App {
       image:
         'https://images.unsplash.com/photo-1595777457583-95e059d581b8?auto=format&fit=crop&w=900&q=85',
     },
-
     {
       id: 8,
       name: 'Floral Summer Dress',
@@ -151,7 +130,6 @@ export class App {
       image:
         'https://images.unsplash.com/photo-1612336307429-8a898d10e223?auto=format&fit=crop&w=900&q=85',
     },
-
     {
       id: 9,
       name: 'Classic White Sneakers',
@@ -165,7 +143,6 @@ export class App {
       image:
         'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=900&q=85',
     },
-
     {
       id: 10,
       name: 'Brown Heeled Sandals',
@@ -179,7 +156,6 @@ export class App {
       image:
         'https://images.unsplash.com/photo-1543163521-1bf539c55dd2?auto=format&fit=crop&w=900&q=85',
     },
-
     {
       id: 11,
       name: 'Classic Black Sunglasses',
@@ -193,7 +169,6 @@ export class App {
       image:
         'https://images.unsplash.com/photo-1511499767150-a48a237f0083?auto=format&fit=crop&w=900&q=85',
     },
-
     {
       id: 12,
       name: 'Tan Shoulder Bag',
@@ -207,7 +182,6 @@ export class App {
       image:
         'https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=900&q=85',
     },
-
     {
       id: 13,
       name: 'Cream Blazer',
@@ -221,7 +195,6 @@ export class App {
       image:
         'https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=900&q=85',
     },
-
     {
       id: 14,
       name: 'Black Evening Dress',
@@ -235,7 +208,6 @@ export class App {
       image:
         'https://images.unsplash.com/photo-1566174053879-31528523f8ae?auto=format&fit=crop&w=900&q=85',
     },
-
     {
       id: 15,
       name: 'Chocolate Brown Cardigan',
@@ -251,108 +223,87 @@ export class App {
     },
   ];
 
-  // ==================================================
-  // DELETED CLOTHING
-  // ==================================================
-
   deletedClothing: string[] = [];
-
-  // ==================================================
-  // FAVORITES
-  // ==================================================
 
   favoriteItems: number[] = [];
 
-  // ==================================================
-  // GLOBAL NOTIFICATION
-  // ==================================================
-
   notificationVisible = false;
-
   notificationMessage = '';
-
   notificationType: 'success' | 'info' | 'error' = 'success';
 
-  // ==================================================
-  // SIDEBAR
-  // ==================================================
-
   sidebarOpen = false;
-
-  // ==================================================
-  // PROFILE MENU
-  // ==================================================
-
   profileMenuOpen = false;
-
-  // ==================================================
-  // GLOBAL SEARCH
-  // ==================================================
 
   globalSearchText = '';
 
-  // ==================================================
+  // -----------------------------
   // NAVIGATION
-  // ==================================================
+  // -----------------------------
 
-  navigateTo(page: 'wardrobe' | 'outfits' | 'favorites' | 'explore' | 'profile') {
+  navigateTo(page: 'wardrobe' | 'outfits' | 'favorites' | 'explore' | 'profile'): void {
     this.currentPage = page;
-
     this.sidebarOpen = false;
-
     this.profileMenuOpen = false;
   }
 
-  // ==================================================
-  // SHOW WARDROBE
-  // ==================================================
-
-  showWardrobe() {
+  showWardrobe(): void {
     this.currentPage = 'wardrobe';
-
     this.sidebarOpen = false;
   }
 
-  // ==================================================
-  // SHOW ADD CLOTHING
-  // ==================================================
-
-  showAddClothing() {
+  showAddClothing(): void {
     this.currentPage = 'add-clothing';
+    this.sidebarOpen = false;
   }
 
-  // ==================================================
-  // SHOW CLOTHING DETAILS
-  // ==================================================
+  showOutfits(): void {
+    this.currentPage = 'outfits';
+    this.sidebarOpen = false;
+  }
 
-  showClothingDetails(clothing: any) {
-    this.selectedClothing = {
-      ...clothing,
-    };
+  showFavorites(): void {
+    this.currentPage = 'favorites';
+    this.sidebarOpen = false;
+  }
 
+  showExplore(): void {
+    this.currentPage = 'explore';
+    this.sidebarOpen = false;
+  }
+
+  showProfile(): void {
+    this.currentPage = 'profile';
+    this.sidebarOpen = false;
+    this.profileMenuOpen = false;
+  }
+
+  // -----------------------------
+  // CLOTHING DETAILS
+  // -----------------------------
+
+  showClothingDetails(clothing: any): void {
+    if (!clothing) return;
+
+    this.selectedClothing = { ...clothing };
     this.currentPage = 'clothing-details';
   }
 
-  // ==================================================
-  // SHOW EDIT CLOTHING
-  // ==================================================
+  showEditClothing(clothing: any): void {
+    if (!clothing) return;
 
-  showEditClothing(clothing: any) {
-    this.selectedClothing = {
-      ...clothing,
-    };
-
+    this.selectedClothing = { ...clothing };
     this.currentPage = 'edit-clothing';
   }
 
-  // ==================================================
-  // SAVE NEW CLOTHING
-  // ==================================================
+  // -----------------------------
+  // ADD CLOTHING
+  // -----------------------------
 
-  saveNewClothing(clothing: any) {
+  saveNewClothing(clothing: any): void {
+    if (!clothing) return;
+
     const newItem = {
       ...clothing,
-
       id: Date.now(),
     };
 
@@ -360,53 +311,55 @@ export class App {
 
     this.currentPage = 'wardrobe';
 
-    this.showNotification(
-      'Clothing added to your wardrobe.',
-
-      'success',
-    );
+    this.showNotification('Clothing added to your wardrobe.', 'success');
   }
 
-  // ==================================================
-  // SAVE EDITED CLOTHING
-  // ==================================================
+  backFromAddClothing(): void {
+    this.currentPage = 'wardrobe';
+  }
 
-  saveEditedClothing(updatedClothing: any) {
-    const updatedItem = {
+  // -----------------------------
+  // EDIT CLOTHING
+  // -----------------------------
+
+  saveEditedClothing(updatedClothing: any): void {
+    if (!updatedClothing) return;
+
+    const index = this.clothingItems.findIndex((item) => item.id === updatedClothing.id);
+
+    if (index === -1) return;
+
+    const updatedItems = [...this.clothingItems];
+
+    updatedItems[index] = {
       ...updatedClothing,
     };
 
-    const index = this.clothingItems.findIndex((item) => item.id === updatedItem.id);
-
-    if (index !== -1) {
-      const updatedItems = [...this.clothingItems];
-
-      updatedItems[index] = updatedItem;
-
-      this.clothingItems = updatedItems;
-    }
+    this.clothingItems = updatedItems;
 
     this.selectedClothing = {
-      ...updatedItem,
+      ...updatedClothing,
     };
 
     this.currentPage = 'clothing-details';
 
-    this.showNotification(
-      'Clothing updated successfully.',
-
-      'success',
-    );
+    this.showNotification('Clothing updated successfully.', 'success');
   }
 
-  // ==================================================
-  // DELETE CLOTHING
-  // ==================================================
-
-  deleteClothing(clothing: any) {
-    if (!clothing) {
-      return;
+  backFromEdit(): void {
+    if (this.selectedClothing) {
+      this.currentPage = 'clothing-details';
+    } else {
+      this.currentPage = 'wardrobe';
     }
+  }
+
+  // -----------------------------
+  // DELETE CLOTHING
+  // -----------------------------
+
+  deleteClothing(clothing: any): void {
+    if (!clothing) return;
 
     const clothingName = clothing.name || 'Clothing item';
 
@@ -422,140 +375,94 @@ export class App {
 
     this.currentPage = 'wardrobe';
 
-    this.showNotification(
-      `"${clothingName}" was removed from your wardrobe.`,
-
-      'success',
-    );
+    this.showNotification(`"${clothingName}" was removed from your wardrobe.`, 'success');
   }
 
-  // ==================================================
-  // TOGGLE FAVORITE
-  // ==================================================
+  // -----------------------------
+  // FAVORITES
+  // -----------------------------
 
-  toggleFavorite(clothing: any) {
-    if (!clothing) {
-      return;
-    }
+  toggleFavorite(clothing: any): void {
+    if (!clothing) return;
 
     const id = clothing.id;
 
     if (this.favoriteItems.includes(id)) {
       this.favoriteItems = this.favoriteItems.filter((item) => item !== id);
 
-      this.showNotification(
-        'Removed from favorites.',
-
-        'info',
-      );
+      this.showNotification('Removed from favorites.', 'info');
     } else {
       this.favoriteItems = [...this.favoriteItems, id];
 
-      this.showNotification(
-        'Added to favorites.',
-
-        'success',
-      );
+      this.showNotification('Added to favorites.', 'success');
     }
   }
 
-  // ==================================================
-  // CHECK FAVORITE
-  // ==================================================
-
   isFavorite(clothing: any): boolean {
-    if (!clothing) {
-      return false;
-    }
+    if (!clothing) return false;
 
     return this.favoriteItems.includes(clothing.id);
   }
 
-  // ==================================================
-  // SHOW FAVORITES
-  // ==================================================
-
-  showFavorites() {
-    this.currentPage = 'favorites';
-
-    this.sidebarOpen = false;
+  getFavoriteCount(): number {
+    return this.favoriteItems.length;
   }
 
-  // ==================================================
-  // SHOW OUTFITS
-  // ==================================================
-
-  showOutfits() {
-    this.currentPage = 'outfits';
-
-    this.sidebarOpen = false;
+  getFavoriteItems(): any[] {
+    return this.clothingItems.filter((clothing) => this.favoriteItems.includes(clothing.id));
   }
 
-  // ==================================================
-  // SHOW EXPLORE
-  // ==================================================
+  // -----------------------------
+  // CLOTHING COUNTS
+  // -----------------------------
 
-  showExplore() {
-    this.currentPage = 'explore';
-
-    this.sidebarOpen = false;
+  getClothingCount(): number {
+    return this.clothingItems.length;
   }
 
-  // ==================================================
-  // SHOW PROFILE
-  // ==================================================
-
-  showProfile() {
-    this.currentPage = 'profile';
-
-    this.profileMenuOpen = false;
+  getCategories(): string[] {
+    return ['Tops', 'Bottoms', 'Dresses', 'Shoes', 'Accessories'];
   }
 
-  // ==================================================
-  // TOGGLE PROFILE MENU
-  // ==================================================
-
-  toggleProfileMenu() {
-    this.profileMenuOpen = !this.profileMenuOpen;
+  getCategoryCount(category: string): number {
+    return this.clothingItems.filter((clothing) => clothing.category === category).length;
   }
 
-  // ==================================================
-  // TOGGLE SIDEBAR
-  // ==================================================
+  // -----------------------------
+  // SIDEBAR / PROFILE
+  // -----------------------------
 
-  toggleSidebar() {
+  toggleSidebar(): void {
     this.sidebarOpen = !this.sidebarOpen;
   }
 
-  // ==================================================
-  // CLOSE SIDEBAR
-  // ==================================================
-
-  closeSidebar() {
+  closeSidebar(): void {
     this.sidebarOpen = false;
   }
 
-  // ==================================================
-  // GLOBAL SEARCH
-  // ==================================================
+  toggleProfileMenu(): void {
+    this.profileMenuOpen = !this.profileMenuOpen;
+  }
 
-  updateGlobalSearch(searchText: string) {
+  closeProfileMenu(): void {
+    this.profileMenuOpen = false;
+  }
+
+  // -----------------------------
+  // SEARCH
+  // -----------------------------
+
+  updateGlobalSearch(searchText: string): void {
     this.globalSearchText = searchText;
   }
 
-  // ==================================================
-  // NOTIFICATION
-  // ==================================================
+  // -----------------------------
+  // NOTIFICATIONS
+  // -----------------------------
 
-  showNotification(
-    message: string,
-
-    type: 'success' | 'info' | 'error' = 'success',
-  ) {
+  showNotification(message: string, type: 'success' | 'info' | 'error' = 'success'): void {
     this.notificationMessage = message;
-
     this.notificationType = type;
-
     this.notificationVisible = true;
 
     setTimeout(() => {
@@ -563,35 +470,16 @@ export class App {
     }, 3500);
   }
 
-  // ==================================================
-  // CLOSE NOTIFICATION
-  // ==================================================
-
-  closeNotification() {
+  closeNotification(): void {
     this.notificationVisible = false;
   }
 
-  // ==================================================
-  // BACK FROM ADD CLOTHING
-  // ==================================================
+  // -----------------------------
+  // DETAILS PAGE
+  // -----------------------------
 
-  backFromAddClothing() {
+  backFromDetails(): void {
     this.currentPage = 'wardrobe';
-  }
-
-  // ==================================================
-  // BACK FROM DETAILS
-  // ==================================================
-
-  backFromDetails() {
-    this.currentPage = 'wardrobe';
-  }
-
-  // ==================================================
-  // BACK FROM EDIT
-  // ==================================================
-
-  backFromEdit() {
-    this.currentPage = 'clothing-details';
+    this.selectedClothing = null;
   }
 }

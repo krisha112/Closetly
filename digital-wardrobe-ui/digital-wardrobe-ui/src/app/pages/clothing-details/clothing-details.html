@@ -1,115 +1,295 @@
 <div class="details-page">
-  <!-- ================= HEADER ================= -->
+  <!-- Decorative background -->
+  <div class="details-glow details-glow-one"></div>
+  <div class="details-glow details-glow-two"></div>
 
-  <div class="details-header">
-    <button type="button" class="back-button" (click)="goBack()">← Back to Wardrobe</button>
+  <!-- Header -->
+  <header class="details-header">
+    <button type="button" class="back-button" (click)="goBack()">
+      <span class="back-arrow">←</span>
+      <span>Back to Wardrobe</span>
+    </button>
 
-    <span class="page-label"> CLOTHING DETAILS </span>
-  </div>
+    <div class="header-center">
+      <span class="eyebrow">YOUR DIGITAL WARDROBE</span>
+      <h1>Piece Details</h1>
+    </div>
 
-  <!-- ================= MAIN CONTENT ================= -->
+    <div class="header-right">
+      <span class="collection-label">CLOSETLY</span>
+    </div>
+  </header>
 
   @if (clothing) {
-    <div class="details-container">
-      <!-- ================= IMAGE ================= -->
+    <!-- Main -->
+    <main class="details-content">
+      <!-- Breadcrumb -->
+      <div class="breadcrumb">
+        <span>Wardrobe</span>
+        <span class="breadcrumb-separator">/</span>
+        <span>{{ clothing.category }}</span>
+        <span class="breadcrumb-separator">/</span>
+        <strong>{{ clothing.name }}</strong>
+      </div>
 
-      <div class="image-section">
-        <div class="image-card">
-          @if (clothing.image) {
-            <img [src]="clothing.image" [alt]="clothing.name" />
-          }
+      <!-- Product Layout -->
+      <section class="product-layout">
+        <!-- ==========================================
+             IMAGE
+             ========================================== -->
+        <div class="image-column">
+          <div class="image-frame">
+            @if (clothing.image && !imageError) {
+              <img
+                [src]="clothing.image"
+                [alt]="clothing.name"
+                class="clothing-image"
+                [class.loaded]="imageLoaded"
+                (load)="onImageLoad()"
+                (error)="onImageError()"
+              />
+            } @else {
+              <div class="image-placeholder">
+                <div class="placeholder-circle">
+                  {{ getInitials() }}
+                </div>
 
-          @if (!clothing.image) {
-            <div class="image-placeholder">
-              <span>
-                {{ clothing.name }}
+                <span>No image available</span>
+              </div>
+            }
+
+            <div class="image-badge">
+              <span>WARDROBE PIECE</span>
+            </div>
+          </div>
+
+          <!-- Image caption -->
+          <div class="image-caption">
+            <span class="caption-line"></span>
+
+            <p>A piece from your personal collection.</p>
+
+            <span class="caption-line"></span>
+          </div>
+        </div>
+
+        <!-- ==========================================
+             INFORMATION
+             ========================================== -->
+        <div class="information-column">
+          <!-- Title -->
+          <div class="piece-heading">
+            <span class="category-label">
+              {{ clothing.category }}
+            </span>
+
+            <h2>
+              {{ clothing.name }}
+            </h2>
+
+            @if (clothing.brand) {
+              <p class="brand-name">
+                {{ clothing.brand }}
+              </p>
+            }
+          </div>
+
+          <!-- Quick tags -->
+          <div class="quick-tags">
+            <span class="tag">
+              {{ getDisplayValue(clothing.color) }}
+            </span>
+
+            <span class="tag">
+              {{ getDisplayValue(clothing.size) }}
+            </span>
+
+            <span class="tag">
+              {{ getDisplayValue(clothing.season) }}
+            </span>
+
+            <span class="tag">
+              {{ getDisplayValue(clothing.occasion) }}
+            </span>
+          </div>
+
+          <!-- Divider -->
+          <div class="soft-divider"></div>
+
+          <!-- Details grid -->
+          <div class="details-grid">
+            <div class="detail-item">
+              <span class="detail-label"> CATEGORY </span>
+
+              <span class="detail-value">
+                {{ getDisplayValue(clothing.category) }}
               </span>
             </div>
-          }
+
+            <div class="detail-item">
+              <span class="detail-label"> COLOUR </span>
+
+              <span class="detail-value">
+                <span
+                  class="colour-dot"
+                  [style.background]="
+                    clothing.color?.toLowerCase() === 'white'
+                      ? '#f4eee6'
+                      : clothing.color?.toLowerCase() === 'black'
+                        ? '#302a26'
+                        : clothing.color?.toLowerCase() === 'brown'
+                          ? '#76543d'
+                          : clothing.color?.toLowerCase() === 'beige'
+                            ? '#cdb89d'
+                            : clothing.color?.toLowerCase() === 'cream'
+                              ? '#eee2cc'
+                              : clothing.color?.toLowerCase() === 'blue'
+                                ? '#6d8297'
+                                : clothing.color?.toLowerCase() === 'green'
+                                  ? '#68765b'
+                                  : clothing.color?.toLowerCase() === 'olive'
+                                    ? '#77745b'
+                                    : clothing.color?.toLowerCase() === 'mauve'
+                                      ? '#927071'
+                                      : clothing.color?.toLowerCase() === 'pink'
+                                        ? '#d69da9'
+                                        : clothing.color?.toLowerCase() === 'red'
+                                          ? '#9b5752'
+                                          : clothing.color?.toLowerCase() === 'grey'
+                                            ? '#92908b'
+                                            : clothing.color?.toLowerCase() === 'yellow'
+                                              ? '#d1b45d'
+                                              : '#a08670'
+                  "
+                ></span>
+
+                {{ getDisplayValue(clothing.color) }}
+              </span>
+            </div>
+
+            <div class="detail-item">
+              <span class="detail-label"> BRAND </span>
+
+              <span class="detail-value">
+                {{ getDisplayValue(clothing.brand) }}
+              </span>
+            </div>
+
+            <div class="detail-item">
+              <span class="detail-label"> SIZE </span>
+
+              <span class="detail-value">
+                {{ getDisplayValue(clothing.size) }}
+              </span>
+            </div>
+
+            <div class="detail-item">
+              <span class="detail-label"> SEASON </span>
+
+              <span class="detail-value">
+                {{ getDisplayValue(clothing.season) }}
+              </span>
+            </div>
+
+            <div class="detail-item">
+              <span class="detail-label"> OCCASION </span>
+
+              <span class="detail-value">
+                {{ getDisplayValue(clothing.occasion) }}
+              </span>
+            </div>
+          </div>
+
+          <!-- Notes -->
+          <div class="notes-section">
+            <span class="detail-label"> NOTES </span>
+
+            @if (clothing.notes) {
+              <p>
+                {{ clothing.notes }}
+              </p>
+            } @else {
+              <p class="empty-notes">No notes have been added for this piece yet.</p>
+            }
+          </div>
+
+          <!-- Actions -->
+          <div class="action-section">
+            <button type="button" class="edit-button" (click)="edit()">
+              <span class="button-icon">✦</span>
+              <span>Edit piece</span>
+              <span class="button-arrow">→</span>
+            </button>
+
+            <button type="button" class="delete-button" (click)="openDeleteModal()">
+              <span>Delete from wardrobe</span>
+            </button>
+          </div>
         </div>
-      </div>
+      </section>
 
-      <!-- ================= INFORMATION ================= -->
+      <!-- Bottom Quote -->
+      <section class="details-footer">
+        <span class="footer-mark">✧</span>
 
-      <div class="info-section">
-        <p class="category">
-          {{ clothing.category || 'UNCATEGORIZED' }}
-        </p>
+        <p>“Style is not about having more. It is about knowing what you have.”</p>
 
-        <h1>
-          {{ clothing.name }}
-        </h1>
+        <span class="footer-mark">✧</span>
+      </section>
+    </main>
 
-        @if (clothing.notes) {
-          <p class="description">
-            {{ clothing.notes }}
+    <!-- ==========================================
+         DELETE MODAL
+         ========================================== -->
+
+    @if (showDeleteModal) {
+      <div class="modal-backdrop" (click)="closeDeleteModal()">
+        <div class="delete-modal" (click)="$event.stopPropagation()">
+          <button type="button" class="modal-close" (click)="closeDeleteModal()" aria-label="Close">
+            ×
+          </button>
+
+          <div class="modal-icon">!</div>
+
+          <span class="modal-eyebrow"> REMOVE PIECE </span>
+
+          <h3>
+            Remove this from<br />
+            your wardrobe?
+          </h3>
+
+          <p>
+            <strong>{{ clothing.name }}</strong> will be removed from your digital wardrobe. This
+            action cannot be undone.
           </p>
-        }
 
-        <!-- ================= DETAILS ================= -->
+          <div class="modal-actions">
+            <button type="button" class="cancel-button" (click)="closeDeleteModal()">
+              Keep it
+            </button>
 
-        <div class="details-grid">
-          <div class="detail-item">
-            <span> Color </span>
-
-            <strong>
-              {{ clothing.color || 'Not specified' }}
-            </strong>
+            <button type="button" class="confirm-delete-button" (click)="confirmDelete()">
+              Remove piece
+            </button>
           </div>
-
-          <div class="detail-item">
-            <span> Brand </span>
-
-            <strong>
-              {{ clothing.brand || 'Not specified' }}
-            </strong>
-          </div>
-
-          <div class="detail-item">
-            <span> Size </span>
-
-            <strong>
-              {{ clothing.size || 'Not specified' }}
-            </strong>
-          </div>
-
-          <div class="detail-item">
-            <span> Season </span>
-
-            <strong>
-              {{ clothing.season || 'Not specified' }}
-            </strong>
-          </div>
-
-          <div class="detail-item">
-            <span> Occasion </span>
-
-            <strong>
-              {{ clothing.occasion || 'Not specified' }}
-            </strong>
-          </div>
-        </div>
-
-        <!-- ================= ACTIONS ================= -->
-
-        <div class="action-buttons">
-          <button type="button" class="edit-button" (click)="openEdit()">Edit Clothing</button>
-
-          <button type="button" class="delete-button" (click)="deleteClothing()">Delete</button>
         </div>
       </div>
-    </div>
-  }
+    }
+  } @else {
+    <!-- No clothing selected -->
+    <main class="no-piece">
+      <div class="no-piece-icon">♧</div>
 
-  <!-- ================= NO CLOTHING ================= -->
+      <span class="eyebrow"> DIGITAL WARDROBE </span>
 
-  @if (!clothing) {
-    <div class="empty-details">
-      <h2>No clothing selected</h2>
+      <h2>No clothing piece selected</h2>
 
-      <p>Please return to your wardrobe and select a clothing item.</p>
+      <p>Choose a piece from your wardrobe to see its details.</p>
 
-      <button type="button" class="back-button" (click)="goBack()">← Back to Wardrobe</button>
-    </div>
+      <button type="button" class="return-button" (click)="goBack()">
+        Return to wardrobe
+        <span>→</span>
+      </button>
+    </main>
   }
 </div>

@@ -1331,8 +1331,30 @@ toolbar = column 3
 @media (max-width: 380px) {
 
   .cl-nav-link {
-    font-size: 10px;
-  }
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  padding: 8px 10px;
+
+  border-radius: 9px;
+
+  /* Remove browser default button styling */
+  border: none;
+  background: transparent;
+  box-shadow: none;
+
+  color: var(--text-muted);
+
+  text-decoration: none;
+
+  font-family: inherit;
+  font-size: 14px;
+
+  cursor: pointer;
+
+  transition: 0.2s ease;
+}
 
   .cl-nav-icon {
     width: 14px;

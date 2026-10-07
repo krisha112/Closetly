@@ -1,0 +1,168 @@
+
+.wardrobe-page {
+  padding: 32px;
+  min-height: 100vh;
+  background: #fff9f3;
+  color: #443223;
+}
+
+.wardrobe-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 28px;
+}
+
+.wardrobe-header h1 {
+  font-size: 30px;
+  margin: 0 0 8px;
+  color: #443223;
+}
+
+.wardrobe-header p {
+  margin: 0;
+  color: #7c7960;
+}
+
+.wardrobe-count {
+  background: #dbc4a5;
+  color: #443223;
+  padding: 10px 18px;
+  border-radius: 20px;
+  font-weight: 600;
+}
+
+.wardrobe-controls {
+  margin-bottom: 30px;
+}
+
+.wardrobe-search {
+  width: 100%;
+  padding: 14px 18px;
+  border: 1px solid #dbc4a5;
+  border-radius: 12px;
+  font-size: 15px;
+  outline: none;
+  box-sizing: border-box;
+  margin-bottom: 16px;
+  background: white;
+}
+
+.wardrobe-search:focus {
+  border-color: #72583e;
+}
+
+.wardrobe-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.wardrobe-filters select {
+  padding: 11px 14px;
+  border: 1px solid #dbc4a5;
+  border-radius: 10px;
+  background: white;
+  color: #443223;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.clear-filters,
+.wardrobe-empty button {
+  padding: 11px 18px;
+  border: none;
+  border-radius: 10px;
+  background: #72583e;
+  color: white;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.clear-filters:hover,
+.wardrobe-empty button:hover {
+  background: #443223;
+}
+
+.wardrobe-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: 24px;
+}
+
+.wardrobe-card {
+  background: white;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 3px 12px rgba(68, 50, 35, 0.08);
+  transition: transform 0.2s ease;
+}
+
+.wardrobe-card:hover {
+  transform: translateY(-4px);
+}
+
+.wardrobe-card img {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  display: block;
+}
+
+.wardrobe-card-info {
+  padding: 16px;
+}
+
+.wardrobe-card-info h3 {
+  margin: 0 0 8px;
+  font-size: 17px;
+}
+
+.wardrobe-card-info p {
+  margin: 0 0 10px;
+  color: #7c7960;
+  font-size: 14px;
+}
+
+.wardrobe-card-info span {
+  display: inline-block;
+  padding: 5px 10px;
+  background: #f1e7da;
+  border-radius: 12px;
+  font-size: 12px;
+}
+
+.wardrobe-empty {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 60px 20px;
+  color: #7c7960;
+}
+
+.wardrobe-empty h3 {
+  color: #443223;
+}
+
+@media (max-width: 600px) {
+  .wardrobe-page {
+    padding: 20px;
+  }
+
+  .wardrobe-header {
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .wardrobe-header h1 {
+    font-size: 24px;
+  }
+
+  .wardrobe-filters {
+    flex-direction: column;
+  }
+
+  .wardrobe-filters select,
+  .clear-filters {
+    width: 100%;
+  }
+}

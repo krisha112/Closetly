@@ -1,0 +1,115 @@
+<div class="details-page">
+  <!-- ================= HEADER ================= -->
+
+  <div class="details-header">
+    <button type="button" class="back-button" (click)="goBack()">← Back to Wardrobe</button>
+
+    <span class="page-label"> CLOTHING DETAILS </span>
+  </div>
+
+  <!-- ================= MAIN CONTENT ================= -->
+
+  @if (clothing) {
+    <div class="details-container">
+      <!-- ================= IMAGE ================= -->
+
+      <div class="image-section">
+        <div class="image-card">
+          @if (clothing.image) {
+            <img [src]="clothing.image" [alt]="clothing.name" />
+          }
+
+          @if (!clothing.image) {
+            <div class="image-placeholder">
+              <span>
+                {{ clothing.name }}
+              </span>
+            </div>
+          }
+        </div>
+      </div>
+
+      <!-- ================= INFORMATION ================= -->
+
+      <div class="info-section">
+        <p class="category">
+          {{ clothing.category || 'UNCATEGORIZED' }}
+        </p>
+
+        <h1>
+          {{ clothing.name }}
+        </h1>
+
+        @if (clothing.notes) {
+          <p class="description">
+            {{ clothing.notes }}
+          </p>
+        }
+
+        <!-- ================= DETAILS ================= -->
+
+        <div class="details-grid">
+          <div class="detail-item">
+            <span> Color </span>
+
+            <strong>
+              {{ clothing.color || 'Not specified' }}
+            </strong>
+          </div>
+
+          <div class="detail-item">
+            <span> Brand </span>
+
+            <strong>
+              {{ clothing.brand || 'Not specified' }}
+            </strong>
+          </div>
+
+          <div class="detail-item">
+            <span> Size </span>
+
+            <strong>
+              {{ clothing.size || 'Not specified' }}
+            </strong>
+          </div>
+
+          <div class="detail-item">
+            <span> Season </span>
+
+            <strong>
+              {{ clothing.season || 'Not specified' }}
+            </strong>
+          </div>
+
+          <div class="detail-item">
+            <span> Occasion </span>
+
+            <strong>
+              {{ clothing.occasion || 'Not specified' }}
+            </strong>
+          </div>
+        </div>
+
+        <!-- ================= ACTIONS ================= -->
+
+        <div class="action-buttons">
+          <button type="button" class="edit-button" (click)="openEdit()">Edit Clothing</button>
+
+          <button type="button" class="delete-button" (click)="deleteClothing()">Delete</button>
+        </div>
+      </div>
+    </div>
+  }
+
+  <!-- ================= NO CLOTHING ================= -->
+
+  @if (!clothing) {
+    <div class="empty-details">
+      <h2>No clothing selected</h2>
+
+      <p>Please return to your wardrobe and select a clothing item.</p>
+
+      <button type="button" class="back-button" (click)="goBack()">← Back to Wardrobe</button>
+    </div>
+  }
+</div>

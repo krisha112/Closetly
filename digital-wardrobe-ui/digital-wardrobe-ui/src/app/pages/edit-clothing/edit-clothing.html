@@ -1,0 +1,161 @@
+<div class="edit-page">
+  <!-- ================= HEADER ================= -->
+
+  <div class="edit-header">
+    <button type="button" class="back-button" (click)="goBack()">← Back to Details</button>
+
+    <span class="page-label"> EDIT CLOTHING </span>
+  </div>
+
+  <!-- ================= FORM ================= -->
+
+  <div class="edit-container">
+    <!-- ================= HEADING ================= -->
+
+    <div class="form-heading">
+      <span class="eyebrow"> UPDATE YOUR PIECE </span>
+
+      <h1>Edit Clothing</h1>
+
+      <p>Update the details of your wardrobe piece.</p>
+    </div>
+
+    <!-- ================= EDIT FORM ================= -->
+
+    <div class="edit-form">
+      <!-- CLOTHING NAME -->
+
+      <div class="form-group">
+        <label> Clothing Name </label>
+
+        <input type="text" [(ngModel)]="editedClothing.name" placeholder="Enter clothing name" />
+      </div>
+
+      <!-- CATEGORY + COLOR -->
+
+      <div class="form-row">
+        <div class="form-group">
+          <label> Category </label>
+
+          <select [(ngModel)]="editedClothing.category">
+            <option value="">Select category</option>
+
+            <option value="Tops">Tops</option>
+
+            <option value="Bottoms">Bottoms</option>
+
+            <option value="Dresses">Dresses</option>
+
+            <option value="Shoes">Shoes</option>
+
+            <option value="Accessories">Accessories</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label> Color </label>
+
+          <input type="text" [(ngModel)]="editedClothing.color" placeholder="e.g. White" />
+        </div>
+      </div>
+
+      <!-- BRAND + SIZE -->
+
+      <div class="form-row">
+        <div class="form-group">
+          <label> Brand </label>
+
+          <input type="text" [(ngModel)]="editedClothing.brand" placeholder="e.g. Zara" />
+        </div>
+
+        <div class="form-group">
+          <label> Size </label>
+
+          <select [(ngModel)]="editedClothing.size">
+            <option value="">Select size</option>
+
+            <option value="XS">XS</option>
+
+            <option value="S">S</option>
+
+            <option value="M">M</option>
+
+            <option value="L">L</option>
+
+            <option value="XL">XL</option>
+
+            <option value="XXL">XXL</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- SEASON + OCCASION -->
+
+      <div class="form-row">
+        <div class="form-group">
+          <label> Season </label>
+
+          <select [(ngModel)]="editedClothing.season">
+            <option value="">Select season</option>
+
+            <option value="Summer">Summer</option>
+
+            <option value="Winter">Winter</option>
+
+            <option value="Spring">Spring</option>
+
+            <option value="Autumn">Autumn</option>
+
+            <option value="All Season">All Season</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label> Occasion </label>
+
+          <select [(ngModel)]="editedClothing.occasion">
+            <option value="">Select occasion</option>
+
+            <option value="Casual">Casual</option>
+
+            <option value="Everyday">Everyday</option>
+
+            <option value="Formal">Formal</option>
+
+            <option value="Party">Party</option>
+
+            <option value="College">College</option>
+
+            <option value="Evening">Evening</option>
+
+            <option value="Work">Work</option>
+
+            <option value="Travel">Travel</option>
+
+            <option value="Sports">Sports</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- NOTES -->
+
+      <div class="form-group">
+        <label> Notes </label>
+
+        <textarea
+          [(ngModel)]="editedClothing.notes"
+          rows="5"
+          placeholder="Add some notes about this clothing..."
+        ></textarea>
+      </div>
+
+      <!-- ================= BUTTONS ================= -->
+
+      <div class="form-actions">
+        <button type="button" class="cancel-button" (click)="goBack()">Cancel</button>
+
+        <button type="button" class="save-button" (click)="saveChanges()">Save Changes</button>
+      </div>
+    </div>
+  </div>
+</div>

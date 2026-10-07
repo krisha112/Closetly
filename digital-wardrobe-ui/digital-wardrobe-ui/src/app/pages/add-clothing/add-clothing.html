@@ -1,0 +1,293 @@
+<div class="add-page">
+  <!-- ================= NOTIFICATION ================= -->
+
+  @if (messageVisible) {
+    <div
+      class="form-notification"
+      [class.success]="messageType === 'success'"
+      [class.error]="messageType === 'error'"
+      [class.info]="messageType === 'info'"
+    >
+      <div class="notification-icon">
+        @if (messageType === 'success') {
+          ✓
+        }
+
+        @if (messageType === 'error') {
+          !
+        }
+
+        @if (messageType === 'info') {
+          i
+        }
+      </div>
+
+      <div class="notification-content">
+        <strong>
+          @if (messageType === 'success') {
+            All set
+          }
+
+          @if (messageType === 'error') {
+            Almost there
+          }
+
+          @if (messageType === 'info') {
+            Just so you know
+          }
+        </strong>
+
+        <p>{{ messageText }}</p>
+      </div>
+
+      <button
+        type="button"
+        class="notification-close"
+        (click)="closeMessage()"
+        aria-label="Close notification"
+      >
+        ×
+      </button>
+    </div>
+  }
+
+  <!-- ================= HEADER ================= -->
+
+  <div class="form-header">
+    <div>
+      <span class="eyebrow"> YOUR COLLECTION </span>
+
+      <h1>Add a new piece<span>.</span></h1>
+
+      <p>Give your wardrobe something new to remember.</p>
+    </div>
+
+    <button type="button" class="back-button" (click)="goBack()">← Back to wardrobe</button>
+  </div>
+
+  <!-- ================= FORM CARD ================= -->
+
+  <div class="form-card">
+    <!-- ================= SECTION 01 ================= -->
+
+    <div class="form-section">
+      <div class="section-heading">
+        <span class="number"> 01 </span>
+
+        <div>
+          <h2>Basic details</h2>
+
+          <p>Tell us a little about this piece.</p>
+        </div>
+      </div>
+
+      <div class="form-grid">
+        <!-- CLOTHING NAME -->
+
+        <div class="form-group full">
+          <label> Clothing name </label>
+
+          <input type="text" placeholder="e.g. Classic White Shirt" [(ngModel)]="clothing.name" />
+        </div>
+
+        <!-- CATEGORY -->
+
+        <div class="form-group">
+          <label> Category </label>
+
+          <select [(ngModel)]="clothing.category">
+            <option value="">Select category</option>
+
+            <option value="Tops">Tops</option>
+
+            <option value="Bottoms">Bottoms</option>
+
+            <option value="Dresses">Dresses</option>
+
+            <option value="Shoes">Shoes</option>
+
+            <option value="Accessories">Accessories</option>
+          </select>
+        </div>
+
+        <!-- COLOR -->
+
+        <div class="form-group">
+          <label> Color </label>
+
+          <input type="text" placeholder="e.g. Deep Olive" [(ngModel)]="clothing.color" />
+        </div>
+
+        <!-- BRAND -->
+
+        <div class="form-group">
+          <label> Brand </label>
+
+          <input type="text" placeholder="e.g. Zara" [(ngModel)]="clothing.brand" />
+        </div>
+
+        <!-- SIZE -->
+
+        <div class="form-group">
+          <label> Size </label>
+
+          <select [(ngModel)]="clothing.size">
+            <option value="">Select size</option>
+
+            <option value="XS">XS</option>
+
+            <option value="S">S</option>
+
+            <option value="M">M</option>
+
+            <option value="L">L</option>
+
+            <option value="XL">XL</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-divider"></div>
+
+    <!-- ================= SECTION 02 ================= -->
+
+    <div class="form-section">
+      <div class="section-heading">
+        <span class="number"> 02 </span>
+
+        <div>
+          <h2>Style & occasion</h2>
+
+          <p>Help Closetly understand when you wear it.</p>
+        </div>
+      </div>
+
+      <div class="form-grid">
+        <!-- SEASON -->
+
+        <div class="form-group">
+          <label> Season </label>
+
+          <select [(ngModel)]="clothing.season">
+            <option value="">Select season</option>
+
+            <option value="Summer">Summer</option>
+
+            <option value="Winter">Winter</option>
+
+            <option value="Spring">Spring</option>
+
+            <option value="Autumn">Autumn</option>
+
+            <option value="All Season">All Season</option>
+          </select>
+        </div>
+
+        <!-- OCCASION -->
+
+        <div class="form-group">
+          <label> Occasion </label>
+
+          <select [(ngModel)]="clothing.occasion">
+            <option value="">Select occasion</option>
+
+            <option value="Casual">Casual</option>
+
+            <option value="Formal">Formal</option>
+
+            <option value="Party">Party</option>
+
+            <option value="College">College</option>
+
+            <option value="Work">Work</option>
+
+            <option value="Travel">Travel</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-divider"></div>
+
+    <!-- ================= SECTION 03 ================= -->
+
+    <div class="form-section">
+      <div class="section-heading">
+        <span class="number"> 03 </span>
+
+        <div>
+          <h2>Visual & notes</h2>
+
+          <p>Add an image and anything else worth remembering.</p>
+        </div>
+      </div>
+
+      <!-- ================= IMAGE UPLOAD ================= -->
+
+      <div class="upload-area">
+        <div class="upload-icon">+</div>
+
+        <h3>Upload clothing image</h3>
+
+        <p>Drag and drop your image here or browse your computer.</p>
+
+        <!-- HIDDEN FILE INPUT -->
+
+        <input
+          type="file"
+          id="clothingImage"
+          accept="image/*"
+          (change)="onImageSelected($event)"
+          hidden
+        />
+
+        <!-- CHOOSE IMAGE -->
+
+        @if (!imagePreview) {
+          <label for="clothingImage" class="browse-button"> Choose image </label>
+        }
+
+        <!-- IMAGE PREVIEW -->
+
+        @if (imagePreview) {
+          <div class="image-preview">
+            <img [src]="imagePreview" alt="Selected clothing preview" />
+
+            <div class="preview-info">
+              <p>Image selected successfully</p>
+
+              <button type="button" class="remove-image-button" (click)="removeImage()">
+                Remove image
+              </button>
+            </div>
+          </div>
+        }
+      </div>
+
+      <!-- ================= NOTES ================= -->
+
+      <div class="form-group notes">
+        <label> Notes </label>
+
+        <textarea
+          rows="4"
+          placeholder="Anything you'd like to remember about this piece..."
+          [(ngModel)]="clothing.notes"
+        ></textarea>
+      </div>
+    </div>
+
+    <!-- ================= FOOTER ================= -->
+
+    <div class="form-footer">
+      <button type="button" class="cancel-button" (click)="goBack()">Cancel</button>
+
+      <button type="button" class="save-button" (click)="saveClothing()">
+        Save to wardrobe
+
+        <span> → </span>
+      </button>
+    </div>
+  </div>
+</div>

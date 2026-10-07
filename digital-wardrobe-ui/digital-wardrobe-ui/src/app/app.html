@@ -1,0 +1,256 @@
+<div class="app-shell">
+  <main class="app-content">
+    <!-- =========================
+         WARDROBE
+    ========================== -->
+
+    @if (currentPage === 'wardrobe') {
+      <app-digital-wardrobe
+        [clothingItems]="clothingItems"
+        [deletedClothing]="deletedClothing"
+        (addClothing)="showAddClothing()"
+        (clothingDetails)="showClothingDetails($event)"
+        (deleteClothing)="deleteClothing($event)"
+      >
+      </app-digital-wardrobe>
+    }
+
+    <!-- =========================
+         ADD CLOTHING
+    ========================== -->
+
+    @if (currentPage === 'add-clothing') {
+      <app-add-clothing
+        (backToWardrobe)="backFromAddClothing()"
+        (clothingSaved)="saveNewClothing($event)"
+      >
+      </app-add-clothing>
+    }
+
+    <!-- =========================
+         CLOTHING DETAILS
+    ========================== -->
+
+    @if (currentPage === 'clothing-details') {
+      <app-clothing-details
+        [clothing]="selectedClothing"
+        (backToWardrobe)="backFromDetails()"
+        (editClothing)="showEditClothing($event)"
+        (deleteClothingEvent)="deleteClothing($event)"
+      >
+      </app-clothing-details>
+    }
+
+    <!-- =========================
+         EDIT CLOTHING
+    ========================== -->
+
+    @if (currentPage === 'edit-clothing') {
+      <app-edit-clothing
+        [clothing]="selectedClothing"
+        (backToDetails)="backFromEdit()"
+        (clothingUpdated)="saveEditedClothing($event)"
+      >
+      </app-edit-clothing>
+    }
+
+    <!-- =========================
+         OUTFITS
+    ========================== -->
+
+    @if (currentPage === 'outfits') {
+      <section class="placeholder-page outfits-page">
+        <div class="placeholder-content">
+          <span class="placeholder-eyebrow"> YOUR STYLE STUDIO </span>
+
+          <h1>Outfit Studio<span>.</span></h1>
+
+          <p>Create, save and discover outfits using pieces from your wardrobe.</p>
+
+          <div class="placeholder-cards">
+            <div class="placeholder-card">
+              <span>01</span>
+
+              <h3>Everyday Edit</h3>
+
+              <p>Easy looks for everyday moments.</p>
+            </div>
+
+            <div class="placeholder-card">
+              <span>02</span>
+
+              <h3>Weekend Mood</h3>
+
+              <p>Relaxed pieces styled together.</p>
+            </div>
+
+            <div class="placeholder-card">
+              <span>03</span>
+
+              <h3>Evening Look</h3>
+
+              <p>Elegant combinations for going out.</p>
+            </div>
+          </div>
+
+          <button type="button" class="placeholder-button" (click)="showWardrobe()">
+            ← Back to wardrobe
+          </button>
+        </div>
+      </section>
+    }
+
+    <!-- =========================
+         FAVORITES
+    ========================== -->
+
+    @if (currentPage === 'favorites') {
+      <section class="placeholder-page favorites-page">
+        <div class="placeholder-content">
+          <span class="placeholder-eyebrow"> YOUR CURATED PICKS </span>
+
+          <h1>Favorite Pieces<span>.</span></h1>
+
+          <p>The pieces you love most will live here.</p>
+
+          @if (favoriteItems.length === 0) {
+            <div class="empty-placeholder">
+              <div class="empty-icon">♡</div>
+
+              <h3>Your favorites are waiting.</h3>
+
+              <p>Tap the heart on any wardrobe piece to add it to your favorites.</p>
+            </div>
+          }
+
+          <button type="button" class="placeholder-button" (click)="showWardrobe()">
+            Browse wardrobe
+          </button>
+        </div>
+      </section>
+    }
+
+    <!-- =========================
+         EXPLORE
+    ========================== -->
+
+    @if (currentPage === 'explore') {
+      <section class="placeholder-page explore-page">
+        <div class="placeholder-content">
+          <span class="placeholder-eyebrow"> STYLE INSPIRATION </span>
+
+          <h1>Explore<span>.</span></h1>
+
+          <p>Discover new ways to style the pieces you already own.</p>
+
+          <div class="explore-grid">
+            <div class="explore-card explore-one">
+              <span> SEASONAL </span>
+
+              <h3>Autumn Layers</h3>
+            </div>
+
+            <div class="explore-card explore-two">
+              <span> EVERYDAY </span>
+
+              <h3>Quiet Luxury</h3>
+            </div>
+
+            <div class="explore-card explore-three">
+              <span> OCCASION </span>
+
+              <h3>Evening Edit</h3>
+            </div>
+          </div>
+
+          <button type="button" class="placeholder-button" (click)="showWardrobe()">
+            ← Back to wardrobe
+          </button>
+        </div>
+      </section>
+    }
+
+    <!-- =========================
+         PROFILE
+    ========================== -->
+
+    @if (currentPage === 'profile') {
+      <section class="placeholder-page profile-page">
+        <div class="placeholder-content">
+          <span class="placeholder-eyebrow"> YOUR CLOSETLY PROFILE </span>
+
+          <div class="profile-large-avatar">R</div>
+
+          <h1>Rachel<span>.</span></h1>
+
+          <p>Your personal wardrobe space.</p>
+
+          <div class="profile-stats">
+            <div>
+              <strong>
+                {{ 48 + clothingItems.length }}
+              </strong>
+
+              <span> Pieces </span>
+            </div>
+
+            <div>
+              <strong>
+                {{ favoriteItems.length }}
+              </strong>
+
+              <span> Favorites </span>
+            </div>
+
+            <div>
+              <strong> 01 </strong>
+
+              <span> Wardrobe </span>
+            </div>
+          </div>
+
+          <button type="button" class="placeholder-button" (click)="showWardrobe()">
+            ← Back to wardrobe
+          </button>
+        </div>
+      </section>
+    }
+  </main>
+
+  <!-- =========================
+       NOTIFICATION
+  ========================== -->
+
+  @if (notificationVisible) {
+    <div
+      class="closetly-notification"
+      [class.notification-success]="notificationType === 'success'"
+      [class.notification-info]="notificationType === 'info'"
+      [class.notification-error]="notificationType === 'error'"
+    >
+      <div class="notification-icon">
+        @if (notificationType === 'success') {
+          ✓
+        }
+
+        @if (notificationType === 'info') {
+          ♡
+        }
+
+        @if (notificationType === 'error') {
+          !
+        }
+      </div>
+
+      <div class="notification-content">
+        <strong> Closetly </strong>
+
+        <span>
+          {{ notificationMessage }}
+        </span>
+      </div>
+
+      <button type="button" class="notification-close" (click)="closeNotification()">×</button>
+    </div>
+  }
+</div>

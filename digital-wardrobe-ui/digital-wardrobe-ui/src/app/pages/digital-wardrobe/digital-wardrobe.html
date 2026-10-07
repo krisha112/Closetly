@@ -1,0 +1,685 @@
+<div class="wardrobe-page">
+  <!-- =====================================================
+       SIDEBAR
+  ====================================================== -->
+
+  <aside class="sidebar">
+    <!-- BRAND -->
+
+    <div class="brand">
+      <div class="brand-mark">C</div>
+
+      <div class="brand-text">
+        <h1>Closetly</h1>
+        <span>digital wardrobe</span>
+      </div>
+    </div>
+
+    <!-- MAIN MENU -->
+
+    <div class="sidebar-section">
+      <span class="sidebar-label"> MENU </span>
+
+      <nav class="navigation">
+        <!-- WARDROBE -->
+
+        <button
+          type="button"
+          class="nav-item"
+          [class.active]="!showFavorites && selectedCategory === 'All'"
+          (click)="selectCategory('All'); showAllClothes()"
+        >
+          <span class="nav-icon"> ◈ </span>
+
+          <span> Wardrobe </span>
+        </button>
+
+        <!-- OUTFITS -->
+
+        <button
+          type="button"
+          class="nav-item"
+          (click)="displayNotification('Outfit Studio is coming next.', 'info')"
+        >
+          <span class="nav-icon"> ✦ </span>
+
+          <span> Outfits </span>
+        </button>
+
+        <!-- FAVORITES -->
+
+        <button
+          type="button"
+          class="nav-item"
+          [class.active]="showFavorites"
+          (click)="showFavoriteClothes()"
+        >
+          <span class="nav-icon"> ♡ </span>
+
+          <span> Favorites </span>
+
+          @if (getFavoriteCount() > 0) {
+            <span class="nav-count">
+              {{ getFavoriteCount() }}
+            </span>
+          }
+        </button>
+
+        <!-- EXPLORE -->
+
+        <button
+          type="button"
+          class="nav-item"
+          (click)="displayNotification('Explore is coming next.', 'info')"
+        >
+          <span class="nav-icon"> ✧ </span>
+
+          <span> Explore </span>
+        </button>
+      </nav>
+    </div>
+
+    <!-- COLLECTION -->
+
+    <div class="sidebar-section collection-section">
+      <span class="sidebar-label"> COLLECTION </span>
+
+      <nav class="navigation">
+        <!-- ALL -->
+
+        <button
+          type="button"
+          class="collection-item"
+          [class.active]="selectedCategory === 'All' && !showFavorites"
+          (click)="selectCategory('All'); showAllClothes()"
+        >
+          <span class="category-symbol all"> ✦ </span>
+
+          <span> All pieces </span>
+
+          <small>
+            {{ getClothingCount() }}
+          </small>
+        </button>
+
+        <!-- TOPS -->
+
+        <button
+          type="button"
+          class="collection-item"
+          [class.active]="selectedCategory === 'Tops'"
+          (click)="selectCategory('Tops'); showAllClothes()"
+        >
+          <span class="category-symbol tops"> ◒ </span>
+
+          <span> Tops </span>
+
+          <small>
+            {{ getCategoryCount('Tops') }}
+          </small>
+        </button>
+
+        <!-- BOTTOMS -->
+
+        <button
+          type="button"
+          class="collection-item"
+          [class.active]="selectedCategory === 'Bottoms'"
+          (click)="selectCategory('Bottoms'); showAllClothes()"
+        >
+          <span class="category-symbol bottoms"> ◓ </span>
+
+          <span> Bottoms </span>
+
+          <small>
+            {{ getCategoryCount('Bottoms') }}
+          </small>
+        </button>
+
+        <!-- DRESSES -->
+
+        <button
+          type="button"
+          class="collection-item"
+          [class.active]="selectedCategory === 'Dresses'"
+          (click)="selectCategory('Dresses'); showAllClothes()"
+        >
+          <span class="category-symbol dresses"> ◇ </span>
+
+          <span> Dresses </span>
+
+          <small>
+            {{ getCategoryCount('Dresses') }}
+          </small>
+        </button>
+
+        <!-- SHOES -->
+
+        <button
+          type="button"
+          class="collection-item"
+          [class.active]="selectedCategory === 'Shoes'"
+          (click)="selectCategory('Shoes'); showAllClothes()"
+        >
+          <span class="category-symbol shoes"> ◈ </span>
+
+          <span> Shoes </span>
+
+          <small>
+            {{ getCategoryCount('Shoes') }}
+          </small>
+        </button>
+
+        <!-- ACCESSORIES -->
+
+        <button
+          type="button"
+          class="collection-item"
+          [class.active]="selectedCategory === 'Accessories'"
+          (click)="selectCategory('Accessories'); showAllClothes()"
+        >
+          <span class="category-symbol accessories"> ✧ </span>
+
+          <span> Accessories </span>
+
+          <small>
+            {{ getCategoryCount('Accessories') }}
+          </small>
+        </button>
+      </nav>
+    </div>
+
+    <!-- SIDEBAR BOTTOM -->
+
+    <div class="sidebar-bottom">
+      <div class="sidebar-profile">
+        <div class="profile-avatar">R</div>
+
+        <div class="profile-copy">
+          <strong> Rachel </strong>
+
+          <span> My wardrobe </span>
+        </div>
+
+        <button
+          type="button"
+          class="more-button"
+          (click)="displayNotification('Profile settings are coming next.', 'info')"
+        >
+          •••
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- =====================================================
+       MAIN CONTENT
+  ====================================================== -->
+
+  <main class="main-content">
+    <!-- =================================================
+         TOP HEADER
+    ================================================== -->
+
+    <header class="top-header">
+      <div class="header-left">
+        <span class="eyebrow"> YOUR PERSONAL COLLECTION </span>
+
+        <h2>My Wardrobe<span>.</span></h2>
+
+        <p>Everything you own, beautifully organized.</p>
+      </div>
+
+      <div class="header-actions">
+        <!-- NOTIFICATION -->
+
+        <button
+          type="button"
+          class="header-icon-button"
+          (click)="displayNotification('You are all caught up.', 'info')"
+        >
+          <span> ♡ </span>
+
+          <i></i>
+        </button>
+
+        <!-- PROFILE -->
+
+        <button
+          type="button"
+          class="profile-button"
+          (click)="displayNotification('Profile settings are coming next.', 'info')"
+        >
+          <span class="profile-small"> R </span>
+
+          <span class="profile-name"> Rachel </span>
+
+          <span class="down-arrow"> ⌄ </span>
+        </button>
+      </div>
+    </header>
+
+    <!-- =================================================
+         WELCOME / HERO
+    ================================================== -->
+
+    <section class="wardrobe-hero">
+      <div class="hero-copy">
+        <span class="hero-kicker"> CURATED FOR YOU </span>
+
+        <h3>
+          A wardrobe that
+          <em>feels like you.</em>
+        </h3>
+
+        <p>
+          Keep your favorite pieces close, discover new combinations, and make getting dressed
+          effortless.
+        </p>
+      </div>
+
+      <div class="hero-decoration">
+        <div class="hero-circle hero-circle-one"></div>
+
+        <div class="hero-circle hero-circle-two"></div>
+
+        <div class="hero-letter">C</div>
+      </div>
+    </section>
+
+    <!-- =================================================
+         STATISTICS
+    ================================================== -->
+
+    <section class="stats-grid">
+      <!-- TOTAL -->
+
+      <article class="stat-card stat-primary">
+        <div class="stat-heading">
+          <span> TOTAL PIECES </span>
+
+          <span class="stat-symbol"> ✦ </span>
+        </div>
+
+        <strong class="stat-number">
+          {{ getClothingCount() }}
+        </strong>
+
+        <div class="stat-caption">
+          <span class="stat-trend"> ↑ 6% </span>
+
+          <span> from last month </span>
+        </div>
+      </article>
+
+      <!-- FAVORITES -->
+
+      <article class="stat-card">
+        <div class="stat-heading">
+          <span> FAVORITES </span>
+
+          <span class="stat-symbol"> ♡ </span>
+        </div>
+
+        <strong class="stat-number">
+          {{ getFavoriteCount() }}
+        </strong>
+
+        <div class="stat-caption">
+          <span> Your most loved pieces </span>
+        </div>
+      </article>
+
+      <!-- CATEGORIES -->
+
+      <article class="stat-card">
+        <div class="stat-heading">
+          <span> CATEGORIES </span>
+
+          <span class="stat-symbol"> ◈ </span>
+        </div>
+
+        <strong class="stat-number"> 06 </strong>
+
+        <div class="stat-caption">
+          <span> Different wardrobe sections </span>
+        </div>
+      </article>
+
+      <!-- STYLE -->
+
+      <article class="stat-card">
+        <div class="stat-heading">
+          <span> YOUR STYLE </span>
+
+          <span class="stat-symbol"> ↗ </span>
+        </div>
+
+        <strong class="stat-number stat-text"> Casual </strong>
+
+        <div class="stat-caption">
+          <span> Your go-to aesthetic </span>
+        </div>
+      </article>
+    </section>
+
+    <!-- =================================================
+         COLLECTION HEADER
+    ================================================== -->
+
+    <section class="collection-header">
+      <div>
+        <span class="eyebrow"> THE COLLECTION </span>
+
+        <h3>
+          @if (showFavorites) {
+            Favorite pieces
+          } @else if (selectedCategory !== 'All') {
+            {{ selectedCategory }}
+          } @else {
+            All pieces
+          }
+        </h3>
+
+        <p>
+          @if (hasActiveFilters()) {
+            Showing {{ getVisibleItemCount() }} matching pieces.
+          } @else {
+            Explore everything in your digital wardrobe.
+          }
+        </p>
+      </div>
+
+      <button type="button" class="add-button" (click)="openAddClothing()">
+        <span> + </span>
+
+        Add clothing
+      </button>
+    </section>
+
+    <!-- =================================================
+         SEARCH + FILTER BAR
+    ================================================== -->
+
+    <section class="collection-toolbar">
+      <!-- SEARCH -->
+
+      <div class="search-box">
+        <span class="search-icon"> ⌕ </span>
+
+        <input type="text" [(ngModel)]="searchText" placeholder="Search by name, brand, color..." />
+
+        @if (searchText) {
+          <button type="button" class="clear-search" (click)="searchText = ''">×</button>
+        }
+      </div>
+
+      <!-- SORT -->
+
+      <select class="sort-select" [(ngModel)]="selectedSort">
+        <option value="recent">Recently added</option>
+
+        <option value="name">Name A–Z</option>
+
+        <option value="category">Category</option>
+
+        <option value="favorites">Favorites first</option>
+      </select>
+
+      <!-- CLEAR -->
+
+      @if (hasActiveFilters()) {
+        <button type="button" class="clear-filter-button" (click)="clearFilters()">
+          Clear filters
+        </button>
+      }
+    </section>
+
+    <!-- =================================================
+         CATEGORY TABS
+    ================================================== -->
+
+    <div class="category-tabs">
+      @for (category of categories; track category) {
+        <button
+          type="button"
+          class="category-tab"
+          [class.active]="selectedCategory === category && !showFavorites"
+          (click)="selectCategory(category); showAllClothes()"
+        >
+          <span>
+            {{ categoryIcons[category] }}
+          </span>
+
+          {{ category }}
+
+          @if (category !== 'All') {
+            <small>
+              {{ getCategoryCount(category) }}
+            </small>
+          }
+        </button>
+      }
+
+      <button
+        type="button"
+        class="category-tab favorites-tab"
+        [class.active]="showFavorites"
+        (click)="showFavoriteClothes()"
+      >
+        <span> ♡ </span>
+
+        Favorites
+
+        <small>
+          {{ getFavoriteCount() }}
+        </small>
+      </button>
+    </div>
+
+    <!-- =================================================
+         CLOTHING GRID
+    ================================================== -->
+
+    <section class="clothing-grid">
+      @for (clothing of getSortedItems(); track trackByClothingId($index, clothing)) {
+        <article class="clothing-card" (click)="openClothingDetails(clothing)">
+          <!-- IMAGE -->
+
+          <div class="clothing-image">
+            @if (clothing.image) {
+              <img [src]="clothing.image" [alt]="clothing.name" class="uploaded-clothing-image" />
+            } @else {
+              <div class="image-placeholder">
+                <span>
+                  {{ clothing.name }}
+                </span>
+              </div>
+            }
+
+            <!-- IMAGE OVERLAY -->
+
+            <div class="image-overlay"></div>
+
+            <!-- CATEGORY -->
+
+            <span class="category-badge">
+              {{ clothing.category || 'PIECE' }}
+            </span>
+
+            <!-- FAVORITE -->
+
+            <button
+              type="button"
+              class="favorite-btn"
+              [class.liked]="isFavorite(clothing)"
+              (click)="toggleFavorite(clothing); $event.stopPropagation()"
+            >
+              {{ isFavorite(clothing) ? '♥' : '♡' }}
+            </button>
+
+            <!-- VIEW -->
+
+            <div class="view-label">
+              View details
+              <span>↗</span>
+            </div>
+          </div>
+
+          <!-- CARD INFORMATION -->
+
+          <div class="clothing-info">
+            <div class="clothing-main">
+              <span class="clothing-category">
+                {{ clothing.occasion || 'EVERYDAY' }}
+
+                <span> · </span>
+
+                {{ clothing.season || 'ALL SEASON' }}
+              </span>
+
+              <h4>
+                {{ clothing.name }}
+              </h4>
+            </div>
+
+            <!-- MENU -->
+
+            <button
+              type="button"
+              class="card-menu"
+              (click)="deleteItem(clothing); $event.stopPropagation()"
+            >
+              •••
+            </button>
+          </div>
+
+          <!-- META -->
+
+          <div class="clothing-meta">
+            <span>
+              <i></i>
+
+              {{ clothing.color || 'No color' }}
+            </span>
+
+            <span>
+              {{ clothing.brand || 'No brand' }}
+            </span>
+          </div>
+        </article>
+      }
+
+      <!-- =================================================
+           EMPTY SEARCH / FILTER STATE
+      ================================================== -->
+
+      @if (getVisibleItemCount() === 0) {
+        <div class="empty-state">
+          <div class="empty-state-icon">♡</div>
+
+          <span class="eyebrow"> NOTHING HERE YET </span>
+
+          <h3>
+            @if (showFavorites) {
+              Your favorites are waiting.
+            } @else if (searchText) {
+              No pieces found.
+            } @else {
+              Your wardrobe is ready for its first piece.
+            }
+          </h3>
+
+          <p>
+            @if (searchText) {
+              Try another search term or clear your filters.
+            } @else if (showFavorites) {
+              Tap the heart on a clothing piece to save it here.
+            } @else {
+              Start building your digital wardrobe by adding clothing.
+            }
+          </p>
+
+          @if (hasActiveFilters()) {
+            <button type="button" class="empty-action" (click)="clearFilters()">
+              Clear filters
+            </button>
+          } @else {
+            <button type="button" class="empty-action" (click)="openAddClothing()">
+              + Add your first piece
+            </button>
+          }
+        </div>
+      }
+    </section>
+
+    <!-- =================================================
+         DELETE CONFIRMATION MODAL
+    ================================================== -->
+
+    @if (showDeleteModal) {
+      <div class="modal-backdrop" (click)="cancelDelete()">
+        <div class="delete-modal" (click)="$event.stopPropagation()">
+          <div class="delete-modal-icon">!</div>
+
+          <span class="eyebrow"> REMOVE PIECE </span>
+
+          <h3>Remove this piece?</h3>
+
+          <p>
+            Are you sure you want to remove
+
+            <strong> "{{ clothingPendingDelete?.name }}" </strong>
+
+            from your wardrobe?
+          </p>
+
+          <div class="modal-actions">
+            <button type="button" class="modal-cancel" (click)="cancelDelete()">Keep it</button>
+
+            <button type="button" class="modal-delete" (click)="confirmDelete()">
+              Remove piece
+            </button>
+          </div>
+        </div>
+      </div>
+    }
+
+    <!-- =================================================
+         IN-PAGE NOTIFICATION
+    ================================================== -->
+
+    @if (showNotification) {
+      <div
+        class="wardrobe-notification"
+        [class.notification-success]="notificationType === 'success'"
+        [class.notification-info]="notificationType === 'info'"
+        [class.notification-error]="notificationType === 'error'"
+      >
+        <div class="notification-symbol">
+          @if (notificationType === 'success') {
+            ✓
+          }
+
+          @if (notificationType === 'info') {
+            ✦
+          }
+
+          @if (notificationType === 'error') {
+            !
+          }
+        </div>
+
+        <div class="notification-text">
+          <strong> Closetly </strong>
+
+          <span>
+            {{ notificationMessage }}
+          </span>
+        </div>
+
+        <button type="button" class="notification-close" (click)="closeNotification()">×</button>
+      </div>
+    }
+  </main>
+</div>

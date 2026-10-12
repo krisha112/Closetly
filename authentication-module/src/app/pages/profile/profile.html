@@ -1,711 +1,702 @@
 <div class="profile-page">
 
-  <!-- =====================================================
-       SIDEBAR
-       ===================================================== -->
+  <div class="app-shell">
 
-  <aside class="sidebar">
+    <!-- SIDEBAR -->
+    <!-- SIDEBAR -->
+<aside class="sidebar">
 
-    <!-- BRAND -->
-    <div class="brand">
+  <div class="sidebar-brand">
 
-      <div class="brand-mark">
-        <i class="fa-solid fa-shirt"></i>
-      </div>
+    <div class="brand-symbol">
+      C
+    </div>
 
-      <div class="brand-content">
+    <div class="brand-text">
+      <strong>CLOSETLY</strong>
+      <span>DIGITAL WARDROBE</span>
+    </div>
 
-        <div class="brand-name">
-          Closetly
-        </div>
+  </div>
 
-        <div class="brand-tagline">
-          YOUR STYLE. YOUR SPACE.
-        </div>
 
-      </div>
+  <nav class="sidebar-nav">
+
+    <div class="nav-label">
+      MAIN MENU
+    </div>
+
+
+    <!-- DASHBOARD -->
+    <a
+      routerLink="/dashboard"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+      class="nav-item">
+
+      <i class="fa-solid fa-house">◈</i>
+      <span>Dashboard</span>
+
+    </a>
+
+
+    <!-- WARDROBE -->
+    <a
+      routerLink="/wardrobe"
+      routerLinkActive="active"
+      class="nav-item">
+
+      <i class="fa-solid fa-shirt">◇</i>
+      <span>My Wardrobe</span>
+
+    </a>
+
+
+    <!-- OUTFITS -->
+    <a
+      routerLink="/outfits"
+      routerLinkActive="active"
+      class="nav-item">
+
+      <i class="fa-solid fa-layer-group">✦</i>
+      <span>My Outfits</span>
+
+    </a>
+
+
+    <!-- FAVORITES -->
+    <a
+      routerLink="/favorites"
+      routerLinkActive="active"
+      class="nav-item">
+
+      <i class="fa-regular fa-heart">♡</i>
+      <span>Favorites</span>
+
+    </a>
+
+
+    <!-- PROFILE -->
+    <a
+      routerLink="/profile"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+      class="nav-item">
+
+      <i class="fa-solid fa-user">◎</i>
+      <span>Profile</span>
+
+    </a>
+
+
+   
+
+  </nav>
+
+
+  <div class="sidebar-bottom">
+
+    <div class="sidebar-note">
+
+      <span>YOUR SPACE</span>
+
+      <p>
+        Organize your wardrobe.
+        Express your style.
+      </p>
 
     </div>
 
 
-    <!-- NAVIGATION -->
-    <nav class="sidebar-nav">
+    <button
+      class="logout-button"
+      type="button"
+      (click)="logout()">
 
-      <!-- Dashboard -->
-      <a
-        routerLink="/dashboard"
-        routerLinkActive="active"
-        class="nav-item"
-      >
+      <i class="fa-solid fa-arrow-right-from-bracket"></i>
+      <span>Logout</span>
 
-        <i class="fa-solid fa-house"></i>
+    </button>
 
-        <span>
-          Dashboard
-        </span>
+  </div>
 
-      </a>
+</aside>
 
 
-      <!-- My Wardrobe -->
-      <a
-        routerLink="/wardrobe"
-        routerLinkActive="active"
-        class="nav-item"
-      >
+    <!-- MAIN -->
+    <main class="main-area">
 
-        <i class="fa-solid fa-shirt"></i>
 
-        <span>
-          My Wardrobe
-        </span>
+      <!-- HERO -->
+      <section class="profile-hero">
 
-      </a>
+        <div class="hero-image"></div>
 
+        <div class="hero-overlay"></div>
 
-      <!-- Outfit Builder -->
-      <a
-        routerLink="/outfit-builder"
-        routerLinkActive="active"
-        class="nav-item"
-      >
 
-        <i class="fa-solid fa-scissors"></i>
+        <div class="hero-content">
 
-        <span>
-          Outfit Builder
-        </span>
+          <div class="hero-top">
 
-      </a>
+            <button
+              *ngIf="!isEditing"
+              type="button"
+              class="edit-profile-btn"
+              (click)="editProfile()">
 
+              <i class="fa-solid fa-pen"></i>
+              Edit Profile
 
-      <!-- Outfits -->
-      <a
-        routerLink="/outfits"
-        routerLinkActive="active"
-        class="nav-item"
-      >
-
-        <i class="fa-solid fa-layer-group"></i>
-
-        <span>
-          Outfits
-        </span>
-
-      </a>
-
-
-      <!-- Favorites -->
-      <a
-        routerLink="/favorites"
-        routerLinkActive="active"
-        class="nav-item"
-      >
-
-        <i class="fa-regular fa-heart"></i>
-
-        <span>
-          Favorites
-        </span>
-
-      </a>
-
-
-      <!-- Calendar Plan -->
-      <a
-        routerLink="/calendar"
-        routerLinkActive="active"
-        class="nav-item"
-      >
-
-        <i class="fa-regular fa-calendar"></i>
-
-        <span>
-          Calendar Plan
-        </span>
-
-      </a>
-
-
-      <!-- Settings -->
-      <a
-        routerLink="/profile"
-        routerLinkActive="active"
-        class="nav-item"
-      >
-
-        <i class="fa-solid fa-gear"></i>
-
-        <span>
-          Settings
-        </span>
-
-      </a>
-
-    </nav>
-
-
-    <!-- LOGOUT -->
-    <div class="sidebar-bottom">
-
-      <button
-        class="logout-button"
-        (click)="logout()"
-      >
-
-        <i
-          class="fa-solid fa-arrow-right-from-bracket"
-        ></i>
-
-        <span>
-          Logout
-        </span>
-
-      </button>
-
-    </div>
-
-  </aside>
-
-
-  <!-- =====================================================
-       MAIN CONTENT
-       ===================================================== -->
-
-  <main class="main-content">
-
-
-    <!-- TOP HEADER -->
-
-    <header class="page-header">
-
-      <div>
-
-        <div class="page-eyebrow">
-          ACCOUNT SETTINGS
-        </div>
-
-        <h1>
-          My Profile
-        </h1>
-
-        <p>
-          Manage your personal information and account details.
-        </p>
-
-      </div>
-
-
-      <button
-        *ngIf="!isEditing"
-        class="edit-profile-button"
-        (click)="editProfile()"
-      >
-
-        <i class="fa-solid fa-pen"></i>
-
-        Edit Profile
-
-      </button>
-
-    </header>
-
-
-
-    <!-- =====================================================
-         PROFILE HERO
-         ===================================================== -->
-
-    <section class="profile-card">
-
-
-      <!-- Decorative circle -->
-
-      <div class="profile-decoration"></div>
-
-
-      <!-- PROFILE PHOTO -->
-
-      <div class="profile-photo-section">
-
-        <div class="photo-wrapper">
-
-
-          <!-- Uploaded photo -->
-
-          <img
-            *ngIf="profileImage"
-            [src]="profileImage"
-            alt="Profile Photo"
-            class="profile-photo"
-          >
-
-
-          <!-- Initials -->
-
-          <div
-            *ngIf="!profileImage"
-            class="profile-placeholder"
-          >
-
-            {{ getInitials() }}
+            </button>
 
           </div>
 
 
-          <!-- Camera button -->
+          <div class="profile-main">
 
-          <label
-            for="profilePhoto"
-            class="camera-button"
-            title="Change profile photo"
-          >
+            <div class="profile-photo-wrap">
 
-            <i class="fa-solid fa-camera"></i>
+              <img
+                *ngIf="profileImage"
+                class="profile-photo"
+                [src]="profileImage"
+                alt="Profile photo"
+              />
 
-          </label>
+              <div
+                *ngIf="!profileImage"
+                class="profile-photo initials-photo">
 
+                {{ getInitials() }}
 
-          <input
-            id="profilePhoto"
-            type="file"
-            accept="image/*"
-            hidden
-            (change)="onPhotoSelected($event)"
-          >
-
-        </div>
+              </div>
 
 
-        <button
-          *ngIf="profileImage"
-          class="remove-photo-button"
-          (click)="removePhoto()"
-        >
+              <label
+                class="photo-camera"
+                title="Change profile photo">
 
-          Remove photo
+                <i class="fa-solid fa-camera"></i>
 
-        </button>
+                <input
+                  type="file"
+                  accept="image/*"
+                  hidden
+                  (change)="onPhotoSelected($event)"
+                />
 
+              </label>
 
-        <label
-          *ngIf="!profileImage"
-          for="profilePhoto"
-          class="change-photo-text"
-        >
-
-          Change photo
-
-        </label>
-
-      </div>
+            </div>
 
 
+            <div class="profile-heading">
 
-      <!-- PROFILE INTRO -->
+              <div class="eyebrow">
+                PERSONAL PROFILE
+              </div>
 
-      <div class="profile-intro">
+              <h1>
+                {{ fullName || 'Your Name' }}
+              </h1>
 
-        <div class="profile-label">
-          CLOSETLY MEMBER
-        </div>
+              <p class="profile-email">
 
-        <h2>
-          {{ fullName }}
-        </h2>
+                <i class="fa-regular fa-envelope"></i>
 
-        <p class="profile-email">
-          {{ email }}
-        </p>
+                {{ email || 'No email available' }}
 
+              </p>
 
-        <div class="profile-tags">
+              <span
+                *ngIf="pronouns"
+                class="profile-pronoun">
 
-          <span class="pronoun-tag">
+                {{ pronouns }}
 
-            <i class="fa-regular fa-comment"></i>
+              </span>
 
-            {{ pronouns }}
-
-          </span>
-
-
-          <span class="member-tag">
-
-            <i class="fa-regular fa-calendar"></i>
-
-            Member since {{ memberSince }}
-
-          </span>
-
-        </div>
-
-      </div>
-
-
-
-      <!-- STATUS -->
-
-      <div class="profile-status">
-
-        <span class="status-dot"></span>
-
-        <span>
-          {{ accountStatus }}
-        </span>
-
-      </div>
-
-    </section>
-
-
-
-    <!-- =====================================================
-         EDIT PANEL
-         ===================================================== -->
-
-    <section
-      *ngIf="isEditing"
-      class="edit-section"
-    >
-
-      <div class="section-heading">
-
-        <div>
-
-          <span>
-            EDIT PROFILE
-          </span>
-
-          <h2>
-            Update your information
-          </h2>
-
-        </div>
-
-      </div>
-
-
-      <div class="edit-grid">
-
-
-        <!-- FULL NAME -->
-
-        <div class="form-group">
-
-          <label>
-            Full Name
-          </label>
-
-          <div class="input-wrapper">
-
-            <i class="fa-regular fa-user"></i>
-
-            <input
-              type="text"
-              [(ngModel)]="editedFullName"
-              placeholder="Enter your full name"
-            >
+            </div>
 
           </div>
 
         </div>
 
-
-        <!-- EMAIL -->
-
-        <div class="form-group">
-
-          <label>
-            Email Address
-          </label>
-
-          <div class="input-wrapper">
-
-            <i class="fa-regular fa-envelope"></i>
-
-            <input
-              type="email"
-              [(ngModel)]="editedEmail"
-              placeholder="Enter your email"
-            >
-
-          </div>
-
-        </div>
+      </section>
 
 
-        <!-- PRONOUNS -->
+      <!-- EDIT PROFILE -->
+      <section
+        *ngIf="isEditing"
+        class="edit-section">
 
-        <div class="form-group">
-
-          <label>
-            Pronouns
-          </label>
-
-          <div class="input-wrapper">
-
-            <i class="fa-regular fa-comment"></i>
-
-            <select
-              [(ngModel)]="editedPronouns"
-            >
-
-              <option
-                *ngFor="let option of pronounOptions"
-                [value]="option"
-              >
-
-                {{ option }}
-
-              </option>
-
-            </select>
-
-          </div>
-
-        </div>
-
-      </div>
-
-
-      <!-- EDIT BUTTONS -->
-
-      <div class="edit-actions">
-
-        <button
-          class="cancel-button"
-          (click)="cancelEdit()"
-        >
-
-          Cancel
-
-        </button>
-
-
-        <button
-          class="save-button"
-          (click)="saveProfile()"
-        >
-
-          <i class="fa-solid fa-check"></i>
-
-          Save Changes
-
-        </button>
-
-      </div>
-
-    </section>
-
-
-
-    <!-- =====================================================
-         ACCOUNT INFORMATION
-         ===================================================== -->
-
-    <section class="account-section">
-
-      <div class="section-heading">
-
-        <div>
-
-          <span>
-            ACCOUNT INFORMATION
-          </span>
-
-          <h2>
-            Your account
-          </h2>
-
-        </div>
-
-      </div>
-
-
-      <div class="account-grid">
-
-
-        <!-- MEMBER SINCE -->
-
-        <div class="account-info-card">
-
-          <div class="info-icon">
-
-            <i class="fa-regular fa-calendar"></i>
-
-          </div>
+        <div class="section-heading">
 
           <div>
 
             <span>
-              MEMBER SINCE
+              PERSONAL DETAILS
             </span>
 
-            <strong>
-              {{ memberSince }}
-            </strong>
+            <h2>
+              Edit your profile
+            </h2>
 
-            <small>
-              Account creation date
-            </small>
+          </div>
+
+          <button
+            type="button"
+            class="close-edit"
+            (click)="cancelEdit()">
+
+            <i class="fa-solid fa-xmark"></i>
+
+          </button>
+
+        </div>
+
+
+        <div class="edit-card">
+
+          <div class="edit-fields">
+
+
+            <div class="field">
+
+              <label>
+                FULL NAME
+              </label>
+
+              <div class="input-box">
+
+                <i class="fa-regular fa-user"></i>
+
+                <input
+                  type="text"
+                  [(ngModel)]="editedFullName"
+                  placeholder="Enter your full name"
+                />
+
+              </div>
+
+            </div>
+
+
+            <div class="field">
+
+              <label>
+                EMAIL ADDRESS
+              </label>
+
+              <div class="input-box disabled">
+
+                <i class="fa-regular fa-envelope"></i>
+
+                <input
+                  type="email"
+                  [(ngModel)]="editedEmail"
+                  placeholder="Enter your email"
+                />
+
+              </div>
+
+            </div>
+
+
+            <div class="field pronoun-field">
+
+              <label>
+                PRONOUNS
+              </label>
+
+              <div class="input-box">
+
+                <i class="fa-solid fa-user-tag"></i>
+
+                <select
+                  [(ngModel)]="editedPronouns">
+
+                  <option
+                    value=""
+                    disabled>
+
+                    Select pronouns
+
+                  </option>
+
+                  <option
+                    *ngFor="let option of pronounOptions"
+                    [value]="option">
+
+                    {{ option }}
+
+                  </option>
+
+                </select>
+
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <div class="edit-actions">
+
+            <button
+              type="button"
+              class="cancel-btn"
+              (click)="cancelEdit()">
+
+              Cancel
+
+            </button>
+
+            <button
+              type="button"
+              class="save-btn"
+              (click)="saveProfile()">
+
+              <i class="fa-solid fa-check"></i>
+
+              Save Changes
+
+            </button>
 
           </div>
 
         </div>
 
-
-        <!-- LAST UPDATED -->
-
-        <div class="account-info-card">
-
-          <div class="info-icon">
-
-            <i class="fa-solid fa-rotate"></i>
-
-          </div>
-
-          <div>
-
-            <span>
-              LAST UPDATED
-            </span>
-
-            <strong>
-              {{ lastUpdated }}
-            </strong>
-
-            <small>
-              Most recent profile update
-            </small>
-
-          </div>
-
-        </div>
+      </section>
 
 
-        <!-- ACCOUNT STATUS -->
-
-        <div class="account-info-card">
-
-          <div class="info-icon status-icon">
-
-            <i class="fa-solid fa-circle-check"></i>
-
-          </div>
-
-          <div>
-
-            <span>
-              ACCOUNT STATUS
-            </span>
-
-            <strong class="active-text">
-              {{ accountStatus }}
-            </strong>
-
-            <small>
-              Your account is active
-            </small>
-
-          </div>
-
-        </div>
-
-      </div>
-
-    </section>
+      <!-- CONTENT -->
+      <div class="profile-content">
 
 
+        <!-- ACCOUNT INFORMATION -->
+        <section class="account-section">
 
-    <!-- =====================================================
-         SECURITY
-         ===================================================== -->
+          <div class="section-heading">
 
-    <section class="security-section">
+            <div>
 
-      <div class="section-heading">
+              <span>
+                ACCOUNT INFORMATION
+              </span>
 
-        <div>
+              <h2>
+                Your Closetly account
+              </h2>
 
-          <span>
-            ACCOUNT & SECURITY
-          </span>
-
-          <h2>
-            Keep your account secure
-          </h2>
-
-        </div>
-
-      </div>
-
-
-      <div class="security-card">
-
-
-        <div class="security-left">
-
-          <div class="security-icon">
-
-            <i class="fa-solid fa-lock"></i>
-
-          </div>
-
-
-          <div>
-
-            <h3>
-              Password
-            </h3>
+            </div>
 
             <p>
-              Your password is protected.
-              Change it regularly to keep your account secure.
+              A quick overview of your account
+              and profile activity.
             </p>
 
           </div>
 
-        </div>
+
+          <div class="account-grid">
 
 
-        <a
-          routerLink="/change-password"
-          class="change-password-button"
-        >
+           <div class="account-card">
 
-          Change Password
+  <div class="card-icon"> ↻
 
-          <i class="fa-solid fa-arrow-right"></i>
+    <i class="fa-regular fa-clock"></i>
 
-        </a>
+  </div>
+
+  <span>
+    LAST UPDATED
+  </span>
+
+  <strong>
+    {{ lastUpdated || '—' }}
+  </strong>
+
+  <small>
+    Profile information
+  </small>
+
+</div>
+
+
+            <div class="account-card">
+
+              <div class="card-icon">◷
+
+                <i class="fa-regular fa-calendar"></i>
+
+              </div>
+
+              <span>
+                MEMBER SINCE
+              </span>
+
+              <strong>
+                {{ memberSince || '—' }}
+              </strong>
+
+              <small>
+                Closetly member
+              </small>
+
+            </div>
+
+
+            <div class="account-card">
+
+              <div class="card-icon">✓
+
+                <i class="fa-solid fa-shield-halved"></i>
+
+              </div>
+
+              <span>
+                ACCOUNT STATUS
+              </span>
+
+              <strong>
+                {{ accountStatus }}
+              </strong>
+
+              <div class="status-line">
+
+                <i class="fa-solid fa-circle"></i>
+
+                Account active
+
+              </div>
+
+            </div>
+
+
+          </div>
+
+        </section>
+
+
+      <!-- STYLE INSPIRATION -->
+<section class="style-board">
+
+  <div class="board-heading">
+
+    <div>
+      <span>STYLE INSPIRATION</span>
+
+      <h2>
+        Your wardrobe, your way.
+      </h2>
+    </div>
+
+    <p>
+      Keep your wardrobe organized,
+      plan your looks, and make every
+      outfit feel intentional.
+    </p>
+
+  </div>
+
+
+  <div class="pin-board">
+
+    <!-- LARGE WARDROBE CARD -->
+    <div class="pin-card pin-large wardrobe-pin">
+
+      <div class="pin-image"></div>
+
+      <div class="pin-content">
+
+        <span>
+          DIGITAL WARDROBE
+        </span>
+
+        <h3>
+          Everything you own,
+          beautifully organized.
+        </h3>
 
       </div>
 
-    </section>
+    </div>
 
 
+    <!-- OUTFIT CARD -->
+    <div class="pin-card outfit-pin">
 
-    <!-- =====================================================
-         FOOTER
-         ===================================================== -->
-
-    <footer class="profile-footer">
-
-      <span class="footer-brand">
-        Closetly
-      </span>
+      <div class="pin-symbol">
+  <span class="sparkle-symbol">✦</span>
+</div>
 
       <span>
-        •
+        OUTFIT CREATOR
       </span>
+
+      <h3>
+        Build looks
+        effortlessly.
+      </h3>
+
+      <div class="outfit-process">
+
+        <span>SELECT</span>
+
+        <i class="fa-solid fa-arrow-right"></i>
+
+        <span>STYLE</span>
+
+        <i class="fa-solid fa-arrow-right"></i>
+
+        <span>CREATE</span>
+
+      </div>
+
+    </div>
+
+
+    <!-- PLANNER CARD -->
+    <div class="pin-card planning-pin">
+
+      <div class="mini-calendar">
+
+        <span>
+          {{ currentDay }}
+        </span>
+
+        <strong>
+          {{ currentDate }}
+        </strong>
+
+        <small>
+          {{ currentMonth }}
+        </small>
+
+      </div>
+
+     <div class="planning-copy">
+
+  <span>STYLE PLANNER</span>
+
+  <h3>
+    Plan your<br>
+    next look.
+  </h3>
+
+  <p>
+    Organize your outfits ahead of time and always know what to wear next.
+  </p>
+
+</div>
+
+<div class="planning-detail">
+  <i class="fa-regular fa-calendar-check"></i>
+  <span>Plan outfits for your week</span>
+</div>
+</div>
+
+    <!-- QUOTE CARD -->
+    <div class="pin-card quote-pin">
+
+      <div class="quote-mark">
+        “
+      </div>
+
+    
+  <p class="quote-text">
+    Style is a way to say who you are without having to speak.
+  </p>
+
+  <span class="quote-author">— RACHEL ZOE</span>
+
+
+    </div>
+
+  </div>
+
+</section>
+
+
+        <!-- SECURITY -->
+        <section class="security-section">
+
+          <div class="security-copy">
+
+            <span>
+              ACCOUNT SECURITY
+            </span>
+
+            <h2>
+              Keep your account secure.
+            </h2>
+
+            <p>
+              Update your password regularly
+              to keep your Closetly account
+              protected.
+            </p>
+
+          </div>
+
+
+          <a
+            routerLink="/change-password"
+            class="password-btn">
+
+            <i class="fa-solid fa-lock"></i>
+
+            Change Password
+
+          </a>
+
+        </section>
+
+
+      </div>
+
+    </main>
+
+  </div>
+
+
+  <!-- TOAST -->
+  <div
+    class="save-toast"
+    [class.show]="toastVisible"
+    [class.error]="toastType === 'error'">
+
+    <div class="toast-check">
+
+      <i
+        *ngIf="toastType === 'success'"
+        class="fa-solid fa-check">
+      </i>
+
+      <i
+        *ngIf="toastType === 'error'"
+        class="fa-solid fa-xmark">
+      </i>
+
+    </div>
+
+    <div class="toast-text">
+
+      <strong>
+        {{ toastTitle }}
+      </strong>
 
       <span>
-        YOUR STYLE. YOUR SPACE.
+        {{ toastMessage }}
       </span>
 
-    </footer>
+    </div>
 
-  </main>
+    <div class="toast-line"></div>
+
+  </div>
 
 </div>

@@ -23,48 +23,26 @@ import { AuthService } from '../../services/auth.service';
 })
 export class Profile implements OnInit {
 
-  /* =========================================
-     USER INFORMATION
-     ========================================= */
+  fullName = '';
+  email = '';
+  pronouns = '';
 
-  fullName: string = '';
-
-  email: string = '';
-
-  pronouns: string = '';
-
-  accountStatus: string = 'Active';
-
-  memberSince: string = '';
-
-  lastUpdated: string = '';
-
-
-  /* =========================================
-     PROFILE PHOTO
-     ========================================= */
+  accountStatus = 'Active';
+  memberSince = '';
+  lastUpdated = '';
 
   profileImage: string | null = null;
 
+  isEditing = false;
+  isLoading = true;
 
-  /* =========================================
-     EDIT MODE
-     ========================================= */
+  errorMessage = '';
 
-  isEditing: boolean = false;
+  editedFullName = '';
+  editedEmail = '';
+  editedPronouns = '';
 
-  editedFullName: string = '';
-
-  editedEmail: string = '';
-
-  editedPronouns: string = '';
-
-
-  /* =========================================
-     PRONOUN OPTIONS
-     ========================================= */
-
-  pronounOptions: string[] = [
+  pronounOptions = [
     'They/Them',
     'She/Her',
     'He/Him',
@@ -73,128 +51,98 @@ export class Profile implements OnInit {
     'Prefer not to say'
   ];
 
+  toastVisible = false;
+  toastTitle = '';
+  toastMessage = '';
+  toastType: 'success' | 'error' = 'success';
 
-  /* =========================================
-     LOADING / ERROR
-     ========================================= */
+  private toastTimer: ReturnType<typeof setTimeout> | undefined;
 
-  isLoading: boolean = true;
-
-  errorMessage: string = '';
-
+  currentDay = '';
+  currentDate = 0;
+  currentMonth = '';
 
   constructor(
-  private router: Router,
-  private authService: AuthService,
-  private cdr: ChangeDetectorRef
-) {}
-
-
-  /* =========================================
-     LOAD PROFILE WHEN PAGE OPENS
-     ========================================= */
+    private router: Router,
+    private authService: AuthService,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
-
+    this.setCurrentDate();
     this.loadProfile();
-
   }
 
+  setCurrentDate(): void {
+    const today = new Date();
 
-  /* =========================================
-     GET PROFILE FROM BACKEND
-     ========================================= */
+    this.currentDay = today
+      .toLocaleDateString('en-US', {
+        weekday: 'short'
+      })
+      .toUpperCase();
+
+    this.currentDate = today.getDate();
+
+    this.currentMonth = today
+      .toLocaleDateString('en-US', {
+        month: 'short'
+      })
+      .toUpperCase();
+  }
 
   loadProfile(): void {
-
     this.isLoading = true;
-
     this.errorMessage = '';
 
     this.authService.getProfile().subscribe({
-
       next: (response) => {
-
         this.isLoading = false;
 
         if (response.success) {
-
           const user = response.user;
 
-          this.fullName =
-            user.fullName || '';
-
-          this.email =
-            user.email || '';
-
-          this.pronouns =
-            user.pronouns || '';
-
-          this.profileImage =
-            user.profilePicture || null;
-
-
-          /* ================================
-             ACCOUNT CREATED DATE
-             ================================ */
+          this.fullName = user.fullName || '';
+          this.email = user.email || '';
+          this.pronouns = user.pronouns || '';
+          this.profileImage = user.profilePicture || null;
 
           if (user.createdAt) {
-
-            const createdDate =
-              new Date(user.createdAt);
-
-            this.memberSince =
-              createdDate.toLocaleDateString(
-                'en-US',
-                {
-                  month: 'long',
-                  year: 'numeric'
-                }
-              );
-
+            this.memberSince = new Date(
+              user.createdAt
+            ).toLocaleDateString('en-US', {
+              month: 'long',
+              year: 'numeric'
+            });
           }
-
-
-          /* ================================
-             LAST UPDATED DATE
-             ================================ */
 
           if (user.updatedAt) {
-
-            const updatedDate =
-              new Date(user.updatedAt);
-
-            this.lastUpdated =
-              updatedDate.toLocaleDateString(
-                'en-US',
-                {
-                  month: 'long',
-                  day: 'numeric',
-                  year: 'numeric'
-                }
-              );
-
+            this.lastUpdated = new Date(
+              user.updatedAt
+            ).toLocaleDateString('en-US', {
+              month: 'long',
+              day: 'numeric',
+              year: 'numeric'
+            });
           }
-
-
-          /* ================================
-             SAVE UPDATED USER LOCALLY
-             ================================ */
 
           this.authService.saveUser(user);
           this.cdr.detectChanges();
-        } else {
 
+        } else {
           this.errorMessage =
             response.message ||
             'Unable to load profile.';
 
+          this.showToast(
+            'Unable to load profile',
+            this.errorMessage,
+            'error'
+          );
         }
-
       },
 
       error: (error) => {
-
         this.isLoading = false;
 
         if (error.status === 401) {
@@ -202,13 +150,17 @@ export class Profile implements OnInit {
           this.errorMessage =
             'Your session has expired. Please login again.';
 
+          this.showToast(
+            'Session expired',
+            this.errorMessage,
+            'error'
+          );
+
           this.authService.logout();
 
           setTimeout(() => {
-
             this.router.navigate(['/login']);
-
-          }, 1000);
+          }, 1500);
 
         } else {
 
@@ -216,441 +168,361 @@ export class Profile implements OnInit {
             error.error?.message ||
             'Unable to load profile.';
 
+          this.showToast(
+            'Unable to load profile',
+            this.errorMessage,
+            'error'
+          );
         }
-
       }
-
     });
-
   }
 
-
-  /* =========================================
-     GET INITIALS
-     ========================================= */
-
   getInitials(): string {
-
     if (!this.fullName) {
-
       return 'C';
-
     }
 
-    const names =
-      this.fullName
-        .trim()
-        .split(/\s+/);
-
+    const names = this.fullName
+      .trim()
+      .split(/\s+/);
 
     if (names.length === 1) {
-
       return names[0]
         .charAt(0)
         .toUpperCase();
-
     }
-
 
     return (
       names[0].charAt(0) +
       names[names.length - 1].charAt(0)
     ).toUpperCase();
-
   }
-
-
-  /* =========================================
-     OPEN EDIT MODE
-     ========================================= */
 
   editProfile(): void {
-
-    this.editedFullName =
-      this.fullName;
-
-    this.editedEmail =
-      this.email;
-
-    this.editedPronouns =
-      this.pronouns;
+    this.editedFullName = this.fullName;
+    this.editedEmail = this.email;
+    this.editedPronouns = this.pronouns;
 
     this.isEditing = true;
-
   }
 
-
-  /* =========================================
-     CANCEL EDIT
-     ========================================= */
-
   cancelEdit(): void {
-
     this.editedFullName = '';
-
     this.editedEmail = '';
-
     this.editedPronouns = '';
 
     this.isEditing = false;
-
   }
 
+  saveProfile(): void {
 
-  /* =========================================
-     SAVE PROFILE
-     ========================================= */
+    const name = this.editedFullName.trim();
+    const emailAddress = this.editedEmail.trim();
+    const selectedPronouns =
+      this.editedPronouns.trim();
 
-  /* =========================================
-   SAVE PROFILE
-   ========================================= */
-
-saveProfile(): void {
-
-  const name =
-    this.editedFullName.trim();
-
-  const emailAddress =
-    this.editedEmail.trim();
-
-  const selectedPronouns =
-    this.editedPronouns.trim();
-
-
-  if (name === '') {
-
-    alert(
-      'Please enter your full name.'
-    );
-
-    return;
-
-  }
-
-
-  if (emailAddress === '') {
-
-    alert(
-      'Please enter your email address.'
-    );
-
-    return;
-
-  }
-
-
-  const emailPattern =
-    /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-
-  if (!emailPattern.test(emailAddress)) {
-
-    alert(
-      'Please enter a valid email address.'
-    );
-
-    return;
-
-  }
-
-
-  if (selectedPronouns === '') {
-
-    alert(
-      'Please select your pronouns.'
-    );
-
-    return;
-
-  }
-
-
-  const profileData = {
-
-    fullName: name,
-
-    email: emailAddress,
-
-    pronouns: selectedPronouns
-
-  };
-
-
-  this.authService.updateProfile(
-    profileData
-  ).subscribe({
-
-    next: (response) => {
-
-      if (response.success) {
-
-        const user = response.user;
-
-
-        // Update page with new information
-        this.fullName =
-          user.fullName;
-
-        this.email =
-          user.email;
-
-        this.pronouns =
-          user.pronouns;
-
-        this.profileImage =
-          user.profilePicture || null;
-
-
-        // Update last updated date
-        if (user.updatedAt) {
-
-          const updatedDate =
-            new Date(user.updatedAt);
-
-          this.lastUpdated =
-            updatedDate.toLocaleDateString(
-              'en-US',
-              {
-                month: 'long',
-                day: 'numeric',
-                year: 'numeric'
-              }
-            );
-
-        }
-
-
-        // Update localStorage
-        this.authService.saveUser(
-          user
-        );
-
-
-        this.isEditing =
-          false;
-
-
-        alert(
-          'Profile updated successfully!'
-        );
-
-      } else {
-
-        alert(
-          response.message ||
-          'Unable to update profile.'
-        );
-
-      }
-
-    },
-
-    error: (error) => {
-
-      alert(
-        error.error?.message ||
-        'Unable to update profile.'
+    if (!name) {
+      this.showToast(
+        'Missing information',
+        'Please enter your full name.',
+        'error'
       );
-
+      return;
     }
 
-  });
+    if (!emailAddress) {
+      this.showToast(
+        'Missing information',
+        'Please enter your email address.',
+        'error'
+      );
+      return;
+    }
 
-}
+    const emailPattern =
+      /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
- /* =========================================
-   PROFILE PHOTO
-   ========================================= */
+    if (!emailPattern.test(emailAddress)) {
+      this.showToast(
+        'Invalid email',
+        'Please enter a valid email address.',
+        'error'
+      );
+      return;
+    }
 
-onPhotoSelected(event: Event): void {
+    if (!selectedPronouns) {
+      this.showToast(
+        'Missing information',
+        'Please select your pronouns.',
+        'error'
+      );
+      return;
+    }
 
-  const input =
-    event.target as HTMLInputElement;
+    const profileData = {
+      fullName: name,
+      email: emailAddress,
+      pronouns: selectedPronouns
+    };
 
-
-  if (
-    !input.files ||
-    input.files.length === 0
-  ) {
-
-    return;
-
-  }
-
-
-  const file =
-    input.files[0];
-
-
-  if (!file.type.startsWith('image/')) {
-
-    alert(
-      'Please select a valid image file.'
-    );
-
-    return;
-
-  }
-
-
-  if (
-    file.size >
-    5 * 1024 * 1024
-  ) {
-
-    alert(
-      'Please select an image smaller than 5 MB.'
-    );
-
-    return;
-
-  }
-
-
-  const reader =
-    new FileReader();
-
-
-  reader.onload = () => {
-
-    const imageData =
-      reader.result as string;
-
-
-    // Show photo immediately
-    this.profileImage =
-      imageData;
-
-
-    // Save photo to MongoDB
     this.authService
-      .updateProfilePhoto(imageData)
+      .updateProfile(profileData)
       .subscribe({
 
         next: (response) => {
 
           if (response.success) {
 
+            const user = response.user;
+
+            this.fullName =
+              user.fullName || '';
+
+            this.email =
+              user.email || '';
+
+            this.pronouns =
+              user.pronouns || '';
+
             this.profileImage =
-              response.user.profilePicture;
+              user.profilePicture || null;
+
+            if (user.updatedAt) {
+              this.lastUpdated =
+                new Date(
+                  user.updatedAt
+                ).toLocaleDateString(
+                  'en-US',
+                  {
+                    month: 'long',
+                    day: 'numeric',
+                    year: 'numeric'
+                  }
+                );
+            }
+
+            this.authService.saveUser(user);
+
+            this.isEditing = false;
+
+            this.showToast(
+              'Profile updated',
+              'Your changes have been saved successfully.',
+              'success'
+            );
+
+            this.cdr.detectChanges();
+
+          } else {
+
+            this.showToast(
+              'Update failed',
+              response.message ||
+                'Unable to update profile.',
+              'error'
+            );
+          }
+        },
+
+        error: (error) => {
+
+          this.showToast(
+            'Update failed',
+            error.error?.message ||
+              'Unable to update profile.',
+            'error'
+          );
+        }
+      });
+  }
+
+  onPhotoSelected(event: Event): void {
+
+    const input =
+      event.target as HTMLInputElement;
+
+    if (
+      !input.files ||
+      input.files.length === 0
+    ) {
+      return;
+    }
+
+    const file = input.files[0];
+
+    if (!file.type.startsWith('image/')) {
+
+      this.showToast(
+        'Invalid image',
+        'Please select a valid image file.',
+        'error'
+      );
+
+      return;
+    }
+
+    if (file.size > 5 * 1024 * 1024) {
+
+      this.showToast(
+        'Image too large',
+        'Please select an image smaller than 5 MB.',
+        'error'
+      );
+
+      return;
+    }
+
+    const reader = new FileReader();
+
+    reader.onload = () => {
+
+      const imageData =
+        reader.result as string;
+
+      this.profileImage = imageData;
+
+      this.authService
+        .updateProfilePhoto(imageData)
+        .subscribe({
+
+          next: (response) => {
+
+            if (response.success) {
+
+              this.profileImage =
+                response.user.profilePicture;
+
+              this.authService.saveUser(
+                response.user
+              );
+
+              this.showToast(
+                'Photo updated',
+                'Your profile photo has been updated.',
+                'success'
+              );
+
+            } else {
+
+              this.showToast(
+                'Photo update failed',
+                response.message ||
+                  'Unable to update profile photo.',
+                'error'
+              );
+            }
+          },
+
+          error: (error) => {
+
+            this.showToast(
+              'Photo update failed',
+              error.error?.message ||
+                'Unable to update profile photo.',
+              'error'
+            );
+          }
+        });
+    };
+
+    reader.onerror = () => {
+
+      this.showToast(
+        'Image error',
+        'Unable to load the selected image.',
+        'error'
+      );
+    };
+
+    reader.readAsDataURL(file);
+  }
+
+  removePhoto(): void {
+
+    this.authService
+      .updateProfilePhoto(null)
+      .subscribe({
+
+        next: (response) => {
+
+          if (response.success) {
+
+            this.profileImage = null;
 
             this.authService.saveUser(
               response.user
             );
 
-            alert(
-              'Profile photo updated successfully!'
+            this.showToast(
+              'Photo removed',
+              'Your profile photo has been removed.',
+              'success'
             );
 
           } else {
 
-            alert(
+            this.showToast(
+              'Unable to remove photo',
               response.message ||
-              'Unable to update profile photo.'
+                'Unable to remove profile photo.',
+              'error'
             );
-
           }
-
         },
 
         error: (error) => {
 
-          alert(
+          this.showToast(
+            'Unable to remove photo',
             error.error?.message ||
-            'Unable to update profile photo.'
+              'Unable to remove profile photo.',
+            'error'
           );
-
         }
-
       });
+  }
 
-  };
+  showToast(
+    title: string,
+    message: string,
+    type: 'success' | 'error' = 'success'
+  ): void {
 
+    if (this.toastTimer) {
+      clearTimeout(this.toastTimer);
+    }
 
-  reader.onerror = () => {
+    this.toastTitle = title;
+    this.toastMessage = message;
+    this.toastType = type;
+    this.toastVisible = true;
 
-    alert(
-      'Unable to load the selected image.'
-    );
+    this.cdr.detectChanges();
 
-  };
+    this.toastTimer = setTimeout(() => {
 
+      this.toastVisible = false;
+      this.toastTitle = '';
+      this.toastMessage = '';
+      this.toastTimer = undefined;
 
-  reader.readAsDataURL(file);
+      this.cdr.detectChanges();
 
-}
-
-  
-
- /* =========================================
-   REMOVE PHOTO
-   ========================================= */
-
-removePhoto(): void {
-
-  this.authService
-    .updateProfilePhoto(null)
-    .subscribe({
-
-      next: (response) => {
-
-        if (response.success) {
-
-          this.profileImage = null;
-
-          this.authService.saveUser(
-            response.user
-          );
-
-          alert(
-            'Profile photo removed successfully!'
-          );
-
-        } else {
-
-          alert(
-            response.message ||
-            'Unable to remove profile photo.'
-          );
-
-        }
-
-      },
-
-      error: (error) => {
-
-        alert(
-          error.error?.message ||
-          'Unable to remove profile photo.'
-        );
-
-      }
-
-    });
-
-}
-
-
-  /* =========================================
-     LOGOUT
-     ========================================= */
+    }, 3000);
+  }
 
   logout(): void {
 
     const confirmLogout =
-      confirm(
-        'Are you sure you want to logout?'
-      );
-
+      confirm('Are you sure you want to logout?');
 
     if (confirmLogout) {
 
       this.authService.logout();
 
       this.router.navigate(['/login']);
-
     }
-
   }
-
 }

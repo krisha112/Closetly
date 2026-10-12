@@ -1,978 +1,755 @@
-/* =========================================================
-   CLOSETLY — PROFILE PAGE
-   Luxury Editorial Profile Design
-   ========================================================= */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap');
 
-
-/* =========================================================
-   CLOSETLY COLOR PALETTE
-   =========================================================
-
-   Café Noir   #443223
-   Clockwork   #72583E
-   Cedar      #7C7960
-   Latte      #DBC4A5
-   Deep Olive #44422D
-   Mauve      #755151
-   Weathered  #A08670
-   Linen      #FFF9F3
-
-   ========================================================= */
-
-
-/* =========================================================
-   GLOBAL
-   ========================================================= */
+:host {
+  display: block !important;
+  width: 100% !important;
+  min-height: 100vh;
+  margin: 0 !important;
+  padding: 0 !important;
+}
 
 * {
   box-sizing: border-box;
 }
 
-:host {
-  display: block;
-
-  min-height: 100vh;
-
-  font-family:
-    Arial,
-    Helvetica,
-    sans-serif;
-
-  color: #443223;
+html,
+body {
+  margin: 0;
+  padding: 0;
 }
-
-button,
-input,
-select {
-  font-family: inherit;
-}
-
-
-/* =========================================================
-   MAIN PAGE
-   ========================================================= */
 
 .profile-page {
+  position: relative;
+  width: 100%;
+  min-width: 100%;
   min-height: 100vh;
-
-  display: flex;
-
-  background: #FFF9F3;
+  margin: 0;
+  padding: 0;
+  background: #f7f2eb;
+  color: #443223;
+  font-family: 'DM Sans', sans-serif;
+  overflow-x: hidden;
 }
 
+.app-shell {
+  position: relative;
+  display: flex;
+  width: 100%;
+  min-width: 100%;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+}
 
-/* =========================================================
+/* =========================================
    SIDEBAR
-   ========================================================= */
+========================================= */
 
 .sidebar {
   position: fixed;
-
-  top: 0;
   left: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 100;
 
   width: 245px;
+  min-width: 245px;
   height: 100vh;
 
   display: flex;
   flex-direction: column;
 
-  padding: 26px 14px 20px;
+  padding: 28px 18px;
 
-  background:
-    linear-gradient(
-      180deg,
-      #443223 0%,
-      #4D3826 55%,
-      #443223 100%
-    );
-
-  color: #FFF9F3;
-
-  z-index: 1000;
-
-  box-shadow:
-    8px 0 30px rgba(68, 50, 35, 0.12);
+  background: #443223;
+  color: #fff9f3;
 }
 
-
-/* =========================================================
-   SIDEBAR BRAND
-   ========================================================= */
-
-.brand {
+.sidebar-brand {
   display: flex;
-
   align-items: center;
-
-  gap: 10px;
-
-  padding:
-    0 10px 27px;
+  gap: 12px;
+  padding: 4px 10px 30px;
 }
 
+.brand-symbol {
+  width: 43px;
+  height: 43px;
+  flex: 0 0 auto;
 
-.brand-mark {
-  width: 42px;
-  height: 42px;
+  border: 1px solid rgba(255,255,255,.45);
+  border-radius: 50%;
 
-  display: flex;
+  display: grid;
+  place-items: center;
 
-  align-items: center;
-  justify-content: center;
-
-  color: #DBC4A5;
-
-  font-size: 24px;
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
 }
 
-
-.brand-content {
-  display: flex;
-
-  flex-direction: column;
+.brand-text strong {
+  display: block;
+  font-size: 13px;
+  letter-spacing: 3px;
 }
 
-
-.brand-name {
-  color: #FFF9F3;
-
-  font-family:
-    Georgia,
-    "Times New Roman",
-    serif;
-
-  font-size: 19px;
-
-  line-height: 1;
-
-  letter-spacing: 0.2px;
+.brand-text span {
+  display: block;
+  margin-top: 4px;
+  color: rgba(255,255,255,.55);
+  font-size: 7px;
+  letter-spacing: 1.5px;
 }
-
-
-.brand-tagline {
-  margin-top: 5px;
-
-  color: #A08670;
-
-  font-size: 6.5px;
-
-  letter-spacing: 1.25px;
-
-  white-space: nowrap;
-}
-
-
-/* =========================================================
-   SIDEBAR NAVIGATION
-   ========================================================= */
 
 .sidebar-nav {
-  display: flex;
-
-  flex-direction: column;
-
-  gap: 5px;
+  flex: 1;
 }
 
+.nav-label {
+  padding: 0 12px;
+  margin: 10px 0 9px;
+  color: #a08670;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+.second-label {
+  margin-top: 32px;
+}
 
 .nav-item {
   position: relative;
 
-  height: 42px;
-
   display: flex;
-
   align-items: center;
 
   gap: 13px;
 
+  height: 48px;
+
+  margin: 4px 0;
   padding: 0 13px;
 
-  border-radius: 7px;
+  border-radius: 12px;
 
-  color: #E9DCCB;
+  color: rgba(255,255,255,.62);
 
   text-decoration: none;
 
-  font-size: 11px;
-
-  transition:
-    background 0.25s ease,
-    color 0.25s ease,
-    transform 0.25s ease;
-}
-
-
-.nav-item i {
-  width: 18px;
-
-  color: #DBC4A5;
-
-  text-align: center;
+  font-family: 'DM Sans', sans-serif;
 
   font-size: 12px;
+  font-weight: 500;
 
-  transition:
-    color 0.25s ease;
+  transition: .22s ease;
 }
 
+.nav-item i {
+  font-style: normal;
+  font-family: inherit;
+}
+
+.nav-item i {
+  width: 17px;
+  text-align: center;
+  font-size: 13px;
+}
 
 .nav-item:hover {
-  background:
-    rgba(219, 196, 165, 0.10);
-
-  color: #FFF9F3;
-
-  transform:
-    translateX(2px);
+  color: #fff9f3;
+  background: rgba(255,255,255,.07);
 }
-
-
-.nav-item:hover i {
-  color: #DBC4A5;
-}
-
-
-/* =========================================================
-   ACTIVE SETTINGS
-   ========================================================= */
 
 .nav-item.active {
-  background:
-    #72583E;
-
-  color: #FFF9F3;
-
-  box-shadow:
-    0 6px 16px
-    rgba(68, 50, 35, 0.20);
+  color: #443223;
+  background: #dbc4a5;
+  font-weight: 700;
 }
-
-
-.nav-item.active::before {
-  content: "";
-
-  position: absolute;
-
-  left: 0;
-
-  top: 9px;
-
-  width: 3px;
-
-  height: 24px;
-
-  border-radius: 0 4px 4px 0;
-
-  background: #DBC4A5;
-}
-
-
-.nav-item.active i {
-  color: #FFF9F3;
-}
-
-
-/* =========================================================
-   SIDEBAR LOGOUT
-   ========================================================= */
 
 .sidebar-bottom {
   margin-top: auto;
-
-  padding-top: 15px;
-
-  border-top:
-    1px solid
-    rgba(219, 196, 165, 0.15);
 }
 
+.sidebar-note {
+  margin: 15px 7px 20px;
+  padding: 18px;
+  border-radius: 15px;
+
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.08);
+}
+
+.sidebar-note span {
+  color: #dbc4a5;
+  font-size: 8px;
+  letter-spacing: 2px;
+  font-weight: 700;
+}
+
+.sidebar-note p {
+  margin: 9px 0 0;
+  color: rgba(255,255,255,.65);
+
+  font-family: 'Playfair Display', serif;
+  font-size: 13px;
+  line-height: 1.45;
+}
 
 .logout-button {
   width: 100%;
-
-  height: 42px;
+  height: 45px;
 
   display: flex;
-
   align-items: center;
 
-  gap: 13px;
+  gap: 12px;
 
   padding: 0 13px;
 
   border: none;
-
-  border-radius: 7px;
+  border-radius: 11px;
 
   background: transparent;
 
-  color: #E9DCCB;
+  color: rgba(255,255,255,.6);
 
-  font-size: 11px;
+  cursor: pointer;
+
+  font-family: inherit;
+  font-size: 12px;
 
   text-align: left;
 
-  cursor: pointer;
-
-  transition:
-    background 0.25s ease,
-    color 0.25s ease;
+  transition: .2s ease;
 }
-
-
-.logout-button i {
-  width: 18px;
-
-  text-align: center;
-
-  font-size: 12px;
-
-  color: #DBC4A5;
-}
-
 
 .logout-button:hover {
-  background:
-    rgba(219, 196, 165, 0.10);
-
-  color: #FFF9F3;
+  color: #fff9f3;
+  background: rgba(255,255,255,.07);
 }
 
+/* =========================================
+   MAIN
+========================================= */
 
-/* =========================================================
-   MAIN CONTENT
-   ========================================================= */
-
-.main-content {
+.main-area {
   position: relative;
 
-  width:
-    calc(100% - 245px);
-
+  width: calc(100% - 245px);
+  min-width: 0;
   min-height: 100vh;
 
-  margin-left: 245px;
+  margin: 0 0 0 245px;
+  padding: 0;
 
-  padding:
-    42px 48px 32px;
+  background: #f7f2eb;
+}
+
+/* =========================================
+   HERO
+========================================= */
+
+.profile-hero {
+  position: relative;
+
+  width: 100%;
+  height: 460px;
+  min-height: 460px;
+
+  margin: 0 !important;
+  padding: 0 !important;
 
   overflow: hidden;
 
-  background: #FFF9F3;
-}
-
-
-/* =========================================================
-   DECORATIVE BACKGROUND
-   ========================================================= */
-
-.main-content::before {
-  content: "";
-
-  position: absolute;
-
-  top: -150px;
-  right: -130px;
-
-  width: 370px;
-  height: 370px;
-
-  border-radius: 50%;
-
-  background:
-    #F1E5D4;
-
-  opacity: 0.72;
-
-  pointer-events: none;
-}
-
-
-.main-content::after {
-  content: "";
-
-  position: absolute;
-
-  bottom: -180px;
-  left: -120px;
-
-  width: 340px;
-  height: 340px;
-
-  border-radius: 50%;
-
-  border:
-    1px solid
-    rgba(160, 134, 112, 0.18);
-
-  pointer-events: none;
-}
-
-
-/* =========================================================
-   PAGE HEADER
-   ========================================================= */
-
-.page-header {
-  position: relative;
-
-  z-index: 2;
-
-  display: flex;
-
-  align-items: flex-end;
-
-  justify-content: space-between;
-
-  gap: 25px;
-
-  margin-bottom: 28px;
-}
-
-
-.page-eyebrow {
-  margin-bottom: 8px;
-
-  color: #A08670;
-
-  font-size: 8px;
-
-  font-weight: bold;
-
-  letter-spacing: 2.6px;
-}
-
-
-.page-header h1 {
-  margin: 0;
-
-  color: #443223;
-
-  font-family:
-    Georgia,
-    "Times New Roman",
-    serif;
-
-  font-size: 36px;
-
-  font-weight: 500;
-
-  letter-spacing: -0.5px;
-}
-
-
-.page-header p {
-  margin:
-    7px 0 0;
-
-  color: #7C7960;
-
-  font-size: 11px;
-}
-
-
-/* =========================================================
-   EDIT PROFILE BUTTON
-   ========================================================= */
-
-.edit-profile-button {
-  height: 40px;
-
-  display: flex;
-
-  align-items: center;
-
-  gap: 8px;
-
-  padding:
-    0 17px;
-
-  border: none;
-
-  border-radius: 6px;
-
-  background: #72583E;
-
-  color: #FFF9F3;
-
-  font-size: 10px;
-
-  font-weight: bold;
-
-  cursor: pointer;
-
-  box-shadow:
-    0 7px 18px
-    rgba(114, 88, 62, 0.20);
-
-  transition:
-    background 0.25s ease,
-    transform 0.25s ease,
-    box-shadow 0.25s ease;
-}
-
-
-.edit-profile-button:hover {
   background: #443223;
-
-  transform:
-    translateY(-2px);
-
-  box-shadow:
-    0 9px 22px
-    rgba(68, 50, 35, 0.20);
+  color: #fff9f3;
 }
 
-
-/* =========================================================
-   PROFILE HERO CARD
-   ========================================================= */
-
-.profile-card {
-  position: relative;
-
-  z-index: 2;
-
-  min-height: 225px;
-
-  display: flex;
-
-  align-items: center;
-
-  gap: 30px;
-
-  padding:
-    30px 32px;
-
-  overflow: hidden;
-
-  border:
-    1px solid
-    #DBC4A5;
-
-  border-radius: 14px;
-
-  background: #FFFFFF;
-
-  box-shadow:
-    0 12px 35px
-    rgba(68, 50, 35, 0.065);
-}
-
-
-/* =========================================================
-   PROFILE CARD DECORATION
-   ========================================================= */
-
-.profile-decoration {
+.hero-image {
   position: absolute;
 
-  width: 285px;
-  height: 285px;
+  inset: 0;
 
-  right: -125px;
-  top: -170px;
+  width: 100%;
+  height: 100%;
 
-  border-radius: 50%;
+  margin: 0;
+  padding: 0;
 
-  border:
-    1px solid
-    rgba(160, 134, 112, 0.24);
+  background-image:
+    url('https://images.openai.com/static-rsc-4/M5jLAsRqrtixkjuDicl8TGedNdDxD-jRNXynzIGtd65iphQ0IjOZlrYV4dRst95gWf__o9LbFI3FuRdq2g5c1iZI1H_4LcDvRwHCY5PmMAIm5zxvo8SIx70Q9xbvR3oGf11HxFRYUD7-DYhWVZrk6T11zZ9PiP_JYkOj64IN5wbxkC4PCIVndqq9FAgm279q?purpose=fullsize');
 
-  pointer-events: none;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+
+  transition: transform .8s ease;
 }
 
+.profile-hero:hover .hero-image {
+  transform: scale(1.03);
+}
 
-.profile-decoration::after {
-  content: "";
-
+.hero-overlay {
   position: absolute;
 
-  width: 160px;
-  height: 160px;
+  inset: 0;
 
-  left: -65px;
-  top: 125px;
-
-  border-radius: 50%;
-
-  background:
-    #F7EEE4;
-}
-
-
-/* =========================================================
-   PROFILE PHOTO
-   ========================================================= */
-
-.profile-photo-section {
-  position: relative;
-
-  z-index: 2;
-
-  width: 145px;
-
-  flex-shrink: 0;
-
-  text-align: center;
-}
-
-
-.photo-wrapper {
-  position: relative;
-
-  width: 120px;
-  height: 120px;
-
-  margin: auto;
-}
-
-
-.profile-photo,
-.profile-placeholder {
-  width: 120px;
-  height: 120px;
-
-  border-radius: 50%;
-
-  border:
-    4px solid
-    #DBC4A5;
-
-  box-shadow:
-    0 7px 22px
-    rgba(68, 50, 35, 0.14);
-}
-
-
-.profile-photo {
-  display: block;
-
-  object-fit: cover;
-}
-
-
-.profile-placeholder {
-  display: flex;
-
-  align-items: center;
-  justify-content: center;
+  width: 100%;
+  height: 100%;
 
   background:
     linear-gradient(
-      145deg,
-      #DBC4A5,
-      #A08670
+      90deg,
+      rgba(43,31,22,.88) 0%,
+      rgba(68,50,35,.60) 45%,
+      rgba(68,50,35,.18) 100%
     );
-
-  color: #443223;
-
-  font-family:
-    Georgia,
-    "Times New Roman",
-    serif;
-
-  font-size: 35px;
 }
 
+.hero-content {
+  position: relative;
 
-/* =========================================================
-   CAMERA BUTTON
-   ========================================================= */
+  z-index: 2;
 
-.camera-button {
-  position: absolute;
+  width: 100%;
+  height: 100%;
 
-  right: -1px;
-  bottom: 2px;
-
-  width: 36px;
-  height: 36px;
+  margin: 0;
+  padding: 30px 50px;
 
   display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
 
+.hero-top {
+  width: 100%;
+
+  display: flex;
+  justify-content: flex-end;
   align-items: center;
-  justify-content: center;
+}
 
-  border:
-    3px solid
-    #FFFFFF;
+.mobile-brand {
+  display: none;
+}
+
+.edit-profile-btn {
+  border: 1px solid rgba(255,255,255,.5);
+
+  background: rgba(255,255,255,.12);
+
+  color: #fff9f3;
+
+  padding: 12px 19px;
+
+  border-radius: 30px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  backdrop-filter: blur(12px);
+
+  transition: .25s ease;
+}
+
+.edit-profile-btn i {
+  margin-right: 7px;
+}
+
+.edit-profile-btn:hover {
+  background: #fff9f3;
+  color: #443223;
+}
+
+.profile-main {
+  display: flex;
+  align-items: center;
+
+  gap: 28px;
+
+  padding-bottom: 15px;
+}
+
+/* =========================================
+   PROFILE PHOTO
+========================================= */
+
+.profile-photo-wrap {
+  position: relative;
+  flex: 0 0 auto;
+}
+
+.profile-photo {
+  width: 145px;
+  height: 145px;
+
+  display: block;
 
   border-radius: 50%;
 
-  background: #72583E;
+  object-fit: cover;
 
-  color: #FFF9F3;
+  border: 5px solid rgba(255,255,255,.88);
+
+  box-shadow:
+    0 18px 45px rgba(0,0,0,.35);
+
+  cursor: pointer;
+
+  transition:
+    transform .4s ease,
+    box-shadow .4s ease;
+}
+
+.profile-photo:hover {
+  transform: scale(1.08);
+
+  box-shadow:
+    0 22px 55px rgba(0,0,0,.45);
+}
+
+.initials-photo {
+  display: grid;
+  place-items: center;
+
+  background: #dbc4a5;
+  color: #443223;
+
+  font-family: 'Playfair Display', serif;
+
+  font-size: 48px;
+
+  cursor: default;
+}
+
+.photo-camera {
+  position: absolute;
+
+  right: 2px;
+  bottom: 8px;
+
+  width: 40px;
+  height: 40px;
+
+  border-radius: 50%;
+
+  display: grid;
+  place-items: center;
+
+  background: #dbc4a5;
+
+  color: #443223;
+
+  border: 3px solid #fff9f3;
+
+  cursor: pointer;
+
+  transition:
+    transform .2s ease,
+    background .2s ease;
+}
+
+.photo-camera:hover {
+  transform: scale(1.08);
+  background: #fff9f3;
+}
+
+/* =========================================
+   PROFILE HEADING
+========================================= */
+
+.profile-heading .eyebrow {
+  font-size: 10px;
+  letter-spacing: 3px;
+  opacity: .7;
+}
+
+.profile-heading h1 {
+  margin: 7px 0;
+
+  font-family: 'Playfair Display', serif;
+
+  font-size: clamp(40px, 5vw, 65px);
+
+  line-height: .95;
+
+  font-weight: 600;
+}
+
+.profile-email {
+  margin: 0;
+  font-size: 14px;
+  opacity: .85;
+}
+
+.profile-email i {
+  margin-right: 7px;
+}
+
+.profile-pronoun {
+  display: inline-block;
+
+  margin-top: 13px;
+
+  padding: 7px 13px;
+
+  border-radius: 20px;
+
+  background: rgba(255,255,255,.13);
+
+  border: 1px solid rgba(255,255,255,.25);
 
   font-size: 11px;
+}
+
+/* =========================================
+   EDIT PROFILE
+========================================= */
+
+.edit-section {
+  width: calc(100% - 60px);
+  max-width: 1280px;
+
+  margin: 28px auto 55px;
+
+  padding: 0;
+
+  position: relative;
+  z-index: 5;
+}
+
+.section-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+
+  margin-bottom: 18px;
+}
+
+.section-heading > div span,
+.board-heading span,
+.security-copy span {
+  font-size: 10px;
+  letter-spacing: 3px;
+  color: #755151;
+  font-weight: 700;
+}
+
+.section-heading h2,
+.board-heading h2,
+.security-copy h2 {
+  margin: 5px 0 0;
+
+  font-family: 'Playfair Display', serif;
+
+  font-size: 30px;
+
+  color: #443223;
+}
+
+.close-edit {
+  width: 40px;
+  height: 40px;
+
+  border: none;
+
+  border-radius: 50%;
+
+  background: #fff9f3;
+
+  color: #443223;
 
   cursor: pointer;
 
   box-shadow:
-    0 4px 12px
-    rgba(68, 50, 35, 0.18);
-
-  transition:
-    background 0.2s ease,
-    transform 0.2s ease;
+    0 8px 25px rgba(68,50,35,.1);
 }
 
+.edit-card {
+  background: rgba(255,249,243,.97);
 
-.camera-button:hover {
-  background: #755151;
+  border: 1px solid rgba(114,88,62,.12);
 
-  transform:
-    scale(1.08);
+  border-radius: 25px;
+
+  padding: 30px;
+
+  box-shadow:
+    0 22px 55px rgba(68,50,35,.12);
 }
 
+.edit-fields {
+  display: grid;
 
-/* =========================================================
-   PHOTO TEXT
-   ========================================================= */
+  grid-template-columns:
+    1.35fr
+    1.35fr
+    .8fr;
 
-.change-photo-text,
-.remove-photo-button {
-  display: inline-block;
+  gap: 18px;
 
-  margin-top: 10px;
+  align-items: end;
+}
+
+.field label {
+  display: block;
+
+  margin-bottom: 8px;
+
+  font-size: 9px;
+
+  letter-spacing: 2px;
+
+  font-weight: 700;
+
+  color: #806b59;
+}
+
+.input-box {
+  height: 50px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+
+  padding: 0 15px;
+
+  border: 1px solid #d9cbbd;
+
+  border-radius: 13px;
+
+  background: #fff;
+
+  transition: .2s ease;
+}
+
+.input-box:focus-within {
+  border-color: #72583e;
+
+  box-shadow:
+    0 0 0 3px rgba(114,88,62,.08);
+}
+
+.input-box i {
+  color: #8e765f;
+  font-size: 13px;
+}
+
+.input-box input,
+.input-box select {
+  width: 100%;
 
   border: none;
+  outline: none;
 
   background: transparent;
 
-  color: #755151;
+  font-family: inherit;
 
-  font-size: 9px;
+  color: #443223;
 
+  font-size: 13px;
+}
+
+.input-box select {
   cursor: pointer;
 }
 
-
-.change-photo-text:hover,
-.remove-photo-button:hover {
-  text-decoration: underline;
+.input-box.disabled {
+  background: #f2ece5;
+  opacity: .7;
 }
 
+.edit-actions {
+  display: flex;
 
-/* =========================================================
-   PROFILE INTRO
-   ========================================================= */
+  justify-content: flex-end;
 
-.profile-intro {
-  position: relative;
+  gap: 10px;
 
-  z-index: 2;
-
-  flex: 1;
+  margin-top: 25px;
 }
 
+.cancel-btn,
+.save-btn {
+  padding: 12px 20px;
 
-.profile-label {
-  color: #A08670;
+  border-radius: 12px;
 
-  font-size: 8px;
+  font-family: inherit;
 
-  font-weight: bold;
+  font-weight: 600;
 
-  letter-spacing: 2px;
+  cursor: pointer;
+
+  transition: .2s ease;
 }
 
+.cancel-btn {
+  background: transparent;
 
-.profile-intro h2 {
-  margin:
-    7px 0 5px;
+  border: 1px solid #d4c4b5;
 
-  color: #443223;
-
-  font-family:
-    Georgia,
-    "Times New Roman",
-    serif;
-
-  font-size: 30px;
-
-  font-weight: 500;
+  color: #72583e;
 }
 
+.save-btn {
+  border: none;
 
-.profile-email {
+  background: #443223;
+
+  color: #fff9f3;
+}
+
+.save-btn:hover {
+  background: #72583e;
+  transform: translateY(-1px);
+}
+
+.save-btn i {
+  margin-right: 6px;
+}
+
+/* =========================================
+   CONTENT
+========================================= */
+
+.profile-content {
+  width: 100%;
+  max-width: 1280px;
+
+  margin: 0 auto;
+
+  padding:
+    45px 30px
+    70px;
+}
+
+/* =========================================
+   ACCOUNT INFORMATION
+========================================= */
+
+.account-section {
+  margin-bottom: 65px;
+}
+
+.account-section > .section-heading p,
+.board-heading p {
   margin: 0;
 
-  color: #7C7960;
+  max-width: 380px;
 
-  font-size: 11px;
+  color: #8a7767;
+
+  font-size: 13px;
+
+  line-height: 1.7;
 }
-
-
-/* =========================================================
-   PROFILE TAGS
-   ========================================================= */
-
-.profile-tags {
-  display: flex;
-
-  align-items: center;
-
-  flex-wrap: wrap;
-
-  gap: 8px;
-
-  margin-top: 17px;
-}
-
-
-.pronoun-tag,
-.member-tag {
-  display: inline-flex;
-
-  align-items: center;
-
-  gap: 7px;
-
-  padding:
-    7px 11px;
-
-  border-radius: 20px;
-
-  font-size: 9px;
-}
-
-
-.pronoun-tag {
-  background: #F3E7E4;
-
-  border:
-    1px solid
-    #D9BDB7;
-
-  color: #755151;
-}
-
-
-.pronoun-tag i {
-  color: #755151;
-}
-
-
-.member-tag {
-  background: #F7EFE6;
-
-  border:
-    1px solid
-    #DBC4A5;
-
-  color: #72583E;
-}
-
-
-.member-tag i {
-  color: #72583E;
-}
-
-
-/* =========================================================
-   ACCOUNT STATUS
-   ========================================================= */
-
-.profile-status {
-  position: relative;
-
-  z-index: 3;
-
-  align-self: flex-start;
-
-  display: flex;
-
-  align-items: center;
-
-  gap: 7px;
-
-  padding:
-    8px 12px;
-
-  border-radius: 20px;
-
-  background: #F3E7E4;
-
-  border:
-    1px solid
-    #D9BDB7;
-
-  color: #755151;
-
-  font-size: 9px;
-
-  font-weight: bold;
-}
-
-
-.status-dot {
-  width: 7px;
-  height: 7px;
-
-  border-radius: 50%;
-
-  background: #755151;
-}
-
-
-/* =========================================================
-   SECTION
-   ========================================================= */
-
-.account-section,
-.security-section,
-.edit-section {
-  position: relative;
-
-  z-index: 2;
-
-  margin-top: 31px;
-}
-
-
-/* =========================================================
-   SECTION HEADING
-   ========================================================= */
-
-.section-heading {
-  margin-bottom: 14px;
-}
-
-
-.section-heading span {
-  color: #A08670;
-
-  font-size: 8px;
-
-  font-weight: bold;
-
-  letter-spacing: 2.2px;
-}
-
-
-.section-heading h2 {
-  margin:
-    5px 0 0;
-
-  color: #443223;
-
-  font-family:
-    Georgia,
-    "Times New Roman",
-    serif;
-
-  font-size: 20px;
-
-  font-weight: 500;
-}
-
-
-/* =========================================================
-   ACCOUNT INFORMATION GRID
-   ========================================================= */
 
 .account-grid {
   display: grid;
@@ -980,143 +757,585 @@ select {
   grid-template-columns:
     repeat(3, 1fr);
 
-  gap: 14px;
+  gap: 18px;
+
+  margin-top: 25px;
 }
 
+.account-card {
+  position: relative;
 
-/* =========================================================
-   ACCOUNT CARD
-   ========================================================= */
+  min-height: 190px;
 
-.account-info-card {
-  min-height: 98px;
+  padding: 25px;
 
-  display: flex;
+  border-radius: 20px;
 
-  align-items: center;
-
-  gap: 14px;
-
-  padding:
-    17px;
+  background:
+  linear-gradient(
+    145deg,
+    #fff9f3 0%,
+    #eee3d6 100%
+  );
 
   border:
-    1px solid
-    #DBC4A5;
-
-  border-radius: 10px;
-
-  background: #FFFFFF;
+    1px solid rgba(114,88,62,.12);
 
   box-shadow:
-    0 7px 22px
-    rgba(68, 50, 35, 0.045);
+    0 8px 20px rgba(68,50,35,.06),
+    0 18px 45px rgba(68,50,35,.08);
+
+  overflow: hidden;
 
   transition:
-    transform 0.22s ease,
-    box-shadow 0.22s ease;
+    transform .3s ease,
+    box-shadow .3s ease;
 }
 
-
-.account-info-card:hover {
-  transform:
-    translateY(-3px);
+.account-card:hover {
+  transform: translateY(-6px);
 
   box-shadow:
-    0 12px 27px
-    rgba(68, 50, 35, 0.085);
+    0 12px 25px rgba(68,50,35,.08),
+    0 25px 55px rgba(68,50,35,.14);
 }
 
+.account-card::after {
+  content: '';
 
-/* =========================================================
-   INFO ICON
-   ========================================================= */
+  position: absolute;
 
-.info-icon {
-  width: 41px;
-  height: 41px;
+  width: 110px;
+  height: 110px;
 
-  min-width: 41px;
+  right: -40px;
+  bottom: -45px;
 
-  display: flex;
+  border-radius: 50%;
 
-  align-items: center;
-  justify-content: center;
+  background: #dbc4a5;
 
-  border-radius: 9px;
-
-  background: #F7EFE6;
-
-  color: #72583E;
-
-  font-size: 12px;
+  opacity: .25;
 }
 
+.card-icon {
+  width: 42px;
+  height: 42px;
 
-.status-icon {
-  background: #F3E7E4;
+  border-radius: 13px;
 
-  color: #755151;
+  background: #f0e4d6;
+
+  color: #72583e;
+
+  display: grid;
+  place-items: center;
+
+  margin-bottom: 22px;
 }
 
-
-/* =========================================================
-   ACCOUNT CARD TEXT
-   ========================================================= */
-
-.account-info-card span {
+.account-card > span {
   display: block;
 
-  color: #A08670;
+  font-size: 9px;
 
-  font-size: 7px;
+  letter-spacing: 2px;
 
-  font-weight: bold;
+  color: #8a7767;
 
-  letter-spacing: 1.5px;
+  font-weight: 700;
 }
 
-
-.account-info-card strong {
+.account-card strong {
   display: block;
 
-  margin-top: 5px;
+  margin-top: 7px;
+
+  font-family: 'Playfair Display', serif;
+
+  font-size: 22px;
 
   color: #443223;
 
-  font-family:
-    Georgia,
-    "Times New Roman",
-    serif;
-
-  font-size: 14px;
-
-  font-weight: 500;
+  word-break: break-word;
 }
 
-
-.account-info-card small {
+.account-card small {
   display: block;
 
-  margin-top: 3px;
+  margin-top: 8px;
 
-  color: #A08670;
+  color: #9b8979;
+
+  font-size: 11px;
+}
+
+.status-line {
+  margin-top: 13px;
+
+  font-size: 10px;
+
+  color: #707960;
+
+  font-weight: 700;
+}
+
+.status-line i {
+  font-size: 6px;
+  margin-right: 5px;
+}
+
+/* =========================================
+   STYLE BOARD
+========================================= */
+
+.style-board {
+  margin-bottom: 65px;
+}
+
+.board-heading {
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: end;
+
+  margin-bottom: 24px;
+}
+
+.pin-board {
+  display: grid;
+
+  grid-template-columns:
+    1.35fr
+    .8fr
+    .8fr;
+
+  grid-template-rows:
+    215px
+    215px;
+
+  gap: 18px;
+}
+
+.pin-card {
+  position: relative;
+
+  overflow: hidden;
+
+  border-radius: 22px;
+
+  border:
+    1px solid rgba(114,88,62,.12);
+
+  box-shadow:
+    0 8px 20px rgba(68,50,35,.06),
+    0 18px 45px rgba(68,50,35,.09);
+
+  transition:
+    transform .35s ease,
+    box-shadow .35s ease;
+}
+
+.pin-card:hover {
+  transform: translateY(-7px);
+
+  box-shadow:
+    0 12px 25px rgba(68,50,35,.08),
+    0 28px 60px rgba(68,50,35,.16);
+}
+
+.pin-large {
+  grid-row: span 2;
+}
+
+.wardrobe-pin {
+  color: #fff9f3;
+}
+
+.pin-image {
+  position: absolute;
+
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  background-image:
+    url('https://hips.hearstapps.com/hmg-prod/images/6-2-22-elana-home-web-7-large-6888daeba8f3a.png?crop=0.9992193598750976xw:1xh;center,top');
+
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+
+  transition: transform .6s ease;
+}
+
+.pin-card:hover .pin-image {
+  transform: scale(1.05);
+}
+
+.wardrobe-pin::after {
+  content: '';
+
+  position: absolute;
+
+  inset: 0;
+
+  background:
+    linear-gradient(
+      0deg,
+      rgba(45,31,22,.88),
+      rgba(45,31,22,.05)
+    );
+}
+
+.pin-content {
+  position: absolute;
+
+  z-index: 2;
+
+  left: 27px;
+  right: 27px;
+  bottom: 25px;
+}
+
+.pin-content span,
+.pin-card > span {
+  font-size: 9px;
+
+  letter-spacing: 2px;
+
+  font-weight: 700;
+
+  opacity: .8;
+}
+
+.pin-content h3 {
+  margin: 7px 0 15px;
+
+  font-family: 'Playfair Display', serif;
+
+  font-size: 27px;
+
+  line-height: 1.1;
+
+  max-width: 390px;
+}
+
+.pin-content a,
+.pin-card a {
+  color: inherit;
+
+  text-decoration: none;
+
+  font-size: 11px;
+
+  font-weight: 700;
+}
+
+.pin-content a i,
+.pin-card a i {
+  margin-left: 6px;
+}
+
+.outfit-pin {
+  padding: 25px;
+
+  background: #dbc4a5;
+}
+
+.pin-symbol {
+  width: 43px;
+  height: 43px;
+
+  display: grid;
+
+  place-items: center;
+
+  border-radius: 13px;
+
+  background: rgba(255,249,243,.65);
+
+  color: #443223;
+
+  margin-bottom: 23px;
+}
+
+.sparkle-symbol {
+  display: block;
+  color: #000000;
+  font-family: Arial, sans-serif;
+  font-size: 25px;
+  line-height: 1;
+}
+
+.outfit-pin > span,
+.planning-pin > div > span {
+  color: #72583e;
+}
+
+.outfit-pin h3 {
+  margin: 8px 0 18px;
+
+  font-family: 'Playfair Display', serif;
+
+  font-size: 23px;
+
+  line-height: 1.05;
+}
+
+.outfit-pin a {
+  color: #443223;
+}
+
+.planning-pin {
+  padding: 25px;
+
+  display: grid;
+
+  grid-template-columns: 57px 1fr;
+  grid-template-rows: auto auto;
+
+  column-gap: 17px;
+  row-gap: 12px;
+
+  align-items: start;
+
+  background:
+    linear-gradient(
+      145deg,
+      #7c806b 0%,
+      #707960 55%,
+      #5d624e 100%
+    );
+
+  color: #fff9f3;
+}
+
+.mini-calendar {
+  width: 57px;
+  height: 67px;
+
+  flex: 0 0 auto;
+
+  border-radius: 12px;
+
+  background: #fff9f3;
+
+  color: #443223;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+}
+
+.mini-calendar span {
+  font-size: 7px;
+  letter-spacing: 1px;
+}
+
+.mini-calendar strong {
+  font-family: 'Playfair Display', serif;
+
+  font-size: 24px;
+
+  line-height: 1;
+}
+
+.mini-calendar small {
+  display: block;
+
+  margin-top: 2px;
 
   font-size: 8px;
+
+  letter-spacing: 1.5px;
+
+  font-weight: 700;
+
+  opacity: .65;
 }
 
+.planning-pin h3 {
+  margin: 8px 0 15px;
 
-.active-text {
-  color: #755151 !important;
+  font-family: 'Playfair Display', serif;
+
+  font-size: 21px;
+
+  line-height: 1.1;
 }
 
+.planning-pin a {
+  color: #fff9f3;
+}
 
-/* =========================================================
-   SECURITY CARD
-   ========================================================= */
+.quote-pin {
+  grid-column: 2 / 4;
 
-.security-card {
-  min-height: 96px;
+  padding: 25px 30px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #443223 0%,
+      #513b2b 55%,
+      #38291f 100%
+    );
+
+  background: #443223;
+
+  color: #fff9f3;
+
+  box-shadow:
+    0 10px 25px rgba(68,50,35,.12),
+    0 25px 55px rgba(68,50,35,.18);
+
+  display: flex;
+
+  flex-direction: column;
+
+  justify-content: center;
+}
+
+/* CHANGED ONLY FOR STYLE PLANNER */
+
+.planning-copy {
+  position: relative;
+  z-index: 2;
+  padding: 0;
+  box-sizing: border-box;
+  height: auto;
+  min-height: 100%;
+  flex: 1;
+  min-width: 0;
+}
+
+.planning-copy h3 {
+  margin: 10px 0 12px;
+  line-height: 1.05;
+}
+
+.planning-copy p {
+  margin: 0;
+  max-width: 100%;
+  line-height: 1.55;
+  font-size: 11px;
+}
+
+.planning-detail {
+  grid-column: 1 / -1;
+
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  margin-top: 2px;
+  padding-top: 10px;
+
+  border-top: 1px solid rgba(255,255,255,.2);
+
+  font-size: 9px;
+  font-weight: 700;
+  color: #fff9f3;
+
+  white-space: normal;
+}
+
+.planning-detail i {
+  font-size: 11px;
+  flex-shrink: 0;
+}
+
+.quote-pin {
+  background: #755151;
+  color: #FFF9F3;
+  border: none;
+  box-shadow: none;
+}
+
+.quote-text {
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 24px;
+  font-style: italic;
+  font-weight: 500;
+  line-height: 1.45;
+  color: #FFF9F3;
+  margin: 0;
+}
+
+.quote-author {
+  display: block;
+  margin-top: 12px;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: #DBC4A5;
+}
+
+/* =========================================
+   OUTFIT PROCESS
+========================================= */
+
+.outfit-process {
+  display: flex;
+
+  align-items: center;
+
+  gap: 7px;
+
+  margin: 18px 0 16px;
+
+  flex-wrap: wrap;
+}
+
+.outfit-process span {
+  font-size: 8px;
+
+  letter-spacing: 1.2px;
+
+  font-weight: 700;
+
+  opacity: .72;
+}
+
+.outfit-process i {
+  font-size: 8px;
+
+  opacity: .45;
+}
+
+/* =========================================
+   SECURITY
+========================================= */
+
+.security-section {
+  min-height: 170px;
+
+  border-radius: 24px;
+
+  padding: 35px 40px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #fff9f3 0%,
+      #f1e5d8 55%,
+      #e7d7c6 100%
+    );
+
+  border:
+    1px solid rgba(114,88,62,.12);
+
+  box-shadow:
+    0 10px 25px rgba(68,50,35,.06),
+    0 22px 50px rgba(68,50,35,.08);
 
   display: flex;
 
@@ -1124,589 +1343,368 @@ select {
 
   justify-content: space-between;
 
-  gap: 20px;
+  gap: 30px;
 
-  padding:
-    18px 21px;
+  transition:
+    transform .3s ease,
+    box-shadow .3s ease;
+}
 
-  border:
-    1px solid
-    #DBC4A5;
-
-  border-radius: 10px;
-
-  background: #FFFFFF;
+.security-section:hover {
+  transform: translateY(-4px);
 
   box-shadow:
-    0 7px 22px
-    rgba(68, 50, 35, 0.045);
+    0 14px 30px rgba(68,50,35,.08),
+    0 28px 60px rgba(68,50,35,.13);
 }
 
+.security-copy h2 {
+  font-size: 28px;
+}
 
-.security-left {
-  display: flex;
+.security-copy p {
+  max-width: 500px;
+
+  margin: 8px 0 0;
+
+  color: #8a7767;
+
+  font-size: 13px;
+
+  line-height: 1.6;
+}
+
+.password-btn {
+  display: inline-flex;
 
   align-items: center;
 
-  gap: 15px;
+  gap: 10px;
+
+  padding: 14px 21px;
+
+  border-radius: 13px;
+
+  background: #443223;
+
+  color: #fff9f3;
+
+  text-decoration: none;
+
+  font-size: 12px;
+
+  font-weight: 700;
+
+  white-space: nowrap;
+
+  transition: .2s ease;
 }
 
+.password-btn:hover {
+  background: #72583e;
+  transform: translateY(-2px);
+}
 
-.security-icon {
-  width: 44px;
-  height: 44px;
+/* =========================================
+   TOAST
+========================================= */
 
-  min-width: 44px;
-
+.save-toast {
+  position: fixed;
+  z-index: 9999;
+  top: 25px;
+  right: 28px;
+  width: 350px;
+  min-height: 78px;
   display: flex;
-
   align-items: center;
-  justify-content: center;
+  gap: 13px;
+  padding: 15px 18px;
+  background: #fff9f3;
+  border: 1px solid rgba(114,88,62,.16);
+  border-radius: 17px;
+  box-shadow: 0 20px 55px rgba(68,50,35,.2);
+  opacity: 0;
+  transform: translateY(-18px) scale(.97);
+  pointer-events: none;
+  transition: .25s ease;
+  overflow: hidden;
+}
 
-  border-radius: 9px;
+ 
 
-  background: #F7EFE6;
+.save-toast.show {
+  opacity: 1;
 
-  color: #72583E;
+  transform:
+    translateY(0)
+    scale(1);
+}
+
+.toast-check {
+  width: 42px;
+  height: 42px;
+
+  flex: 0 0 auto;
+
+  border-radius: 50%;
+
+  background: #707960;
+
+  color: #fff9f3;
+
+  display: grid;
+  place-items: center;
+}
+
+.save-toast.error .toast-check {
+  background: #755151;
+}
+
+.toast-text {
+  min-width: 0;
+}
+
+.toast-text strong {
+  display: block;
+
+  color: #443223;
 
   font-size: 13px;
 }
 
-
-.security-left h3 {
-  margin:
-    0 0 4px;
-
-  color: #443223;
-
-  font-family:
-    Georgia,
-    "Times New Roman",
-    serif;
-
-  font-size: 15px;
-
-  font-weight: 500;
-}
-
-
-.security-left p {
-  max-width: 600px;
-
-  margin: 0;
-
-  color: #7C7960;
-
-  font-size: 9px;
-
-  line-height: 1.55;
-}
-
-
-/* =========================================================
-   CHANGE PASSWORD BUTTON
-   ========================================================= */
-
-.change-password-button {
-  display: flex;
-
-  align-items: center;
-
-  gap: 9px;
-
-  padding:
-    10px 16px;
-
-  border:
-    1px solid
-    #DBC4A5;
-
-  border-radius: 6px;
-
-  background: #F7EFE6;
-
-  color: #72583E;
-
-  text-decoration: none;
-
-  font-size: 9px;
-
-  font-weight: bold;
-
-  white-space: nowrap;
-
-  transition:
-    background 0.22s ease,
-    color 0.22s ease,
-    transform 0.22s ease;
-}
-
-
-.change-password-button:hover {
-  background: #72583E;
-
-  border-color: #72583E;
-
-  color: #FFF9F3;
-
-  transform:
-    translateX(2px);
-}
-
-
-/* =========================================================
-   EDIT PROFILE SECTION
-   ========================================================= */
-
-.edit-section {
-  padding:
-    22px;
-
-  border:
-    1px solid
-    #DBC4A5;
-
-  border-radius: 11px;
-
-  background: #FFFFFF;
-
-  box-shadow:
-    0 7px 22px
-    rgba(68, 50, 35, 0.045);
-}
-
-
-.edit-grid {
-  display: grid;
-
-  grid-template-columns:
-    repeat(3, 1fr);
-
-  gap: 15px;
-}
-
-
-/* =========================================================
-   FORM
-   ========================================================= */
-
-.form-group label {
+.toast-text span {
   display: block;
 
-  margin-bottom: 7px;
+  margin-top: 3px;
 
-  color: #72583E;
-
-  font-size: 9px;
-
-  font-weight: bold;
-}
-
-
-.input-wrapper {
-  height: 43px;
-
-  display: flex;
-
-  align-items: center;
-
-  gap: 9px;
-
-  padding:
-    0 11px;
-
-  border:
-    1px solid
-    #DBC4A5;
-
-  border-radius: 6px;
-
-  background: #FFF9F3;
-
-  transition:
-    border-color 0.2s ease,
-    box-shadow 0.2s ease;
-}
-
-
-.input-wrapper:focus-within {
-  border-color: #72583E;
-
-  box-shadow:
-    0 0 0 3px
-    rgba(114, 88, 62, 0.08);
-}
-
-
-.input-wrapper i {
-  color: #A08670;
+  color: #8b796a;
 
   font-size: 11px;
+
+  line-height: 1.4;
 }
 
-
-.input-wrapper input,
-.input-wrapper select {
+.toast-line {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 3px;
   width: 100%;
-
-  border: none;
-
-  outline: none;
-
-  background: transparent;
-
-  color: #443223;
-
-  font-size: 10px;
+  background: #72583e;
+  border-radius: 0;
+}
+.save-toast.show .toast-line {
+  animation: toastProgress 3s linear forwards;
 }
 
-
-.input-wrapper select {
-  cursor: pointer;
+.save-toast.error .toast-line {
+  background: #755151;
 }
 
+@keyframes toastProgress {
+  from {
+    width: 100%;
+  }
 
-/* =========================================================
-   EDIT ACTIONS
-   ========================================================= */
-
-.edit-actions {
-  display: flex;
-
-  justify-content: flex-end;
-
-  gap: 9px;
-
-  margin-top: 20px;
+  to {
+    width: 0;
+  }
 }
 
-
-.cancel-button,
-.save-button {
-  height: 38px;
-
-  padding:
-    0 16px;
-
-  border-radius: 6px;
-
-  font-size: 9px;
-
-  font-weight: bold;
-
-  cursor: pointer;
-}
-
-
-.cancel-button {
-  border:
-    1px solid
-    #DBC4A5;
-
-  background: #FFF9F3;
-
-  color: #72583E;
-}
-
-
-.cancel-button:hover {
-  background: #F7EFE6;
-}
-
-
-.save-button {
-  border:
-    1px solid
-    #72583E;
-
-  background: #72583E;
-
-  color: #FFF9F3;
-}
-
-
-.save-button:hover {
-  background: #443223;
-
-  border-color: #443223;
-}
-
-
-/* =========================================================
-   FOOTER
-   ========================================================= */
-
-.profile-footer {
-  position: relative;
-
-  z-index: 2;
-
-  display: flex;
-
-  align-items: center;
-
-  justify-content: center;
-
-  gap: 8px;
-
-  margin-top: 31px;
-
-  color: #A08670;
-
-  font-size: 7px;
-
-  letter-spacing: 1.5px;
-}
-
-
-.footer-brand {
-  color: #72583E;
-
-  font-family:
-    Georgia,
-    "Times New Roman",
-    serif;
-
-  font-size: 11px;
-
-  letter-spacing: 0;
-}
-
-
-/* =========================================================
-   LARGE TABLET
-   ========================================================= */
+/* =========================================
+   TABLET
+========================================= */
 
 @media (max-width: 1100px) {
 
-  .main-content {
-    padding:
-      38px 30px;
+  .sidebar {
+    width: 220px;
+    min-width: 220px;
   }
 
+  .main-area {
+    width: calc(100% - 220px);
+    margin-left: 220px;
+  }
+
+  .hero-content {
+    padding-left: 35px;
+    padding-right: 35px;
+  }
+
+  .profile-content {
+    padding-left: 25px;
+    padding-right: 25px;
+  }
+
+  .pin-board {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto;
+  }
+
+  .pin-large {
+    grid-row: span 1;
+    min-height: 330px;
+  }
+
+  .quote-pin {
+    grid-column: auto;
+  }
+}
+
+/* =========================================
+   SMALL TABLET
+========================================= */
+
+@media (max-width: 900px) {
+
+  .edit-fields {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .pronoun-field {
+    grid-column: span 2;
+    max-width: 300px;
+  }
 
   .account-grid {
-    grid-template-columns:
-      repeat(2, 1fr);
+    grid-template-columns: 1fr;
   }
 
-
-  .edit-grid {
-    grid-template-columns:
-      repeat(2, 1fr);
+  .security-section {
+    flex-direction: column;
+    align-items: flex-start;
   }
-
 }
 
-
-/* =========================================================
-   TABLET
-   ========================================================= */
-
-@media (max-width: 850px) {
-
-  .sidebar {
-    width: 210px;
-  }
-
-
-  .main-content {
-    width:
-      calc(100% - 210px);
-
-    margin-left: 210px;
-
-    padding:
-      32px 22px;
-  }
-
-
-  .profile-card {
-    gap: 22px;
-
-    padding:
-      25px;
-  }
-
-
-  .profile-photo-section {
-    width: 125px;
-  }
-
-
-  .profile-photo,
-  .profile-placeholder {
-    width: 105px;
-    height: 105px;
-  }
-
-
-  .photo-wrapper {
-    width: 105px;
-    height: 105px;
-  }
-
-
-  .profile-intro h2 {
-    font-size: 26px;
-  }
-
-}
-
-
-/* =========================================================
+/* =========================================
    MOBILE
-   ========================================================= */
+========================================= */
 
 @media (max-width: 700px) {
 
-  .profile-page {
-    display: block;
+  .sidebar {
+    width: 72px;
+    min-width: 72px;
+
+    padding: 20px 10px;
   }
 
+  .brand-text,
+  .nav-label,
+  .nav-item span,
+  .sidebar-note,
+  .logout-button span {
+    display: none;
+  }
 
-  .sidebar {
-    position: relative;
+  .sidebar-brand {
+    justify-content: center;
+    padding: 0 0 30px;
+  }
 
+  .nav-item {
+    justify-content: center;
+    padding: 0;
+  }
+
+  .nav-item i {
+    margin: 0;
+  }
+
+  .logout-button {
+    justify-content: center;
+  }
+
+  .main-area {
+    width: calc(100% - 72px);
+    min-width: 0;
+    margin-left: 72px;
+  }
+
+  .profile-hero {
     width: 100%;
     height: auto;
+    min-height: 390px;
 
-    min-height: auto;
-
-    padding:
-      20px 14px;
+    margin: 0 !important;
+    padding: 0 !important;
   }
 
-
-  .sidebar-nav {
-    gap: 3px;
+  .hero-image,
+  .hero-overlay {
+    min-height: 390px;
   }
 
-
-  .sidebar-bottom {
-    margin-top: 12px;
-  }
-
-
-  .main-content {
+  .hero-content {
     width: 100%;
-
-    margin-left: 0;
-
-    padding:
-      28px 17px;
+    min-height: 390px;
+    padding: 20px;
   }
 
-
-  .page-header {
+  .profile-main {
+    flex-direction: column;
     align-items: flex-start;
-
-    flex-direction: column;
-
-    gap: 15px;
   }
 
-
-  .page-header h1 {
-    font-size: 31px;
+  .profile-photo {
+    width: 120px;
+    height: 120px;
   }
 
-
-  .edit-profile-button {
-    width: 100%;
-
-    justify-content: center;
+  .profile-heading h1 {
+    font-size: 42px;
   }
 
-
-  .profile-card {
-    flex-direction: column;
-
-    text-align: center;
-
-    padding:
-      30px 20px;
+  .edit-section,
+  .profile-content {
+    width: calc(100% - 36px);
+    padding-left: 0;
+    padding-right: 0;
   }
-
-
-  .profile-status {
-    align-self: center;
-  }
-
-
-  .profile-tags {
-    justify-content: center;
-  }
-
-
-  .account-grid {
-    grid-template-columns: 1fr;
-  }
-
-
-  .edit-grid {
-    grid-template-columns: 1fr;
-  }
-
-
-  .security-card {
-    align-items: flex-start;
-
-    flex-direction: column;
-  }
-
-
-  .change-password-button {
-    width: 100%;
-
-    justify-content: center;
-  }
-
-}
-
-
-/* =========================================================
-   SMALL MOBILE
-   ========================================================= */
-
-@media (max-width: 430px) {
-
-  .main-content {
-    padding:
-      24px 13px;
-  }
-
-
-  .page-header h1 {
-    font-size: 28px;
-  }
-
-
-  .profile-card {
-    padding:
-      25px 15px;
-  }
-
-
-  .profile-intro h2 {
-    font-size: 24px;
-  }
-
-
-  .profile-email {
-    word-break: break-word;
-  }
-
-
-  .account-info-card {
-    padding:
-      15px;
-  }
-
 
   .edit-section {
-    padding:
-      17px;
+    margin-top: 28px;
   }
 
+  .edit-fields {
+    grid-template-columns: 1fr;
+  }
+
+  .pronoun-field {
+    grid-column: auto;
+    max-width: none;
+  }
+
+  .edit-actions {
+    flex-direction: column-reverse;
+  }
+
+  .cancel-btn,
+  .save-btn {
+    width: 100%;
+  }
+
+  .board-heading,
+  .section-heading {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .pin-board {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .pin-card {
+    min-height: 220px;
+  }
+
+  .save-toast {
+    left: 18px;
+    right: 18px;
+    width: auto;
+  }
 }

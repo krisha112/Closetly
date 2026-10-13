@@ -1,0 +1,348 @@
+
+.saved-looks-page {
+  min-height: 100vh;
+  padding: 42px clamp(20px, 4vw, 56px);
+  color: #443223;
+  background: #F7F3EE;
+}
+
+.saved-looks-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 28px;
+}
+
+.saved-eyebrow {
+  color: #8A7158;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+.saved-looks-header h1 {
+  margin: 10px 0;
+  font-family: Georgia, serif;
+  font-size: clamp(2.2rem, 4vw, 3.2rem);
+  font-weight: 500;
+}
+
+.saved-looks-header p {
+  color: #806A54;
+  line-height: 1.6;
+}
+
+.saved-count {
+  flex-shrink: 0;
+  padding: 12px 20px;
+  border-radius: 30px;
+  background: #E0C8A8;
+  color: #443223;
+  font-weight: 700;
+}
+
+.saved-toolbar {
+  margin-bottom: 26px;
+}
+
+.saved-toolbar input {
+  width: 100%;
+  padding: 15px 18px;
+  border: 1px solid #DBC4A5;
+  border-radius: 12px;
+  outline: none;
+  background: #FFFCF8;
+  color: #443223;
+  font: inherit;
+}
+
+.saved-toolbar input:focus,
+.saved-date-editor input:focus {
+  border-color: #76583E;
+  box-shadow: 0 0 0 3px rgba(118, 88, 62, 0.12);
+}
+
+.saved-looks-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  align-items: start;
+}
+
+.saved-look-card {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid #E8DCCB;
+  border-radius: 18px;
+  background: #FFFCF8;
+  box-shadow: 0 8px 24px rgba(68, 50, 35, 0.06);
+}
+
+.saved-look-preview {
+  position: relative;
+  min-height: 190px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  background:
+    radial-gradient(circle at 50% 40%, #F8F0E5 0, #EDE0CE 72%);
+}
+
+.saved-look-monogram {
+  width: 76px;
+  height: 76px;
+  display: grid;
+  place-items: center;
+  border: 1px solid #CDB394;
+  border-radius: 50%;
+  color: #76583E;
+  font-family: Georgia, serif;
+  font-size: 2.6rem;
+}
+
+.saved-look-shape,
+.saved-look-view {
+  color: #76583E;
+  font-size: 0.82rem;
+  text-transform: capitalize;
+}
+
+.saved-heart {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 42px;
+  height: 42px;
+  border: none;
+  border-radius: 50%;
+  background: #FFFCF8;
+  color: #76583E;
+  font-size: 1.5rem;
+  cursor: pointer;
+  box-shadow: 0 3px 10px rgba(68, 50, 35, 0.08);
+}
+
+.saved-heart.is-favorite {
+  color: #A84F51;
+}
+
+.saved-look-info {
+  padding: 20px;
+}
+
+.saved-look-title-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.saved-look-title-row h2 {
+  margin-bottom: 8px;
+  font-family: Georgia, serif;
+  font-size: 1.35rem;
+  overflow-wrap: anywhere;
+}
+
+.saved-occasion {
+  display: inline-block;
+  padding: 6px 10px;
+  border-radius: 20px;
+  background: #F0E5D7;
+  color: #76583E;
+  font-size: 0.78rem;
+}
+
+.saved-delete-icon {
+  flex-shrink: 0;
+  width: 34px;
+  height: 34px;
+  border: 1px solid #E8DCCB;
+  border-radius: 9px;
+  background: transparent;
+  color: #76583E;
+  font-size: 1.4rem;
+  cursor: pointer;
+}
+
+.saved-delete-icon:hover {
+  background: #F7E7E3;
+  color: #A33D3D;
+}
+
+.saved-description {
+  margin: 16px 0;
+  color: #806A54;
+  font-size: 0.92rem;
+  line-height: 1.6;
+}
+
+.saved-clothing-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+.saved-clothing-list span {
+  padding: 8px 10px;
+  border: 1px solid #E4D0B8;
+  border-radius: 9px;
+  color: #76583E;
+  font-size: 0.8rem;
+}
+
+.saved-schedule {
+  padding-top: 15px;
+  border-top: 1px solid #EEE3D6;
+}
+
+.saved-schedule p {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-bottom: 12px;
+  color: #806A54;
+  font-size: 0.85rem;
+}
+
+.saved-schedule strong {
+  color: #443223;
+}
+
+.saved-schedule button,
+.saved-date-editor button,
+.saved-delete-confirm button {
+  padding: 10px 13px;
+  border: 1px solid #76583E;
+  border-radius: 9px;
+  background: #76583E;
+  color: white;
+  font: inherit;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.saved-schedule button:hover {
+  background: #443223;
+}
+
+.saved-date-editor {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 14px;
+  padding: 14px;
+  border-radius: 12px;
+  background: #F7F0E7;
+}
+
+.saved-date-editor label {
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.saved-date-editor input {
+  width: 100%;
+  min-width: 0;
+  padding: 10px;
+  border: 1px solid #DBC4A5;
+  border-radius: 8px;
+  background: #FFFCF8;
+  color: #443223;
+  font: inherit;
+}
+
+.saved-date-editor .clear-date {
+  align-self: flex-start;
+  background: transparent;
+  color: #76583E;
+}
+
+.saved-delete-confirm {
+  padding: 16px 20px;
+  border-top: 1px solid #E8DCCB;
+  background: #FBF1EC;
+}
+
+.saved-delete-confirm p {
+  margin-bottom: 12px;
+  color: #70473D;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.saved-delete-confirm > div {
+  display: flex;
+  gap: 10px;
+}
+
+.saved-delete-confirm button:first-child {
+  background: transparent;
+  color: #76583E;
+}
+
+.saved-delete-confirm .confirm-delete {
+  border-color: #A33D3D;
+  background: #A33D3D;
+}
+
+.saved-empty {
+  min-height: 300px;
+  padding: 45px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border: 1px dashed #D9C4AA;
+  border-radius: 18px;
+  background: #FFFCF8;
+}
+
+.saved-empty-icon {
+  margin-bottom: 16px;
+  color: #9A7B59;
+  font-size: 3rem;
+}
+
+.saved-empty h2 {
+  margin-bottom: 10px;
+  font-family: Georgia, serif;
+  font-size: 1.7rem;
+}
+
+.saved-empty p {
+  max-width: 430px;
+  color: #806A54;
+  line-height: 1.7;
+}
+
+@media (max-width: 1100px) {
+  .saved-looks-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 700px) {
+  .saved-looks-page {
+    padding: 28px 16px;
+  }
+
+  .saved-looks-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .saved-looks-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .saved-look-preview {
+    min-height: 170px;
+  }
+}

@@ -1,122 +1,155 @@
+
 import { useState } from 'react'
 import './App.css'
+
 import OutfitBuilder from './components/OutfitBuilder/OutfitBuilder'
+import Favourites from './components/Favourites/Favourites'
+import Wardrobe from './components/Wardrobe/Wardrobe'
+import SavedLooks from './components/SavedLooks/SavedLooks'
 
 function App() {
   const [activePage, setActivePage] = useState('home')
 
+  const navigateTo = (page) => {
+    setActivePage(page)
+  }
+
   return (
     <div className="home">
-
-      {/* NAVBAR */}
-      <nav className="navbar">
-
+      {/* SHARED SIDEBAR */}
+      <aside className="sidebar">
         <div
           className="logo"
-          onClick={() => setActivePage('home')}
+          onClick={() => navigateTo('home')}
         >
           Closetly
         </div>
 
-        <div className="nav-links">
-
-          <span
+        <nav className="sidebar-nav">
+          <button
             className={activePage === 'home' ? 'active-nav' : ''}
-            onClick={() => setActivePage('home')}
+            onClick={() => navigateTo('home')}
           >
-            Home
-          </span>
+            Dashboard
+          </button>
 
-          <span
-            className={activePage === 'outfitBuilder' ? 'active-nav' : ''}
-            onClick={() => setActivePage('outfitBuilder')}
+          <button
+            className={activePage === 'wardrobe' ? 'active-nav' : ''}
+            onClick={() => navigateTo('wardrobe')}
           >
-            Outfit Builder
-          </span>
+            Wardrobe
+          </button>
 
-          <span
+          <button
+            className={activePage === 'createOutfit' ? 'active-nav' : ''}
+            onClick={() => navigateTo('createOutfit')}
+          >
+            Create Outfit
+          </button>
+
+          <button
             className={activePage === 'outfits' ? 'active-nav' : ''}
-            onClick={() => setActivePage('outfits')}
+            onClick={() => navigateTo('outfits')}
           >
-            My Outfits
-          </span>
+            Saved Looks
+          </button>
 
-          <span
+          <button
             className={activePage === 'favorites' ? 'active-nav' : ''}
-            onClick={() => setActivePage('favorites')}
+            onClick={() => navigateTo('favorites')}
           >
             Favorites
-          </span>
+          </button>
+        </nav>
+      </aside>
 
-        </div>
+      {/* MAIN CONTENT */}
+      <div className="main-content">
+        {/* SHARED TOP BAR */}
+        <header className="topbar">
+          <div className="breadcrumb">
+            <span>My Space</span>
+            <span className="breadcrumb-divider">/</span>
+            <strong>
+              {activePage === 'home' && 'Dashboard'}
+              {activePage === 'wardrobe' && 'Wardrobe'}
+              {activePage === 'createOutfit' && 'Create Outfit'}
+              {activePage === 'outfits' && 'Saved Looks'}
+              {activePage === 'favorites' && 'Favorites'}
+            </strong>
+          </div>
 
-      </nav>
-
-
-      {/* HOME PAGE */}
-      {activePage === 'home' && (
-        <main className="hero">
-
-          <h1>Create Your Perfect Outfit</h1>
-
-          <p>
-            Mix and match your wardrobe items to create outfits you love.
-          </p>
-
-          <div className="hero-buttons">
+          <div className="topbar-actions">
+            <div className="topbar-search">
+              <span>⌕</span>
+              <input
+                type="text"
+                placeholder="Search for clothes, outfits, or brands..."
+              />
+            </div>
 
             <button
-              onClick={() => setActivePage('outfitBuilder')}
+              type="button"
+              className="notification-button"
+              aria-label="Notifications"
+              title="Notifications"
             >
-              Create Outfit
+              ♧
             </button>
 
             <button
-              className="secondary-btn"
-              onClick={() => setActivePage('outfits')}
+              type="button"
+              className="profile-button"
+              title="User profile"
             >
-              View My Outfits
+              <span className="profile-avatar">A</span>
+              <span className="profile-name">Anushka</span>
+              <span>
+                ⌄</span>
+
             </button>
 
           </div>
+        </header>
+        {/* DASHBOARD */}
+        {activePage === 'home' && (
+          <main className="hero">
+            <h1>Your style, your space.</h1>
 
-        </main>
-      )}
+            <p>
+              Organize your wardrobe, create beautiful outfits,
+              and make every day a stylish one.
+            </p>
 
+            <div className="hero-buttons">
+              <button onClick={() => navigateTo('createOutfit')}>
+                Create Outfit
+              </button>
 
-      {/* OUTFIT BUILDER */}
-      {activePage === 'outfitBuilder' && (
-        <OutfitBuilder />
-      )}
+              <button
+                className="secondary-btn"
+                onClick={() => navigateTo('outfits')}
+              >
+                View Saved Looks
+              </button>
+            </div>
+          </main>
+        )}
 
+        {/* WARDROBE */}
+        {activePage === 'wardrobe' && <Wardrobe />}
 
-      {/* MY OUTFITS */}
-      {activePage === 'outfits' && (
-        <main className="page-content">
+        {/* CREATE OUTFIT */}
+        {activePage === 'createOutfit' && (
+          <OutfitBuilder onNavigate={navigateTo} />
+        )}
 
-          <h1>My Outfits</h1>
+        {/* SAVED LOOKS */}
+        {activePage === 'outfits' && <SavedLooks />}
 
-          <p>
-            Your saved outfit combinations will appear here.
-          </p>
-
-        </main>
-      )}
-
-
-      {/* FAVORITES */}
-      {activePage === 'favorites' && (
-        <main className="page-content">
-
-          <h1>Favorite Outfits</h1>
-
-          <p>
-            Your favorite saved outfits will appear here.
-          </p>
-
-        </main>
-      )}
-
+        {/* FAVORITES */}
+        {activePage === 'favorites' && <Favourites />}
+      </div>
     </div>
   )
 }

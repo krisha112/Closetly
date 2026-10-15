@@ -1652,6 +1652,7 @@ def update_profile_photo(request):
             },
             status=405
         )
+        
 
     try:
 
@@ -1830,6 +1831,180 @@ def update_profile_photo(request):
 
         print(
             "Update profile photo error:",
+            e
+        )
+
+        return JsonResponse(
+            {
+                "success": False,
+                "message": "Something went wrong."
+            },
+            status=500
+        )
+
+    # =========================================================
+# DELETE ACCOUNT
+# =========================================================
+
+@csrf_exempt
+def delete_account(request):
+
+    if request.method != "DELETE":
+        return JsonResponse(
+            {
+                "success": False,
+                "message": "Only DELETE method is allowed."
+            },
+            status=405
+        )
+
+    try:
+        # -------------------------------------------------
+        # GET JWT TOKEN
+        # -------------------------------------------------
+
+        auth_header = request.headers.get(
+            "Authorization",
+            ""
+        )
+
+        if not auth_header.startswith("Bearer "):
+            return JsonResponse(
+                {
+                    "success": False,
+                    "message": "Authorization token is required."
+                },
+                status=401
+            )
+
+        token = auth_header.split(
+            " ",
+            1
+        )[1]
+
+        # -------------------------------------------------
+        # VERIFY JWT
+        # -------------------------------------------------
+
+        payload = jwt.decode(
+            token,
+            settings.SECRET_KEY,
+            algorithms=["HS256"]
+        )
+
+        user_id = payload.get(
+            "userId"
+        )
+
+        if not user_id:
+            return JsonResponse(
+                {
+                    "success": False,
+                    "message": "Invalid token."
+                },
+                status=401
+            )
+
+        # -------------------------------------------------
+        # VALIDATE USER ID
+        # -------------------------------------------------
+
+        try:
+            object_id = ObjectId(user_id)
+
+        except Exception:
+            return JsonResponse(
+                {
+                    "success": False,
+                    "message": "Invalid user ID."
+                },
+                status=400
+            )
+
+        # -------------------------------------------------
+        # CHECK USER
+        # -------------------------------------------------
+
+        user = users_collection.find_one(
+            {
+                "_id": object_id
+            }
+        )
+
+        if not user:
+            return JsonResponse(
+                {
+                    "success": False,
+                    "message": "User account not found."
+                },
+                status=404
+            )
+
+        # -------------------------------------------------
+        # DELETE PASSWORD RESET TOKENS
+        # -------------------------------------------------
+
+        password_reset_tokens.delete_many(
+            {
+                "userId": object_id
+            }
+        )
+
+        # -------------------------------------------------
+        # DELETE USER ACCOUNT
+        # -------------------------------------------------
+
+        result = users_collection.delete_one(
+            {
+                "_id": object_id
+            }
+        )
+
+        if result.deleted_count == 0:
+            return JsonResponse(
+                {
+                    "success": False,
+                    "message": "Unable to delete account."
+                },
+                status=500
+            )
+
+        # -------------------------------------------------
+        # SUCCESS
+        # -------------------------------------------------
+
+        return JsonResponse(
+            {
+                "success": True,
+                "message": "Account deleted successfully."
+            },
+            status=200
+        )
+
+    except jwt.ExpiredSignatureError:
+
+        return JsonResponse(
+            {
+                "success": False,
+                "message": "Token has expired."
+            },
+            status=401
+        )
+
+    except jwt.InvalidTokenError:
+
+        return JsonResponse(
+            {
+                "success": False,
+                "message": "Invalid token."
+            },
+            status=401
+        )
+
+    except Exception as e:
+
+        print(
+            "Delete account error:",
             e
         )
 

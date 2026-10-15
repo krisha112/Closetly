@@ -8,7 +8,8 @@ from .views import (
     get_profile,
     update_profile,
     change_password,
-    update_profile_photo
+    update_profile_photo,
+    delete_account
 )
 
 urlpatterns = [
@@ -25,17 +26,17 @@ urlpatterns = [
     ),
 
     path(
-        "forgot-password/", 
-        forgot_password, 
+        "forgot-password/",
+        forgot_password,
         name="forgot_password"
     ),
 
     path(
-        "reset-password/", 
-        reset_password, 
+        "reset-password/",
+        reset_password,
         name="reset_password"
     ),
-    
+
     path(
         "profile/",
         get_profile,
@@ -58,5 +59,11 @@ urlpatterns = [
         "profile/photo/",
         update_profile_photo,
         name="update_profile_photo"
+    ),
+
+    path(
+        "delete-account/",
+        delete_account,
+        name="delete_account"
     ),
 ]

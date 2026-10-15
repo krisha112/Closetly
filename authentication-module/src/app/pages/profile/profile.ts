@@ -32,9 +32,10 @@ export class Profile implements OnInit {
   lastUpdated = '';
 
   profileImage: string | null = null;
-
-  isEditing = false;
-  isLoading = true;
+  showPhotoMenu = false;
+showDeleteModal = false;
+isEditing = false;
+isLoading = true;
 
   errorMessage = '';
 
@@ -176,6 +177,14 @@ export class Profile implements OnInit {
         }
       }
     });
+  }
+
+  openPhotoMenu(): void {
+    this.showPhotoMenu = !this.showPhotoMenu;
+  }
+
+  closePhotoMenu(): void {
+    this.showPhotoMenu = false;
   }
 
   getInitials(): string {
@@ -339,6 +348,7 @@ export class Profile implements OnInit {
   }
 
   onPhotoSelected(event: Event): void {
+    this.showPhotoMenu = false;
 
     const input =
       event.target as HTMLInputElement;
@@ -440,6 +450,7 @@ export class Profile implements OnInit {
   }
 
   removePhoto(): void {
+    this.showPhotoMenu = false;
 
     this.authService
       .updateProfilePhoto(null)
@@ -525,4 +536,72 @@ export class Profile implements OnInit {
       this.router.navigate(['/login']);
     }
   }
+
+    changePassword(): void {
+    this.router.navigate(['/change-password']);
+  }
+
+  deleteAccount(): void {
+  this.showDeleteModal = true;
+}
+
+cancelDeleteAccount(): void {
+  this.showDeleteModal = false;
+}
+
+confirmDeleteAccount(): void {
+
+  this.showDeleteModal = false;
+
+  this.authService
+    .deleteAccount()
+    .subscribe({
+
+      next: (response) => {
+
+        if (response.success) {
+
+          this.authService.logout();
+
+          this.showToast(
+            'Account deleted',
+            'Your Closetly account has been deleted successfully.',
+            'success'
+          );
+
+          setTimeout(() => {
+            this.router.navigate(['/register']);
+          }, 1500);
+
+        } else {
+
+          this.showToast(
+            'Deletion failed',
+            response.message ||
+              'Unable to delete your account.',
+            'error'
+          );
+        }
+      },
+
+      error: (error) => {
+
+        if (error.status === 401) {
+
+          this.authService.logout();
+
+          this.router.navigate(['/login']);
+
+          return;
+        }
+
+        this.showToast(
+          'Deletion failed',
+          error.error?.message ||
+            'Unable to delete your account.',
+          'error'
+        );
+      }
+    });
+}
 }

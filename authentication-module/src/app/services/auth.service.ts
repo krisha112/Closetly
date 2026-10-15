@@ -173,6 +173,24 @@ changePassword(passwordData: {
   );
 }
 
+// =========================
+// DELETE ACCOUNT
+// =========================
+
+deleteAccount(): Observable<any> {
+
+  const token = this.getToken();
+
+  return this.http.delete(
+    `${this.apiUrl}/delete-account/`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }
+  );
+}
+
   // =========================
   // SAVE JWT TOKEN
   // =========================

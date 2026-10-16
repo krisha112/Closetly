@@ -1,124 +1,66 @@
+
 <div class="sidebar">
 
-    <!-- =========================
-         BRAND
-    ========================== -->
-
-    <div class="logo">
-
+  <!-- BRAND -->
+  <div class="logo">
     <img
-        src="/closetly-logo.jpg"
-        alt="Closetly Logo"
-        class="logo-image"
-    >
+      src="/closetly-logo.jpg"
+      alt="Closetly Logo"
+      class="logo-image"
+    />
 
-    <p>
-        Digital Wardrobe
-    </p>
+    <h1 class="brand-name">Closetly</h1>
+    <p class="brand-tagline">DIGITAL WARDROBE</p>
+  </div>
 
-</div>
-
-
-    <!-- =========================
-         NAVIGATION
-    ========================== -->
-
-    <nav>
-
-        <a class="active">
-
-            <mat-icon>
-                dashboard
-            </mat-icon>
-
-            <span>
-                Dashboard
-            </span>
-
-        </a>
-
-
-        <a>
-
-            <mat-icon>
-                checkroom
-            </mat-icon>
-
-            <span>
-                Wardrobe
-            </span>
-
-        </a>
-
-
-        <a>
-
-            <mat-icon>
-                style
-            </mat-icon>
-
-            <span>
-                Outfit Creator
-            </span>
-
-        </a>
-
-
-        <a>
-
-            <mat-icon>
-                favorite
-            </mat-icon>
-
-            <span>
-                Wishlist
-            </span>
-
-        </a>
-
-
-        <a>
-
-            <mat-icon>
-                person
-            </mat-icon>
-
-            <span>
-                Profile
-            </span>
-
-        </a>
-
-
-        <a>
-
-            <mat-icon>
-                settings
-            </mat-icon>
-
-            <span>
-                Settings
-            </span>
-
-        </a>
-
-    </nav>
-
-
-    <!-- =========================
-         LOGOUT
-    ========================== -->
-
-    <div class="logout">
-
-        <mat-icon>
-            logout
-        </mat-icon>
-
-        <span>
-            Logout
-        </span>
-
+  <!-- FASHION QUOTE -->
+  <div class="style-quote">
+    <div class="quote-words">
+      <span>FASHIONS</span>
+      <span>FADE,</span>
+      <span>STYLE IS</span>
+      <span>ETERNAL</span>
     </div>
+  </div>
+
+  <!-- NAVIGATION -->
+  <nav>
+    <a routerLink="/dashboard" routerLinkActive="active"
+       [routerLinkActiveOptions]="{ exact: true }">
+      <mat-icon>dashboard</mat-icon>
+      <span>Dashboard</span>
+    </a>
+
+    <a routerLink="/wardrobe" routerLinkActive="active">
+      <mat-icon>checkroom</mat-icon>
+      <span>Wardrobe</span>
+    </a>
+
+    <a routerLink="/outfit-creator" routerLinkActive="active">
+      <mat-icon>style</mat-icon>
+      <span>Outfit Creator</span>
+    </a>
+
+    <a routerLink="/my-outfits" routerLinkActive="active">
+      <mat-icon>checkroom</mat-icon>
+      <span>My Outfits</span>
+    </a>
+
+    <a routerLink="/favourites" routerLinkActive="active">
+      <mat-icon>favorite</mat-icon>
+      <span>Favourites</span>
+    </a>
+
+    <a routerLink="/profile" routerLinkActive="active">
+      <mat-icon>person</mat-icon>
+      <span>Profile</span>
+    </a>
+  </nav>
+
+  <!-- LOGOUT -->
+  <div class="logout">
+    <mat-icon>logout</mat-icon>
+    <span>Logout</span>
+  </div>
 
 </div>

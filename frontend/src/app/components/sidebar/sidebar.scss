@@ -1,472 +1,333 @@
-/* =========================================================
+
+/* =========================================
    CLOSETLY SIDEBAR
-   ========================================================= */
+   Premium Fashion Editorial Theme
+========================================= */
 
-@import url(
-  'https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap'
-);
+:host {
+  display: block;
+  align-self: stretch;
+  min-height: 100vh;
+  height: auto;
+  flex-shrink: 0;
+}
 
-
-/* =========================================================
-   SIDEBAR
-   ========================================================= */
+* {
+  box-sizing: border-box;
+}
 
 .sidebar {
-
-    width: 270px;
-    min-width: 270px;
-
-    height: 100vh;
-
-    background: #44422D;
-
-    color: #FFF9F3;
-
-    display: flex;
-
-    flex-direction: column;
-
-    justify-content: space-between;
-
-    padding: 30px 20px;
-
-    box-sizing: border-box;
-
-    flex-shrink: 0;
-
-    font-family:
-        'DM Sans',
-        Arial,
-        sans-serif;
-
-    transition: 0.3s;
+  width: 270px;
+  min-width: 270px;
+  min-height: 100vh;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  padding: 30px 22px 22px;
+  background: #402c20;
+  color: #fbf6ef;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
+/* =========================================
+   BRAND / LOGO
+========================================= */
 
-/* =========================================================
-   LOGO
-   ========================================================= */
-/* =========================================================
-   WEBSITE LOGO
-   ========================================================= */
+.logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  flex-shrink: 0;
+  margin-bottom: 0;
+}
 
 .logo-image {
-
-    width: 145px;
-
-    height: auto;
-
-    max-height: 75px;
-
-    object-fit: contain;
-
-    display: block;
-
-    margin: 0 auto;
-
-    transition: transform 0.2s ease;
+  display: block;
+  width: 58px;
+  height: 58px;
+  flex-shrink: 0;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 50%;
+  margin-bottom: 10px;
+  background: #e0c8a8;
+  border: 1px solid rgba(224, 200, 168, 0.5);
 }
 
-
-.logo-image:hover {
-
-    transform: scale(1.02);
-}
-.logo {
-
-    text-align: center;
-
-    margin-bottom: 25px;
+.brand-name {
+  margin: 0;
+  color: #fbf6ef;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 31px;
+  font-weight: 600;
+  line-height: 1.05;
+  letter-spacing: 0.2px;
 }
 
-
-.logo h1 {
-
-    margin: 0;
-
-    color: #FFF9F3;
-
-    font-family:
-        'Cormorant Garamond',
-        Georgia,
-        serif;
-
-    font-size: 34px;
-
-    font-weight: 600;
-
-    line-height: 1;
-
-    letter-spacing: -0.5px;
+.logo .brand-tagline {
+  margin: 7px 0 0;
+  color: #e0c8a8;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 2px;
+  line-height: 1.5;
+  text-transform: uppercase;
 }
 
+/* =========================================
+   FASHION QUOTE
+========================================= */
 
-.logo p {
-
-    margin-top: 8px;
-
-    margin-bottom: 0;
-
-    color: #DBC4A5;
-
-    font-family:
-        'DM Sans',
-        Arial,
-        sans-serif;
-
-    font-size: 12px;
-
-    font-weight: 500;
-
-    letter-spacing: 0.6px;
+.style-quote {
+  width: 100%;
+  max-width: 205px;
+  margin: 42px auto 34px;
+  padding: 24px 8px;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  text-align: center;
+  background: transparent;
+  border-top: 1px solid rgba(224, 200, 168, 0.28);
+  border-bottom: 1px solid rgba(224, 200, 168, 0.28);
 }
 
+.quote-words {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+  color: #d7b99a;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 23px;
+  font-weight: 500;
+  font-style: italic;
+  line-height: 1.05;
+  letter-spacing: 0;
+}
 
-/* =========================================================
+.quote-words span {
+  display: block;
+  color: inherit;
+  font-family: inherit;
+}
+
+/* =========================================
    NAVIGATION
-   ========================================================= */
+========================================= */
 
 nav {
-
-    margin-top: 40px;
-
-    display: flex;
-
-    flex-direction: column;
-
-    gap: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  flex-shrink: 0;
 }
-
 
 nav a {
-
-    min-height: 48px;
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 15px;
-
-    padding: 0 18px;
-
-    border-radius: 12px;
-
-    box-sizing: border-box;
-
-    cursor: pointer;
-
-    text-decoration: none;
-
-    color: #FFF9F3;
-
-    font-family:
-        'DM Sans',
-        Arial,
-        sans-serif !important;
-
-    font-size: 13px;
-
-    font-weight: 500;
-
-    letter-spacing: 0.1px;
-
-    transition:
-        background 0.3s ease,
-        transform 0.3s ease;
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  min-height: 49px;
+  padding: 0 16px;
+  border-radius: 11px;
+  color: #f5eadc;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.15px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.25s ease, color 0.25s ease;
 }
-
-
-/* =========================================================
-   NAVIGATION TEXT
-   ========================================================= */
-
-nav a span {
-
-    color: #FFF9F3;
-
-    font-family:
-        'DM Sans',
-        Arial,
-        sans-serif !important;
-
-    font-size: 13px;
-
-    font-weight: 500;
-
-    line-height: 1;
-
-    white-space: nowrap;
-}
-
-
-/* =========================================================
-   MATERIAL ICONS
-   IMPORTANT:
-   Do NOT allow DM Sans to override Material Icons.
-   ========================================================= */
-
-.sidebar mat-icon {
-
-    width: 22px;
-
-    height: 22px;
-
-    min-width: 22px;
-
-    display: inline-flex !important;
-
-    align-items: center;
-
-    justify-content: center;
-
-    color: #FFF9F3;
-
-    font-family:
-        'Material Icons' !important;
-
-    font-size: 22px;
-
-    font-weight: normal;
-
-    font-style: normal;
-
-    line-height: 1;
-
-    letter-spacing: normal;
-
-    text-transform: none;
-
-    white-space: nowrap;
-
-    word-wrap: normal;
-
-    direction: ltr;
-
-    -webkit-font-feature-settings: 'liga';
-
-    -webkit-font-smoothing: antialiased;
-
-    font-feature-settings: 'liga';
-
-    vertical-align: middle;
-
-    user-select: none;
-
-    flex-shrink: 0;
-}
-
-
-/* =========================================================
-   NAVIGATION ICONS
-   ========================================================= */
 
 nav a mat-icon {
-
-    width: 22px;
-
-    height: 22px;
-
-    min-width: 22px;
-
-    font-family:
-        'Material Icons' !important;
-
-    font-size: 22px;
-
-    color: #FFF9F3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  font-size: 22px;
+  line-height: 22px;
+  color: #e0c8a8;
+  flex-shrink: 0;
 }
-
-
-/* =========================================================
-   HOVER
-   ========================================================= */
 
 nav a:hover {
-
-    background: #72583E;
-
-    transform: translateX(5px);
+  background: rgba(224, 200, 168, 0.12);
+  color: #ffffff;
 }
-
-
-/* =========================================================
-   ACTIVE ITEM
-   ========================================================= */
 
 nav a.active {
-
-    background: #72583E;
-
-    border-left:
-        4px solid
-        #DBC4A5;
-
-    padding-left: 14px;
+  background: #76583e;
+  color: #ffffff;
+  font-weight: 600;
 }
 
-
-nav a.active span {
-
-    font-weight: 600;
-
-    color: #FFF9F3;
+nav a.active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 8px;
+  bottom: 8px;
+  width: 3px;
+  border-radius: 0 4px 4px 0;
+  background: #e0c8a8;
 }
-
 
 nav a.active mat-icon {
-
-    color: #FFF9F3;
+  color: #fbf6ef;
 }
 
-
-/* =========================================================
+/* =========================================
    LOGOUT
-   ========================================================= */
+========================================= */
 
 .logout {
-
-    min-height: 48px;
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 15px;
-
-    padding: 0 15px;
-
-    border-radius: 12px;
-
-    box-sizing: border-box;
-
-    cursor: pointer;
-
-    color: #FFF9F3;
-
-    font-family:
-        'DM Sans',
-        Arial,
-        sans-serif !important;
-
-    font-size: 13px;
-
-    font-weight: 500;
-
-    transition:
-        background 0.3s ease,
-        transform 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  min-height: 46px;
+  padding: 0 16px;
+  margin-top: auto;
+  flex-shrink: 0;
+  border-radius: 10px;
+  color: #f5eadc;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.25s ease;
 }
-
-
-/* Logout text */
-
-.logout span {
-
-    color: #FFF9F3;
-
-    font-family:
-        'DM Sans',
-        Arial,
-        sans-serif !important;
-
-    font-size: 13px;
-
-    font-weight: 500;
-
-    line-height: 1;
-
-    white-space: nowrap;
-}
-
-
-/* Logout icon */
 
 .logout mat-icon {
-
-    width: 22px;
-
-    height: 22px;
-
-    min-width: 22px;
-
-    display: inline-flex !important;
-
-    align-items: center;
-
-    justify-content: center;
-
-    color: #FFF9F3 !important;
-
-    font-family:
-        'Material Icons' !important;
-
-    font-size: 22px;
-
-    font-weight: normal;
-
-    font-style: normal;
-
-    line-height: 1;
-
-    letter-spacing: normal;
-
-    text-transform: none;
-
-    white-space: nowrap;
-
-    direction: ltr;
-
-    -webkit-font-feature-settings: 'liga';
-
-    -webkit-font-smoothing: antialiased;
-
-    font-feature-settings: 'liga';
-
-    flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  font-size: 22px;
+  color: #e0c8a8;
 }
-
-
-/* =========================================================
-   LOGOUT HOVER
-   ========================================================= */
 
 .logout:hover {
-
-    background: #755151;
-
-    transform: translateX(5px);
+  background: rgba(224, 200, 168, 0.12);
 }
 
+/* =========================================
+   SHORT SCREENS
+========================================= */
 
-/* =========================================================
-   RESPONSIVE
-   ========================================================= */
+@media (max-height: 760px) {
+  .sidebar {
+    padding-top: 20px;
+    padding-bottom: 16px;
+  }
+
+  .logo-image {
+    width: 50px;
+    height: 50px;
+  }
+
+  .brand-name {
+    font-size: 28px;
+  }
+
+  .style-quote {
+    margin: 22px auto;
+    padding: 14px 8px;
+  }
+
+  .quote-words {
+    font-size: 19px;
+  }
+
+  nav {
+    gap: 8px;
+  }
+
+  nav a {
+    min-height: 43px;
+  }
+}
+
+/* =========================================
+   TABLET
+========================================= */
 
 @media (max-width: 900px) {
+  .sidebar {
+    width: 230px;
+    min-width: 230px;
+    padding-left: 15px;
+    padding-right: 15px;
+  }
 
-    .sidebar {
+  .style-quote {
+    max-width: 175px;
+  }
 
-        width: 230px;
+  .quote-words {
+    font-size: 21px;
+  }
 
-        min-width: 230px;
+  nav a {
+    gap: 12px;
+    padding-right: 12px;
+    padding-left: 12px;
+    font-size: 13px;
+  }
+}
 
-        padding: 25px 14px;
-    }
+/* =========================================
+   SMALL SCREENS
+========================================= */
 
-    nav a {
+@media (max-width: 480px) {
+  .sidebar {
+    width: 200px;
+    min-width: 200px;
+    padding: 18px 12px;
+  }
 
-        padding: 0 12px;
-    }
+  .logo-image {
+    width: 48px;
+    height: 48px;
+  }
 
-    nav a span,
-    .logout span {
+  .brand-name {
+    font-size: 27px;
+  }
 
-        font-size: 12px;
-    }
+  .logo .brand-tagline {
+    font-size: 8px;
+    letter-spacing: 1.5px;
+  }
 
-    .logo h1 {
+  .style-quote {
+    max-width: 160px;
+    margin: 24px auto;
+    padding: 14px 6px;
+  }
 
-        font-size: 30px;
-    }
+  .quote-words {
+    font-size: 19px;
+  }
+
+  nav {
+    gap: 10px;
+  }
+
+  nav a {
+    min-height: 44px;
+    gap: 10px;
+    padding: 0 11px;
+    font-size: 12px;
+  }
+
+  .logout {
+    gap: 10px;
+    padding: 0 11px;
+    font-size: 12px;
+  }
 }

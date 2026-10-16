@@ -1,72 +1,62 @@
+
 <header class="navbar">
 
-    <div class="left">
+  <!-- Breadcrumb -->
+  <div class="left">
+    <span class="breadcrumb-muted">My space</span>
+    <span class="breadcrumb-separator">/</span>
+    <h2>Dashboard</h2>
+  </div>
 
-        <h2>Dashboard</h2>
+  <div class="right">
 
+    <!-- Search Bar -->
+    <div class="search-box">
+      <mat-icon>search</mat-icon>
+
+      <input
+        type="text"
+        placeholder="Search for clothes, outfits, or brands..."
+        aria-label="Search for clothes, outfits, or brands"
+      />
     </div>
 
-    <div class="right">
+    <!-- Notifications -->
+    <div class="notification-wrapper">
 
-        <div class="search-box">
+      <button
+        type="button"
+        mat-icon-button
+        class="notification-button"
+        aria-label="Notifications"
+        (click)="toggleNotifications()"
+      >
+        <mat-icon>notifications_none</mat-icon>
 
-            <mat-icon>search</mat-icon>
+        @if (unreadCount > 0) {
+          <span class="notification-badge">
+            {{ unreadCount }}
+          </span>
+        }
+      </button>
 
-            <input
-                type="text"
-                placeholder="Search..."
-            >
-
-        </div>
-
-
-        <!-- Notification -->
-        <div class="notification-wrapper">
-
-            <button
-                mat-icon-button
-                class="notification-button"
-                (click)="toggleNotifications()">
-
-                <mat-icon>notifications</mat-icon>
-
-                @if (unreadCount > 0) {
-
-    <span class="notification-badge">
-        {{ unreadCount }}
-    </span>
-    
-}
-
-            </button>
-
-
-           @if (showNotifications) {
-
-    <div class="notification-dropdown">
-
-        <app-notification-panel
+      @if (showNotifications) {
+        <div class="notification-dropdown">
+          <app-notification-panel
             (unreadCountChange)="updateUnreadCount($event)">
-        </app-notification-panel>
+          </app-notification-panel>
+        </div>
+      }
 
     </div>
 
-}
-
-        </div>
-
-
-        <!-- Profile -->
-        <div class="profile">
-
-            <div class="avatar">
-                A
-            </div>
-
-            <span>Anushka</span>
-
-        </div>
-
+    <!-- Profile -->
+    <div class="profile">
+      <div class="avatar">A</div>
+      <span class="profile-name">Anushka</span>
+      <mat-icon class="profile-chevron">keyboard_arrow_down</mat-icon>
     </div>
+
+  </div>
 
 </header>

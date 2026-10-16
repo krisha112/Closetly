@@ -1,56 +1,104 @@
-/* Google Font */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
-/* Global Reset */
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:'Poppins', sans-serif;
+/* =========================================
+   CLOSETLY — GLOBAL FONTS
+========================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap');
+
+/* =========================================
+   GLOBAL RESET
+========================================= */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-html{
-    scroll-behavior:smooth;
-}
-body{
-
-    height:100%;
-    background:#FFF9F3;
-    color:#44422D;
-
+html {
+  scroll-behavior: smooth;
+  min-height: 100%;
 }
 
-/* Color Variables */
+body {
+  min-height: 100vh;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 400;
+  color: #35271f;
+  background: #fbf6ef;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* =========================================
+   CLOSETLY — COLOR VARIABLES
+========================================= */
+
 :root {
-    --linen: #FFF9F3;
-    --olive: #44422D;
-    --clockwork: #72583E;
-    --cedar: #7C7960;
-    --latte: #DBC4A5;
-    --mauve: #755151;
+  --linen: #fbf6ef;
+  --cream: #fbf6ef;
+  --espresso: #402c20;
+  --brown: #76583e;
+  --sand: #e0c8a8;
+  --sage-grey: #e9e5da;
+  --text-dark: #35271f;
+  --text-muted: #8b7c70;
 
-    --shadow: 0 8px 20px rgba(0,0,0,0.08);
-}
-a{
+  /* Compatibility with existing components */
+  --olive: #402c20;
+  --clockwork: #76583e;
+  --cedar: #8b7c70;
+  --latte: #e0c8a8;
+  --mauve: #a66c61;
 
-    text-decoration:none;
-    color:inherit;
-
-}
-ul{
-
-    list-style:none;
-
-}
-button{
-
-    cursor:pointer;
-
-}
-img{
-
-    max-width:100%;
-    display:block;
-
+  --shadow: 0 8px 24px rgba(64, 44, 32, 0.06);
 }
 
+/* =========================================
+   TYPOGRAPHY
+========================================= */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-weight: 500;
+  color: var(--espresso);
+}
+
+p,
+span,
+label,
+a,
+li,
+small,
+strong {
+  font-family: 'DM Sans', sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul {
+  list-style: none;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}

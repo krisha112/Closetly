@@ -1,510 +1,275 @@
+
 <div class="closetly-dashboard">
+  <app-sidebar></app-sidebar>
 
-    <!-- =========================
-         SIDEBAR
-    ========================== -->
+  <div class="dashboard-main">
+    <app-navbar></app-navbar>
 
-    <app-sidebar></app-sidebar>
+    <main class="dashboard-content">
 
+      <!-- Hero banner -->
+      <section class="dashboard-hero">
+        <div class="hero-content">
+          <span class="hero-label">YOUR DIGITAL WARDROBE</span>
 
-    <!-- =========================
-         MAIN AREA
-    ========================== -->
+          <h1>
+            Your style,
+            <span>your space.</span>
+          </h1>
 
-    <div class="dashboard-main">
+          <p>
+            Organize your wardrobe, create beautiful outfits
+            and make every day a stylish one.
+          </p>
 
-        <!-- Existing navbar -->
-        <app-navbar></app-navbar>
+          <a class="hero-action" routerLink="/wardrobe">
+            <mat-icon>add</mat-icon>
+            Add New Item
+          </a>
+        </div>
 
+        <div class="hero-image">
+          <img
+            class="hero-photo"
+            src="/closetly-hero.jpg"
+            alt="Neutral-toned fashion inspiration"
+          />
 
-        <!-- =========================
-             CONTENT
-        ========================== -->
+          <div class="hero-overlay">
+            <span>Good</span>
+            <span>Outfits</span>
+            <span>Better</span>
+            <span>Days ♡</span>
+          </div>
+        </div>
+      </section>
 
-        <main class="dashboard-content">
+      <!-- Statistics cards -->
+      <section class="stats-grid">
 
+        <article class="stat-card clothes-card">
+          <div class="stat-icon">
+            <mat-icon>checkroom</mat-icon>
+          </div>
 
-            <!-- =========================
-                 HERO
-            ========================== -->
+          <div class="stat-content">
+            <span class="stat-title">TOTAL PIECES</span>
+            <strong>{{ dashboardData.totalClothes }}</strong>
+            <small>Items in your wardrobe</small>
+          </div>
 
-            <section class="hero-section">
+          <div class="stat-arrow">
+            <mat-icon>chevron_right</mat-icon>
+          </div>
+        </article>
 
-                <div class="hero-copy">
+        <article class="stat-card outfits-card">
+          <div class="stat-icon">
+            <mat-icon>description</mat-icon>
+          </div>
 
-                    <span class="eyebrow">
-                        YOUR DIGITAL WARDROBE
+          <div class="stat-content">
+            <span class="stat-title">TOTAL OUTFITS</span>
+            <strong>{{ dashboardData.totalOutfits }}</strong>
+            <small>Looks created</small>
+          </div>
+
+          <div class="stat-arrow">
+            <mat-icon>chevron_right</mat-icon>
+          </div>
+        </article>
+
+        <article class="stat-card favorites-card">
+          <div class="stat-icon">
+            <mat-icon>favorite_border</mat-icon>
+          </div>
+
+          <div class="stat-content">
+            <span class="stat-title">FAVORITES</span>
+            <strong>{{ dashboardData.favoriteOutfits }}</strong>
+            <small>Your favourite looks</small>
+          </div>
+
+          <div class="stat-arrow">
+            <mat-icon>chevron_right</mat-icon>
+          </div>
+        </article>
+
+        <article class="stat-card recent-card">
+          <div class="stat-icon">
+            <mat-icon>auto_awesome</mat-icon>
+          </div>
+
+          <div class="stat-content">
+            <span class="stat-title">RECENTLY ADDED</span>
+            <strong>{{ dashboardData.recentClothes.length }}</strong>
+            <small>Latest wardrobe additions</small>
+          </div>
+
+          <div class="stat-arrow">
+            <mat-icon>chevron_right</mat-icon>
+          </div>
+        </article>
+
+      </section>
+
+      <!-- Lower dashboard panels -->
+      <section class="dashboard-bottom">
+
+        <!-- Recently added -->
+        <article class="content-card recent-activity-card">
+          <div class="content-card-header">
+            <div>
+              <span class="section-label">YOUR COLLECTION</span>
+              <h2>Recently Added</h2>
+            </div>
+
+            <a class="text-action" routerLink="/wardrobe">
+              View All
+              <mat-icon>arrow_forward</mat-icon>
+            </a>
+          </div>
+
+          <div class="recent-items">
+
+            @if (dashboardData.recentClothes.length > 0) {
+              @for (item of dashboardData.recentClothes; track $index) {
+                <article class="recent-item">
+                  <div class="recent-item-image">
+                    @if (item.image) {
+                      <img [src]="item.image" [alt]="item.name" />
+                    } @else {
+                      <mat-icon>checkroom</mat-icon>
+                    }
+
+                    <span class="item-favorite">
+                      <mat-icon>favorite_border</mat-icon>
                     </span>
+                  </div>
 
-                    <h1>
-                        Welcome back,
-                        <span>Anushka</span>
-                        <span class="heart">♡</span>
-                    </h1>
-
-                    <p>
-                        Here's a quick look at your wardrobe
-                        and your latest style activity.
-                    </p>
-
-                    <button class="add-button">
-                        <mat-icon>add</mat-icon>
-                        Add New Item
-                    </button>
-
-                </div>
-
-
-                <div class="hero-image">
-
-                    <div class="hero-overlay">
-
-                        <span>
-                            Good
-                        </span>
-
-                        <span>
-                            Outfits
-                        </span>
-
-                        <span>
-                            Better
-                        </span>
-
-                        <span>
-                            Days ♡
-                        </span>
-
-                    </div>
-
-                </div>
-
-            </section>
-
-
-            <!-- =========================
-                 STATISTICS
-            ========================== -->
-
-            <section class="stats-grid">
-
-
-                <!-- Total Clothes -->
-
-                <article class="stat-card clothes-card">
-
-                    <div class="stat-icon">
-                        <mat-icon>checkroom</mat-icon>
-                    </div>
-
-                    <div class="stat-content">
-
-                        <span class="stat-title">
-                            TOTAL CLOTHES
-                        </span>
-
-                        <strong>
-                            {{ dashboardData.totalClothes }}
-                        </strong>
-
-                        <small>
-                            Items in your wardrobe
-                        </small>
-
-                    </div>
-
-                    <div class="stat-arrow">
-                        <mat-icon>arrow_forward</mat-icon>
-                    </div>
-
+                  <div class="recent-item-info">
+                    <strong>{{ item.name }}</strong>
+                    <span>{{ item.category }}</span>
+                  </div>
                 </article>
+              }
+            } @else {
+              @for (item of sampleClothes; track item.name) {
+                <article class="recent-item sample-item">
+                  <div class="recent-item-image">
+                    <img [src]="item.image" [alt]="item.name" />
 
+                    <span class="item-favorite">
+                      <mat-icon>favorite_border</mat-icon>
+                    </span>
+                  </div>
 
-                <!-- Total Outfits -->
-
-                <article class="stat-card outfits-card">
-
-                    <div class="stat-icon">
-                        <mat-icon>style</mat-icon>
-                    </div>
-
-                    <div class="stat-content">
-
-                        <span class="stat-title">
-                            TOTAL OUTFITS
-                        </span>
-
-                        <strong>
-                            {{ dashboardData.totalOutfits }}
-                        </strong>
-
-                        <small>
-                            Looks created
-                        </small>
-
-                    </div>
-
-                    <div class="stat-arrow">
-                        <mat-icon>arrow_forward</mat-icon>
-                    </div>
-
+                  <div class="recent-item-info">
+                    <strong>{{ item.name }}</strong>
+                    <span>{{ item.category }} · {{ item.size }}</span>
+                  </div>
                 </article>
-
-
-                <!-- Favourites -->
-
-                <article class="stat-card favourites-card">
-
-                    <div class="stat-icon">
-                        <mat-icon>favorite_border</mat-icon>
-                    </div>
-
-                    <div class="stat-content">
-
-                        <span class="stat-title">
-                            FAVOURITES
-                        </span>
-
-                        <strong>
-                            {{ dashboardData.favoriteOutfits }}
-                        </strong>
-
-                        <small>
-                            Your favourite looks
-                        </small>
-
-                    </div>
-
-                    <div class="stat-arrow">
-                        <mat-icon>arrow_forward</mat-icon>
-                    </div>
-
-                </article>
-
-
-                <!-- Recent Items -->
-
-                <article class="stat-card recent-card">
-
-                    <div class="stat-icon">
-                        <mat-icon>auto_awesome</mat-icon>
-                    </div>
-
-                    <div class="stat-content">
-
-                        <span class="stat-title">
-                            RECENT ITEMS
-                        </span>
-
-                        <strong>
-                            {{ dashboardData.recentClothes.length }}
-                        </strong>
-
-                        <small>
-                            Recently added
-                        </small>
-
-                    </div>
-
-                    <div class="stat-arrow">
-                        <mat-icon>arrow_forward</mat-icon>
-                    </div>
-
-                </article>
-
-            </section>
-
-
-            <!-- =========================
-                 THREE COLUMN SECTION
-            ========================== -->
-
-            <section class="dashboard-columns">
-
-
-                <!-- QUICK OVERVIEW -->
-
-                <div class="content-card overview-card">
-
-                    <div class="card-heading">
-
-                        <div>
-
-                            <span class="section-label">
-                                QUICK OVERVIEW
-                            </span>
-
-                            <h2>
-                                Your wardrobe
-                            </h2>
-
-                            <p>
-                                Your wardrobe at a glance
-                            </p>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="overview-list">
-
-
-                        <div class="overview-row">
-
-                            <div class="overview-icon">
-                                <mat-icon>checkroom</mat-icon>
-                            </div>
-
-                            <div class="overview-text">
-
-                                <strong>
-                                    Wardrobe Collection
-                                </strong>
-
-                                <span>
-                                    {{ dashboardData.totalClothes }}
-                                    clothing items
-                                </span>
-
-                            </div>
-
-                            <mat-icon class="row-arrow">
-                                chevron_right
-                            </mat-icon>
-
-                        </div>
-
-
-                        <div class="overview-row">
-
-                            <div class="overview-icon">
-                                <mat-icon>style</mat-icon>
-                            </div>
-
-                            <div class="overview-text">
-
-                                <strong>
-                                    Outfit Collection
-                                </strong>
-
-                                <span>
-                                    {{ dashboardData.totalOutfits }}
-                                    outfits created
-                                </span>
-
-                            </div>
-
-                            <mat-icon class="row-arrow">
-                                chevron_right
-                            </mat-icon>
-
-                        </div>
-
-
-                        <div class="overview-row">
-
-                            <div class="overview-icon mauve">
-                                <mat-icon>
-                                    favorite_border
-                                </mat-icon>
-                            </div>
-
-                            <div class="overview-text">
-
-                                <strong>
-                                    Favourite Looks
-                                </strong>
-
-                                <span>
-                                    {{ dashboardData.favoriteOutfits }}
-                                    saved favourites
-                                </span>
-
-                            </div>
-
-                            <mat-icon class="row-arrow">
-                                chevron_right
-                            </mat-icon>
-
-                        </div>
-
-                    </div>
-
+              }
+            }
+
+          </div>
+
+          @if (dashboardData.recentClothes.length === 0) {
+            <p class="sample-note">
+              Sample items shown for preview. Add clothes to display your collection.
+            </p>
+          }
+        </article>
+
+        <!-- Style Insights -->
+        <article class="content-card analytics-card">
+          <div class="analytics-top">
+            <div>
+              <span class="section-label">WARDROBE INSIGHTS</span>
+              <h2>Style Insights</h2>
+            </div>
+
+            <select
+              class="period-button"
+              aria-label="Select insights time period"
+              [value]="insightsPeriod"
+              (change)="onInsightsPeriodChange($event)"
+            >
+              <option value="week">This Week</option>
+              <option value="month">This Month</option>
+              <option value="threeMonths">3 Months</option>
+            </select>
+          </div>
+
+          <div class="insights-layout">
+            <div class="insights-list">
+              @for (category of sampleCategories; track category.name) {
+                <div class="insight-row">
+                  
+<span class="insight-icon">
+  @if (category.name === 'Shoes') {
+    <svg
+      class="shoe-icon"
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-label="Shoes"
+      role="img"
+    >
+      <path
+        d="M3 15.5c2.1-.2 3.4-1.4 4.1-4l.6-2.2 3.2 1.1c.6 2.2 2.1 3.6 4.5 4.2l4.1.9c1.1.2 1.8 1.2 1.8 2.3V20H3.5A2.5 2.5 0 0 1 1 17.5c0-1.1.8-1.9 2-2Z"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.7"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M8.2 12.2 11 13.5M10 10.8l2.8 1.4M3 17.5h17"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.5"
+        stroke-linecap="round"
+      />
+    </svg>
+  } @else {
+    <mat-icon>{{ category.icon }}</mat-icon>
+  }
+</span>
+
+
+                  <span class="insight-name">{{ category.name }}</span>
+
+                  <span class="insight-bar">
+                    <span
+                      class="insight-bar-fill"
+                      [style.width.%]="category.percentage"
+                    ></span>
+                  </span>
+
+                  <strong class="insight-count">
+                    {{ category.count }}
+                  </strong>
                 </div>
-
-
-                <!-- RECENT ACTIVITY -->
-
-                <div class="content-card activity-card">
-
-                    <app-recent-activity></app-recent-activity>
-
-                </div>
-
-
-                <!-- STYLE ANALYTICS -->
-
-                <div class="content-card analytics-card">
-
-                    <div class="analytics-top">
-
-                        <div>
-
-                            <span class="section-label">
-                                WARDROBE INSIGHTS
-                            </span>
-
-                            <h2>
-                                Style Analytics
-                            </h2>
-
-                            <p>
-                                Understand how your wardrobe
-                                is organised.
-                            </p>
-
-                        </div>
-
-                        <button class="period-button">
-
-                            This Month
-
-                            <mat-icon>
-                                expand_more
-                            </mat-icon>
-
-                        </button>
-
-                    </div>
-
-
-                    <div class="analytics-content">
-
-                        <app-charts></app-charts>
-
-                    </div>
-
-                </div>
-
-            </section>
-
-
-            <!-- =========================
-                 RECENTLY ADDED
-            ========================== -->
-
-            <section class="collection-section">
-
-                <div class="collection-heading">
-
-                    <div>
-
-                        <span class="section-label">
-                            YOUR COLLECTION
-                        </span>
-
-                        <h2>
-                            Recently Added
-                        </h2>
-
-                    </div>
-
-                    <button class="view-all">
-                        View All
-                        <mat-icon>
-                            arrow_forward
-                        </mat-icon>
-                    </button>
-
-                </div>
-
-
-                @if (dashboardData.recentClothes.length > 0) {
-
-                    <div class="clothing-grid">
-
-                        @for (
-                            item of dashboardData.recentClothes;
-                            track $index
-                        ) {
-
-                            <article class="clothing-card">
-
-                                <div class="clothing-image">
-
-                                    <div class="clothing-placeholder">
-                                        <mat-icon>
-                                            checkroom
-                                        </mat-icon>
-                                    </div>
-
-                                    <button class="favorite-button">
-                                        <mat-icon>
-                                            favorite_border
-                                        </mat-icon>
-                                    </button>
-
-                                </div>
-
-                                <div class="clothing-info">
-
-                                    <strong>
-                                        {{ item.name || 'Clothing Item' }}
-                                    </strong>
-
-                                    <span>
-                                        Recently added
-                                    </span>
-
-                                </div>
-
-                            </article>
-
-                        }
-
-                    </div>
-
-                } @else {
-
-                    <div class="empty-collection">
-
-                        <div class="empty-illustration">
-                            <mat-icon>
-                                checkroom
-                            </mat-icon>
-                        </div>
-
-                        <div class="empty-copy">
-
-                            <span class="section-label">
-                                YOUR WARDROBE
-                            </span>
-
-                            <h3>
-                                Start building your collection
-                            </h3>
-
-                            <p>
-                                Add your first clothing item and
-                                start creating your digital wardrobe.
-                            </p>
-
-                        </div>
-
-                        <button class="add-button">
-                            <mat-icon>add</mat-icon>
-                            Add Item
-                        </button>
-
-                    </div>
-
-                }
-
-            </section>
-
-        </main>
-
-    </div>
-
+              }
+            </div>
+
+            <div class="style-quote-image">
+              <img
+                src="/style-insights.jpeg"
+                alt="Fashion inspiration"
+              />
+
+              
+            </div>
+          </div>
+
+          <p class="sample-note">
+            Illustrative category values for the design preview.
+          </p>
+        </article>
+
+      </section>
+
+    </main>
+  </div>
 </div>

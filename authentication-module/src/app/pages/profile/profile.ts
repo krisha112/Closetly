@@ -1,6 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { MatIconModule } from '@angular/material/icon';
 import {
   Router,
   RouterLink,
@@ -16,7 +17,8 @@ import { AuthService } from '../../services/auth.service';
     CommonModule,
     FormsModule,
     RouterLink,
-    RouterLinkActive
+    RouterLinkActive,
+    MatIconModule
   ],
   templateUrl: './profile.html',
   styleUrls: ['./profile.css']
@@ -32,8 +34,9 @@ export class Profile implements OnInit {
   lastUpdated = '';
 
   profileImage: string | null = null;
-  showPhotoMenu = false;
+ showPhotoMenu = false;
 showDeleteModal = false;
+showLogoutModal = false;
 isEditing = false;
 isLoading = true;
 
@@ -525,17 +528,20 @@ isLoading = true;
   }
 
   logout(): void {
+  this.showLogoutModal = true;
+}
 
-    const confirmLogout =
-      confirm('Are you sure you want to logout?');
+cancelLogout(): void {
+  this.showLogoutModal = false;
+}
 
-    if (confirmLogout) {
+confirmLogout(): void {
+  this.showLogoutModal = false;
 
-      this.authService.logout();
+  this.authService.logout();
 
-      this.router.navigate(['/login']);
-    }
-  }
+  this.router.navigate(['/login']);
+}
 
     changePassword(): void {
     this.router.navigate(['/change-password']);

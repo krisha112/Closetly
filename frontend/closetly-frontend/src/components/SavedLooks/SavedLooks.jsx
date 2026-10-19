@@ -1,6 +1,10 @@
-
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import './SavedLooks.css'
+
+const API_URL = 'http://localhost:5000/api/outfits'
+
+// Temporary ID until authentication is integrated
+const USER_ID = 'test-user-1'
 
 const readStorage = (key) => {
   try {
@@ -17,13 +21,44 @@ function getItemName(item) {
 }
 
 function SavedLooks() {
-  const [outfits, setOutfits] = useState(() =>
-    readStorage('closetlyOutfits')
-  )
+const [outfits, setOutfits] = useState(() => {
+  const saved = readStorage('closetlyOutfits')
+  console.log('SavedLooks loaded outfits:', saved)
+  return saved
+})
+const [loading, setLoading] = useState(true)
+const [error, setError] = useState('')
 
   const [favorites, setFavorites] = useState(() =>
     readStorage('closetlyFavorites')
   )
+
+    useEffect(() => {
+    const fetchOutfits = async () => {
+      try {
+        setLoading(true)
+        setError('')
+
+        const response = await fetch(
+          `${API_URL}?userId=${USER_ID}`
+        )
+
+        const result = await response.json()
+
+        if (!response.ok) {
+          throw new Error(result.message || 'Failed to load outfits')
+        }
+
+        setOutfits(result.data || [])
+      } catch (err) {
+        setError(err.message)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchOutfits()
+  }, [])
 
   const [search, setSearch] = useState('')
   const [showSchedule, setShowSchedule] = useState(null)
@@ -40,11 +75,11 @@ function SavedLooks() {
   }
 
   const isFavorite = (outfit) =>
-    favorites.some((item) => item.id === outfit.id)
+    favorites.some((item) => item.id === outfit._id)
 
   const toggleFavorite = (outfit) => {
     const updated = isFavorite(outfit)
-      ? favorites.filter((item) => item.id !== outfit.id)
+      ? favorites.filter((item) => item.id !== outfit._id)
       : [...favorites, outfit]
 
     saveFavorites(updated)
@@ -52,7 +87,7 @@ function SavedLooks() {
 
   const scheduleOutfit = (outfit, date) => {
     const updated = outfits.map((item) =>
-      item.id === outfit.id
+      item.id === outfit._id
         ? { ...item, scheduledFor: date || '' }
         : item
     )
@@ -61,23 +96,50 @@ function SavedLooks() {
     setShowSchedule(null)
   }
 
-  const deleteOutfit = (id) => {
-    saveOutfits(outfits.filter((item) => item.id !== id))
-    saveFavorites(favorites.filter((item) => item.id !== id))
+  const deleteOutfit = async (id) => {
+  try {
+    const response = await fetch(
+      `${API_URL}/${id}?userId=${USER_ID}`,
+      {
+        method: 'DELETE',
+      }
+    )
+
+    const result = await response.json()
+
+    if (!response.ok) {
+      throw new Error(result.message || 'Failed to delete outfit')
+    }
+
+    setOutfits((previous) =>
+      previous.filter((item) => item._id !== id)
+    )
+
+    setFavorites((previous) => {
+      const updated = previous.filter(
+        (item) => item._id !== id && item.id !== id
+      )
+
+      localStorage.setItem(
+        'closetlyFavorites',
+        JSON.stringify(updated)
+      )
+
+      return updated
+    })
+
     setDeleteId(null)
+  } catch (err) {
+    setError(err.message)
   }
+}
 
   const filteredOutfits = outfits.filter((outfit) => {
     const query = search.toLowerCase()
 
-    const clothingNames = [
-      outfit.top,
-      outfit.bottom,
-      outfit.dress,
-      outfit.outerwear,
-    ]
-      .map(getItemName)
-      .join(' ')
+    const clothingNames = (outfit.clothingItems || [])
+  .map(getItemName)
+  .join(' ')
 
     return `${outfit.name || ''} ${outfit.occasion || ''} ${clothingNames}`
       .toLowerCase()
@@ -113,15 +175,10 @@ function SavedLooks() {
       {filteredOutfits.length > 0 ? (
         <div className="saved-looks-grid">
           {filteredOutfits.map((outfit) => {
-            const items = [
-              outfit.top,
-              outfit.bottom,
-              outfit.dress,
-              outfit.outerwear,
-            ].filter(Boolean)
+            const items = outfit.clothingItems || [];
 
             return (
-              <article className="saved-look-card" key={outfit.id}>
+              <article className="saved-look-card" key={outfit._id}>
                 <div className="saved-look-preview">
                   <div className="saved-look-monogram">C</div>
 
@@ -166,7 +223,7 @@ function SavedLooks() {
                     <button
                       type="button"
                       className="saved-delete-icon"
-                      onClick={() => setDeleteId(outfit.id)}
+                      onClick={() => setDeleteId(outfit._id)}
                       aria-label={`Delete ${outfit.name || 'outfit'}`}
                       title="Delete outfit"
                     >
@@ -181,7 +238,7 @@ function SavedLooks() {
                   <div className="saved-clothing-list">
                     {items.length ? (
                       items.map((item, index) => (
-                        <span key={`${outfit.id}-${index}`}>
+                        <span key={`${outfit._id}-${index}`}>
                           {getItemName(item)}
                         </span>
                       ))
@@ -206,7 +263,7 @@ function SavedLooks() {
                       type="button"
                       onClick={() =>
                         setShowSchedule(
-                          showSchedule === outfit.id ? null : outfit.id
+                          showSchedule === outfit._id ? null : outfit._id
                         )
                       }
                     >
@@ -214,14 +271,14 @@ function SavedLooks() {
                     </button>
                   </div>
 
-                  {showSchedule === outfit.id && (
+                  {showSchedule === outfit._id && (
                     <div className="saved-date-editor">
-                      <label htmlFor={`schedule-${outfit.id}`}>
+                      <label htmlFor={`schedule-${outfit._id}`}>
                         When will you wear it?
                       </label>
 
                       <input
-                        id={`schedule-${outfit.id}`}
+                        id={`schedule-${outfit._id}`}
                         type="date"
                         value={outfit.scheduledFor || ''}
                         onChange={(event) =>
@@ -242,7 +299,7 @@ function SavedLooks() {
                   )}
                 </div>
 
-                {deleteId === outfit.id && (
+                {deleteId === outfit._id && (
                   <div className="saved-delete-confirm">
                     <p>
                       Delete this outfit? It will also be removed from
@@ -260,7 +317,7 @@ function SavedLooks() {
                       <button
                         type="button"
                         className="confirm-delete"
-                        onClick={() => deleteOutfit(outfit.id)}
+                        onClick={() => deleteOutfit(outfit._id)}
                       >
                         Delete
                       </button>

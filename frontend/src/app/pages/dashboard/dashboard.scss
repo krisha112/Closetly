@@ -23,6 +23,10 @@
   display: block;
   flex: 0 0 270px;
   width: 270px;
+  min-width: 270px;
+  max-width: 270px;
+  position: relative;
+  z-index: 2;
 }
 
 .dashboard-main {

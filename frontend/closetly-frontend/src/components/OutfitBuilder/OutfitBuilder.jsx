@@ -998,47 +998,52 @@ export default function OutfitBuilder({ onNavigate }) {
 
   --------------------------------------------- */
 
-  const handleSaveOutfit = () => {
-    const hasClothing =
-      selectedTop || selectedBottom || selectedDress || selectedOuterwear;
+  const handleSaveOutfit = async () => {
+  const hasClothing =
+    selectedTop || selectedBottom || selectedDress || selectedOuterwear;
 
-    if (!hasClothing) {
-      alert("Please select at least one clothing item before saving.");
-      return;
+  if (!hasClothing) {
+    alert("Please select at least one clothing item before saving.");
+    return;
+  }
+
+  const savedOutfit = {
+    userId: "test-user-1",
+    name: "My Outfit",
+    occasion: "Custom",
+    description: "Outfit created using Closetly Outfit Builder.",
+    bodyShape,
+    view,
+    clothingItems: [
+      selectedTop,
+      selectedBottom,
+      selectedDress,
+      selectedOuterwear,
+    ].filter(Boolean),
+  };
+
+  try {
+    const response = await fetch("http://localhost:5000/api/outfits", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(savedOutfit),
+    });
+
+    const result = await response.json();
+
+    if (!response.ok || !result.success) {
+      throw new Error(result.message || "Failed to save outfit");
     }
-
-    const savedOutfit = {
-      id: Date.now(),
-      name: "My Outfit",
-      occasion: "Custom",
-      description: "Outfit created using Closetly Outfit Builder.",
-      bodyShape,
-      view,
-      top: selectedTop || null,
-      bottom: selectedBottom || null,
-      dress: selectedDress || null,
-      outerwear: selectedOuterwear || null,
-      createdAt: new Date().toISOString(),
-    };
-
-    let existingOutfits = [];
-
-    try {
-      existingOutfits = JSON.parse(
-        localStorage.getItem("closetlyOutfits")
-      ) || [];
-    } catch {
-      existingOutfits = [];
-    }
-
-    localStorage.setItem(
-      "closetlyOutfits",
-      JSON.stringify([savedOutfit, ...existingOutfits])
-    );
 
     alert("Outfit saved to Saved Looks! ✨");
     onNavigate?.("outfits");
-  };
+  } catch (error) {
+    console.error("Save outfit error:", error);
+    alert("Could not save outfit to the database. Please try again.");
+  }
+};
 
   const toolbarButtons = [
 

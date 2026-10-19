@@ -7,17 +7,27 @@ import Favourites from './components/Favourites/Favourites'
 import Wardrobe from './components/Wardrobe/Wardrobe'
 import SavedLooks from './components/SavedLooks/SavedLooks'
 
+
 function App() {
-  const [activePage, setActivePage] = useState('home')
+  const params = new URLSearchParams(window.location.search)
+  const pageFromUrl = params.get('page')
+  const isEmbedded = params.get('embed') === 'true'
+
+const validPages = ['home', 'wardrobe', 'createOutfit', 'outfits', 'favorites']
+
+const initialPage = validPages.includes(pageFromUrl) ? pageFromUrl : 'home'
+
+const [activePage, setActivePage] = useState(initialPage)
 
   const navigateTo = (page) => {
     setActivePage(page)
   }
 
   return (
-    <div className="home">
+    <div className={isEmbedded ? 'embedded-home' : 'home'}>
       {/* SHARED SIDEBAR */}
-      <aside className="sidebar">
+      {!isEmbedded && (
+        <aside className="sidebar">
         <div
           className="logo"
           onClick={() => navigateTo('home')}
@@ -27,11 +37,13 @@ function App() {
 
         <nav className="sidebar-nav">
           <button
-            className={activePage === 'home' ? 'active-nav' : ''}
-            onClick={() => navigateTo('home')}
-          >
-            Dashboard
-          </button>
+  className={activePage === 'home' ? 'active-nav' : ''}
+  onClick={() => {
+    window.location.href = 'http://localhost:4200/'
+  }}
+>
+  Dashboard
+</button>
 
           <button
             className={activePage === 'wardrobe' ? 'active-nav' : ''}
@@ -63,9 +75,12 @@ function App() {
         </nav>
       </aside>
 
+      )}
+
       {/* MAIN CONTENT */}
       <div className="main-content">
         {/* SHARED TOP BAR */}
+        {!isEmbedded && (
         <header className="topbar">
           <div className="breadcrumb">
             <span>My Space</span>
@@ -111,6 +126,7 @@ function App() {
 
           </div>
         </header>
+        )}
         {/* DASHBOARD */}
         {activePage === 'home' && (
           <main className="hero">

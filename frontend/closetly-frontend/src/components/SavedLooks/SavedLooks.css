@@ -22,6 +22,7 @@
 }
 
 .saved-looks-header h1 {
+  color: #443223;
   margin: 10px 0;
   font-family: Georgia, serif;
   font-size: clamp(2.2rem, 4vw, 3.2rem);
@@ -311,6 +312,7 @@
 }
 
 .saved-empty h2 {
+  color: #443223;
   margin-bottom: 10px;
   font-family: Georgia, serif;
   font-size: 1.7rem;

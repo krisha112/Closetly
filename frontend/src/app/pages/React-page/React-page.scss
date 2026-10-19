@@ -1,0 +1,89 @@
+
+:host {
+  display: block;
+  min-height: 100vh;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.closetly-dashboard {
+  display: flex;
+  width: 100%;
+  min-height: 100vh;
+  background: #fbf6ef;
+}
+
+.closetly-dashboard > app-sidebar {
+  display: block;
+  position: relative;
+  flex: 0 0 270px;
+  width: 270px;
+  min-width: 0;
+  max-width: 270px;
+  overflow: hidden;
+}
+
+.dashboard-main {
+  display: flex;
+  flex: 1 1 0;
+  flex-direction: column;
+  min-width: 0;
+  width: 0;
+  overflow: hidden;
+}
+
+.dashboard-main > app-navbar {
+  display: block;
+  flex-shrink: 0;
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+
+.dashboard-content {
+  width: 100%;
+  min-width: 0;
+  padding: 20px;
+}
+
+.react-page-content {
+  flex: 1;
+  display: flex;
+  min-height: 0;
+}
+
+.react-page-frame {
+  display: block;
+  width: 100%;
+  min-height: 75vh;
+  flex: 1;
+  border: none;
+  background: #fbf6ef;
+}
+
+@media (max-width: 1250px) {
+  .closetly-dashboard > app-sidebar {
+    flex-basis: 235px;
+    width: 235px;
+  }
+}
+
+@media (max-width: 760px) {
+  .closetly-dashboard > app-sidebar {
+    flex-basis: 200px;
+    width: 200px;
+  }
+}
+
+@media (max-width: 520px) {
+  .closetly-dashboard > app-sidebar {
+    flex-basis: 76px;
+    width: 76px;
+  }
+
+  .dashboard-content {
+    padding: 12px;
+  }
+}

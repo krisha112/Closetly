@@ -19,10 +19,13 @@ const outfitSchema = new mongoose.Schema(
     },
 
     // Clothing item IDs selected for this outfit
-    clothingItems: {
-      type: [String],
-      default: []
-    },
+    clothingItems: [
+  {
+    id: String,
+    name: String,
+    image: String,
+  },
+],
 
     // Optional occasion, such as Casual, Party, or Office
     occasion: {

@@ -2,6 +2,7 @@
 import { Routes } from '@angular/router';
 import { DashboardComponent } from './pages/dashboard/dashboard';
 import { ReactPageComponent } from './pages/React-page/React-page';
+import { WardrobePageComponent } from './pages/Wardrobe-page/Wardrobe-page';
 
 export const routes: Routes = [
   {
@@ -12,6 +13,10 @@ export const routes: Routes = [
   {
     path: 'dashboard',
     component: DashboardComponent
+  },
+  {
+    path: 'wardrobe',
+    component: WardrobePageComponent
   },
   {
     path: 'outfit-creator',

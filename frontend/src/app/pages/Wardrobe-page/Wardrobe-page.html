@@ -1,0 +1,28 @@
+
+<div class="closetly-dashboard">
+  <app-sidebar></app-sidebar>
+
+  <div class="dashboard-main">
+    <app-navbar></app-navbar>
+
+    <main class="dashboard-content wardrobe-page-content">
+      <p *ngIf="loading" class="status-message">
+        Loading wardrobe...
+      </p>
+
+      <p *ngIf="errorMessage" class="error-message">
+        {{ errorMessage }}
+      </p>
+
+      <app-digital-wardrobe
+        [clothingItems]="clothingItems.slice()"
+        [favoriteItems]="favoriteItems.slice()"
+        (favoriteToggle)="toggleFavorite($event)"
+        (deleteClothing)="deleteClothing($event)"
+        (addClothing)="showAddMessage()"
+        (clothingDetails)="showDetails($event)"
+        (navigate)="onWardrobeNavigate($event)">
+      </app-digital-wardrobe>
+    </main>
+  </div>
+</div>

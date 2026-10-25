@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
-
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -19,12 +18,8 @@ export class DigitalWardrobe implements OnDestroy {
 
   @Input() deletedClothing: string[] = [];
 
-  /*
-   * Favorites are controlled by App.
-   * This keeps the Favorites page and Wardrobe page
-   * synchronized.
-   */
-  @Input() favoriteItems: number[] = [];
+  // MongoDB IDs are strings, not numbers.
+  @Input() favoriteItems: string[] = [];
 
   /* =====================================================
      OUTPUTS TO APP
@@ -101,7 +96,6 @@ export class DigitalWardrobe implements OnDestroy {
   goToWardrobe(): void {
     this.showFavorites = false;
     this.selectedCategory = 'All';
-
     this.navigate.emit('wardrobe');
   }
 
@@ -112,7 +106,6 @@ export class DigitalWardrobe implements OnDestroy {
   goToFavorites(): void {
     this.showFavorites = true;
     this.selectedCategory = 'All';
-
     this.navigate.emit('favorites');
   }
 
@@ -154,7 +147,6 @@ export class DigitalWardrobe implements OnDestroy {
     }
 
     this.clothingPendingDelete = clothing;
-
     this.showDeleteModal = true;
   }
 
@@ -168,13 +160,11 @@ export class DigitalWardrobe implements OnDestroy {
     this.deleteClothing.emit(clothing);
 
     this.showDeleteModal = false;
-
     this.clothingPendingDelete = null;
   }
 
   cancelDelete(): void {
     this.showDeleteModal = false;
-
     this.clothingPendingDelete = null;
   }
 
@@ -183,7 +173,13 @@ export class DigitalWardrobe implements OnDestroy {
       return false;
     }
 
-    return this.deletedClothing.includes(clothing.name);
+    const clothingId = this.getClothingId(clothing);
+
+    // Support both ID-based deletion and the existing name-based format.
+    return (
+      this.deletedClothing.includes(clothingId) ||
+      this.deletedClothing.includes(String(clothing.name || ''))
+    );
   }
 
   /* =====================================================
@@ -224,7 +220,6 @@ export class DigitalWardrobe implements OnDestroy {
 
   selectCategory(category: string): void {
     this.selectedCategory = category;
-
     this.showFavorites = false;
   }
 
@@ -251,10 +246,7 @@ export class DigitalWardrobe implements OnDestroy {
 
     const wasFavorite = this.isFavorite(clothing);
 
-    /*
-     * App owns the actual favorite list.
-     * We only notify App that the user clicked.
-     */
+    // App manages the favorite list and updates the data.
     this.favoriteToggle.emit(clothing);
 
     if (wasFavorite) {
@@ -269,7 +261,17 @@ export class DigitalWardrobe implements OnDestroy {
       return false;
     }
 
-    return this.favoriteItems.includes(clothing.id);
+    const clothingId = this.getClothingId(clothing);
+
+    if (!clothingId) {
+      return false;
+    }
+
+    return this.favoriteItems.some((favoriteId) => String(favoriteId) === clothingId);
+  }
+
+  private getClothingId(clothing: any): string {
+    return String(clothing?._id || clothing?.id || '');
   }
 
   getFavoriteCount(): number {
@@ -282,7 +284,6 @@ export class DigitalWardrobe implements OnDestroy {
 
   showFavoriteClothes(): void {
     this.showFavorites = true;
-
     this.selectedCategory = 'All';
   }
 
@@ -322,19 +323,21 @@ export class DigitalWardrobe implements OnDestroy {
 
       if (this.selectedSort === 'favorites') {
         const aFavorite = this.isFavorite(a) ? 1 : 0;
-
         const bFavorite = this.isFavorite(b) ? 1 : 0;
 
         return bFavorite - aFavorite;
       }
 
-      /*
-       * "recent"
-       *
-       * App currently adds new items with Date.now(),
-       * so newer IDs appear first.
-       */
-      return (b.id || 0) - (a.id || 0);
+      // Recent items appear first using creation timestamps.
+      const aDate = new Date(a.createdAt || 0).getTime();
+      const bDate = new Date(b.createdAt || 0).getTime();
+
+      if (aDate !== bDate) {
+        return bDate - aDate;
+      }
+
+      // Fallback for older items without creation timestamps.
+      return this.getClothingId(b).localeCompare(this.getClothingId(a));
     });
   }
 
@@ -365,11 +368,8 @@ export class DigitalWardrobe implements OnDestroy {
 
   clearFilters(): void {
     this.searchText = '';
-
     this.selectedCategory = 'All';
-
     this.showFavorites = false;
-
     this.selectedSort = 'recent';
   }
 
@@ -391,9 +391,7 @@ export class DigitalWardrobe implements OnDestroy {
 
   displayNotification(message: string, type: 'success' | 'info' | 'error' = 'success'): void {
     this.notificationMessage = message;
-
     this.notificationType = type;
-
     this.showNotification = true;
 
     if (this.notificationTimer) {
@@ -402,6 +400,7 @@ export class DigitalWardrobe implements OnDestroy {
 
     this.notificationTimer = setTimeout(() => {
       this.showNotification = false;
+      this.notificationTimer = null;
     }, 3000);
   }
 
@@ -410,7 +409,6 @@ export class DigitalWardrobe implements OnDestroy {
 
     if (this.notificationTimer) {
       clearTimeout(this.notificationTimer);
-
       this.notificationTimer = null;
     }
   }
@@ -419,8 +417,8 @@ export class DigitalWardrobe implements OnDestroy {
      TRACKING
   ====================================================== */
 
-  trackByClothingId(index: number, clothing: any): number {
-    return clothing?.id ?? index;
+  trackByClothingId(index: number, clothing: any): string | number {
+    return clothing?._id || clothing?.id || index;
   }
 
   /* =====================================================
@@ -430,6 +428,7 @@ export class DigitalWardrobe implements OnDestroy {
   ngOnDestroy(): void {
     if (this.notificationTimer) {
       clearTimeout(this.notificationTimer);
+      this.notificationTimer = null;
     }
   }
 }

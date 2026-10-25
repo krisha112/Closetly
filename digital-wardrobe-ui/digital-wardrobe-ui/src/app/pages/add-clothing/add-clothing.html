@@ -38,7 +38,7 @@
 
     <!-- Error Message -->
     @if (errorMessage) {
-      <div class="error-banner">
+      <div class="error-banner" role="alert">
         <span class="error-icon">!</span>
         <span>{{ errorMessage }}</span>
       </div>
@@ -60,7 +60,12 @@
 
           <div class="image-preview">
             @if (imagePreview) {
-              <img [src]="imagePreview" alt="Clothing preview" class="preview-image" />
+              <img
+                [src]="imagePreview"
+                alt="Clothing preview"
+                class="preview-image"
+                (error)="onImageError()"
+              />
 
               <div class="preview-overlay">
                 <span>Preview</span>
@@ -68,13 +73,21 @@
             } @else {
               <div class="empty-preview">
                 <div class="hanger-icon">♧</div>
-
                 <h4>Your piece will appear here</h4>
-
-                <p>Paste an image URL on the right to preview your clothing.</p>
+                <p>Upload a photo or paste an image URL to preview your clothing.</p>
               </div>
             }
           </div>
+
+          @if (imagePreview) {
+            <button
+              type="button"
+              class="secondary-button remove-image-button"
+              (click)="removeSelectedImage()"
+            >
+              Remove image
+            </button>
+          }
 
           <div class="image-note">
             <span class="note-icon">✦</span>
@@ -122,11 +135,12 @@
                 [(ngModel)]="clothing.name"
                 placeholder="e.g. Classic White Shirt"
                 autocomplete="off"
+                required
                 [class.invalid]="getFieldError('name')"
               />
 
               @if (getFieldError('name')) {
-                <small class="field-error"> Please enter a clothing name. </small>
+                <small class="field-error">Please enter a clothing name.</small>
               }
             </div>
 
@@ -138,11 +152,9 @@
                   <span>*</span>
                 </label>
 
-                <select id="category" name="category" [(ngModel)]="clothing.category">
+                <select id="category" name="category" [(ngModel)]="clothing.category" required>
                   @for (category of categories; track category) {
-                    <option [value]="category">
-                      {{ category }}
-                    </option>
+                    <option [value]="category">{{ category }}</option>
                   }
                 </select>
               </div>
@@ -157,19 +169,18 @@
                   id="color"
                   name="color"
                   [(ngModel)]="clothing.color"
+                  required
                   [class.invalid]="getFieldError('color')"
                 >
                   <option value="" disabled>Select colour</option>
 
                   @for (color of colors; track color) {
-                    <option [value]="color">
-                      {{ color }}
-                    </option>
+                    <option [value]="color">{{ color }}</option>
                   }
                 </select>
 
                 @if (getFieldError('color')) {
-                  <small class="field-error"> Please select a colour. </small>
+                  <small class="field-error">Please select a colour.</small>
                 }
               </div>
             </div>
@@ -179,7 +190,7 @@
               <div class="field-group">
                 <label for="brand">
                   Brand
-                  <span class="optional">*</span>
+                  <span class="optional">OPTIONAL</span>
                 </label>
 
                 <input
@@ -202,19 +213,18 @@
                   id="size"
                   name="size"
                   [(ngModel)]="clothing.size"
+                  required
                   [class.invalid]="getFieldError('size')"
                 >
                   <option value="" disabled>Select size</option>
 
                   @for (size of sizes; track size) {
-                    <option [value]="size">
-                      {{ size }}
-                    </option>
+                    <option [value]="size">{{ size }}</option>
                   }
                 </select>
 
                 @if (getFieldError('size')) {
-                  <small class="field-error"> Please select a size. </small>
+                  <small class="field-error">Please select a size.</small>
                 }
               </div>
             </div>
@@ -232,13 +242,11 @@
             <div class="form-row">
               <!-- Season -->
               <div class="field-group">
-                <label for="season"> Season </label>
+                <label for="season">Season</label>
 
                 <select id="season" name="season" [(ngModel)]="clothing.season">
                   @for (season of seasons; track season) {
-                    <option [value]="season">
-                      {{ season }}
-                    </option>
+                    <option [value]="season">{{ season }}</option>
                   }
                 </select>
               </div>
@@ -254,17 +262,16 @@
                   id="occasion"
                   name="occasion"
                   [(ngModel)]="clothing.occasion"
+                  required
                   [class.invalid]="getFieldError('occasion')"
                 >
                   @for (occasion of occasions; track occasion) {
-                    <option [value]="occasion">
-                      {{ occasion }}
-                    </option>
+                    <option [value]="occasion">{{ occasion }}</option>
                   }
                 </select>
 
                 @if (getFieldError('occasion')) {
-                  <small class="field-error"> Please select an occasion. </small>
+                  <small class="field-error">Please select an occasion.</small>
                 }
               </div>
             </div>
@@ -279,10 +286,27 @@
               </div>
             </div>
 
+            <!-- Image File Upload -->
+            <div class="field-group full-width">
+              <label for="imageFile">Upload your clothing photo</label>
+
+              <input
+                id="imageFile"
+                type="file"
+                name="imageFile"
+                accept="image/jpeg,image/png,image/webp,image/gif"
+                (change)="onImageSelected($event)"
+              />
+
+              <small class="helper-text">
+                Select a JPG, PNG, WEBP, or GIF image. Maximum file size: 5 MB.
+              </small>
+            </div>
+
             <!-- Image URL -->
             <div class="field-group full-width">
               <label for="image">
-                Image URL
+                Or use an image URL
                 <span class="optional">OPTIONAL</span>
               </label>
 
@@ -300,7 +324,7 @@
               </div>
 
               <small class="helper-text">
-                Paste a direct image link to preview your clothing.
+                Paste a direct image link if you don't want to upload a file.
               </small>
             </div>
 
@@ -343,7 +367,7 @@
 
   <!-- Success Toast -->
   @if (showSuccess) {
-    <div class="success-toast">
+    <div class="success-toast" role="status">
       <div class="success-check">✓</div>
 
       <div>

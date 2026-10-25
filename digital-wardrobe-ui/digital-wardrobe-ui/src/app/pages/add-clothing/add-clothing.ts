@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -9,9 +9,12 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './add-clothing.html',
   styleUrl: './add-clothing.css',
 })
-export class AddClothing {
+export class AddClothing implements OnDestroy {
   @Output() backToWardrobe = new EventEmitter<void>();
   @Output() clothingSaved = new EventEmitter<any>();
+
+  private readonly cloudName = 'm7n65aiw';
+  private readonly uploadPreset = 'closetly_uploads';
 
   clothing = {
     name: '',
@@ -26,10 +29,15 @@ export class AddClothing {
   };
 
   imagePreview = '';
+  selectedImageFile: File | null = null;
 
   submitted = false;
   showSuccess = false;
   errorMessage = '';
+  isUploading = false;
+
+  private successTimer: ReturnType<typeof setTimeout> | null = null;
+  private previewObjectUrl: string | null = null;
 
   categories = ['Tops', 'Bottoms', 'Dresses', 'Shoes', 'Accessories'];
 
@@ -56,29 +64,79 @@ export class AddClothing {
 
   occasions = ['Casual', 'Formal', 'Semi Formal', 'Party', 'College', 'Work', 'Travel', 'Sports'];
 
-  /* =====================================================
-     NAVIGATION
-  ===================================================== */
-
   goBack(): void {
+    if (this.isUploading) {
+      return;
+    }
+
     this.backToWardrobe.emit();
   }
 
-  /* =====================================================
-     IMAGE
-  ===================================================== */
-
   onImageUrlChange(): void {
-    this.imagePreview = this.clothing.image.trim();
-
-    if (this.imagePreview) {
-      this.errorMessage = '';
+    if (this.selectedImageFile) {
+      return;
     }
+
+    this.imagePreview = (this.clothing.image || '').trim();
+    this.errorMessage = '';
   }
 
-  /* =====================================================
-     FORM VALIDATION
-  ===================================================== */
+  onImageSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0];
+
+    if (!file) {
+      return;
+    }
+
+    this.errorMessage = '';
+
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+
+    if (!allowedTypes.includes(file.type)) {
+      this.errorMessage = 'Please select a JPG, PNG, WEBP, or GIF image.';
+      input.value = '';
+      return;
+    }
+
+    if (file.size > 5 * 1024 * 1024) {
+      this.errorMessage = 'The image must be smaller than 5 MB.';
+      input.value = '';
+      return;
+    }
+
+    this.clearPreviewObjectUrl();
+
+    this.selectedImageFile = file;
+    this.previewObjectUrl = URL.createObjectURL(file);
+    this.imagePreview = this.previewObjectUrl;
+    this.clothing.image = '';
+  }
+
+  clearSelectedImage(): void {
+    this.clearPreviewObjectUrl();
+    this.selectedImageFile = null;
+  }
+
+  removeSelectedImage(): void {
+    this.clearSelectedImage();
+    this.imagePreview = '';
+    this.clothing.image = '';
+
+    const input = document.getElementById('imageFile') as HTMLInputElement | null;
+
+    if (input) {
+      input.value = '';
+    }
+
+    this.errorMessage = '';
+  }
+
+  onImageError(): void {
+    this.imagePreview = '';
+    this.errorMessage =
+      'The image could not be displayed. Please select another image or check the URL.';
+  }
 
   isFormValid(): boolean {
     return (
@@ -90,43 +148,96 @@ export class AddClothing {
     );
   }
 
-  /* =====================================================
-     SAVE
-  ===================================================== */
-
-  saveClothing(): void {
+  async saveClothing(): Promise<void> {
     this.submitted = true;
     this.errorMessage = '';
+
+    if (this.isUploading) {
+      return;
+    }
 
     if (!this.isFormValid()) {
       this.errorMessage = 'Please complete all required fields before saving.';
       return;
     }
 
-    const newClothing = {
-      ...this.clothing,
-      name: this.clothing.name.trim(),
-      color: this.clothing.color.trim(),
-      brand: this.clothing.brand.trim(),
-      size: this.clothing.size.trim(),
-      image: this.clothing.image.trim(),
-      notes: this.clothing.notes.trim(),
-    };
+    this.isUploading = true;
 
-    this.clothingSaved.emit(newClothing);
+    try {
+      let imageUrl = (this.clothing.image || '').trim();
 
-    this.showSuccess = true;
+      if (this.selectedImageFile) {
+        imageUrl = await this.uploadImageToCloudinary(this.selectedImageFile);
+      }
 
-    setTimeout(() => {
-      this.showSuccess = false;
-    }, 2500);
+      const newClothing = {
+        ...this.clothing,
+        name: this.clothing.name.trim(),
+        category: this.clothing.category.trim(),
+        color: this.clothing.color.trim(),
+        brand: this.clothing.brand.trim(),
+        size: this.clothing.size.trim(),
+        season: this.clothing.season.trim(),
+        occasion: this.clothing.occasion.trim(),
+        image: imageUrl,
+        notes: this.clothing.notes.trim(),
+      };
+
+      // The parent component handles saving the item to MongoDB.
+      this.clothingSaved.emit(newClothing);
+
+      this.showSuccess = true;
+
+      if (this.successTimer) {
+        clearTimeout(this.successTimer);
+      }
+
+      this.successTimer = setTimeout(() => {
+        this.showSuccess = false;
+        this.successTimer = null;
+      }, 2500);
+    } catch (error) {
+      console.error('Clothing image upload failed:', error);
+
+      this.errorMessage =
+        error instanceof Error ? error.message : 'Unable to upload the image. Please try again.';
+    } finally {
+      this.isUploading = false;
+    }
   }
 
-  /* =====================================================
-     RESET
-  ===================================================== */
+  private async uploadImageToCloudinary(file: File): Promise<string> {
+    const endpoint = `https://api.cloudinary.com/v1_1/${this.cloudName}/image/upload`;
+
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('upload_preset', this.uploadPreset);
+    formData.append('folder', 'closetly');
+
+    const response = await fetch(endpoint, {
+      method: 'POST',
+      body: formData,
+    });
+
+    const result = await response.json();
+
+    if (!response.ok) {
+      throw new Error(
+        result?.error?.message ||
+          'Cloudinary rejected the upload. Check your upload preset settings.',
+      );
+    }
+
+    if (!result.secure_url) {
+      throw new Error('Cloudinary did not return an image URL. Please try again.');
+    }
+
+    return result.secure_url as string;
+  }
 
   resetForm(): void {
+    this.clearSelectedImage();
+
     this.clothing = {
       name: '',
       category: 'Tops',
@@ -142,11 +253,13 @@ export class AddClothing {
     this.imagePreview = '';
     this.submitted = false;
     this.errorMessage = '';
-  }
+    this.showSuccess = false;
 
-  /* =====================================================
-     FIELD HELPERS
-  ===================================================== */
+    if (this.successTimer) {
+      clearTimeout(this.successTimer);
+      this.successTimer = null;
+    }
+  }
 
   getFieldError(field: string): boolean {
     if (!this.submitted) {
@@ -156,18 +269,30 @@ export class AddClothing {
     switch (field) {
       case 'name':
         return !this.clothing.name.trim();
-
       case 'color':
         return !this.clothing.color.trim();
-
       case 'size':
         return !this.clothing.size.trim();
-
       case 'occasion':
         return !this.clothing.occasion.trim();
-
       default:
         return false;
+    }
+  }
+
+  private clearPreviewObjectUrl(): void {
+    if (this.previewObjectUrl) {
+      URL.revokeObjectURL(this.previewObjectUrl);
+      this.previewObjectUrl = null;
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.clearSelectedImage();
+
+    if (this.successTimer) {
+      clearTimeout(this.successTimer);
+      this.successTimer = null;
     }
   }
 }

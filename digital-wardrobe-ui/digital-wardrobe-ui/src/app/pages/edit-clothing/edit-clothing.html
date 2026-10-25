@@ -22,9 +22,7 @@
       <section class="intro-section">
         <div>
           <span class="section-label">EDITING YOUR COLLECTION</span>
-
           <h2>Make it just right.</h2>
-
           <p>Update the information below and keep your digital wardrobe beautifully organised.</p>
         </div>
 
@@ -32,20 +30,14 @@
       </section>
 
       @if (errorMessage) {
-        <div class="error-banner">
+        <div class="error-banner" role="alert">
           <span class="error-icon">!</span>
-
-          <span>
-            {{ errorMessage }}
-          </span>
+          <span>{{ errorMessage }}</span>
         </div>
       }
 
       <section class="form-layout">
-        <!-- =========================
-             IMAGE SECTION
-             ========================= -->
-
+        <!-- IMAGE SECTION -->
         <div class="image-section">
           <div class="image-card">
             <div class="image-card-header">
@@ -54,7 +46,7 @@
                 <h3>Clothing image</h3>
               </div>
 
-              <span class="optional-label"> OPTIONAL </span>
+              <span class="optional-label">OPTIONAL</span>
             </div>
 
             <div class="image-preview">
@@ -63,11 +55,11 @@
                   [src]="imagePreview"
                   [alt]="editedClothing.name"
                   class="preview-image"
-                  (error)="imagePreview = ''"
+                  (error)="onImageError()"
                 />
 
                 <div class="preview-overlay">
-                  <span>Current image</span>
+                  <span>Image preview</span>
                 </div>
               } @else {
                 <div class="empty-preview">
@@ -78,44 +70,42 @@
                   </div>
 
                   <h4>No image available</h4>
-
-                  <p>Add an image URL on the right to give this piece a visual identity.</p>
+                  <p>Upload a photo or provide an image URL to preview this piece.</p>
                 </div>
               }
             </div>
 
+            @if (imagePreview) {
+              <button
+                type="button"
+                class="secondary-button remove-image-button"
+                (click)="removeSelectedImage()"
+              >
+                Remove image
+              </button>
+            }
+
             <div class="image-note">
               <span class="note-icon">✦</span>
-
               <p>Use a clear image where the clothing item is the main focus.</p>
             </div>
           </div>
         </div>
 
-        <!-- =========================
-             FORM SECTION
-             ========================= -->
-
+        <!-- FORM SECTION -->
         <div class="details-section">
           <form class="clothing-form" (ngSubmit)="saveChanges()" novalidate>
-            <!-- =========================
-                 BASIC DETAILS
-                 ========================= -->
-
+            <!-- BASIC DETAILS -->
             <div class="form-card">
               <div class="form-card-heading">
                 <div>
-                  <span class="section-label"> 01 / BASICS </span>
-
+                  <span class="section-label">01 / BASICS</span>
                   <h3>Piece details</h3>
                 </div>
               </div>
 
               <div class="field-group full-width">
-                <label for="editClothingName">
-                  Clothing name
-                  <span>*</span>
-                </label>
+                <label for="editClothingName"> Clothing name <span>*</span> </label>
 
                 <input
                   id="editClothingName"
@@ -124,63 +114,57 @@
                   [(ngModel)]="editedClothing.name"
                   placeholder="e.g. Classic White Shirt"
                   autocomplete="off"
+                  required
                   [class.invalid]="getFieldError('name')"
                 />
 
                 @if (getFieldError('name')) {
-                  <small class="field-error"> Please enter a clothing name. </small>
+                  <small class="field-error">Please enter a clothing name.</small>
                 }
               </div>
 
               <div class="form-row">
                 <div class="field-group">
-                  <label for="editCategory">
-                    Category
-                    <span>*</span>
-                  </label>
+                  <label for="editCategory">Category <span>*</span></label>
 
-                  <select id="editCategory" name="category" [(ngModel)]="editedClothing.category">
+                  <select
+                    id="editCategory"
+                    name="category"
+                    [(ngModel)]="editedClothing.category"
+                    required
+                  >
                     @for (category of categories; track category) {
-                      <option [value]="category">
-                        {{ category }}
-                      </option>
+                      <option [value]="category">{{ category }}</option>
                     }
                   </select>
                 </div>
 
                 <div class="field-group">
-                  <label for="editColor">
-                    Colour
-                    <span>*</span>
-                  </label>
+                  <label for="editColor">Colour <span>*</span></label>
 
                   <select
                     id="editColor"
                     name="color"
                     [(ngModel)]="editedClothing.color"
+                    required
                     [class.invalid]="getFieldError('color')"
                   >
                     <option value="" disabled>Select colour</option>
 
                     @for (color of colors; track color) {
-                      <option [value]="color">
-                        {{ color }}
-                      </option>
+                      <option [value]="color">{{ color }}</option>
                     }
                   </select>
 
                   @if (getFieldError('color')) {
-                    <small class="field-error"> Please select a colour. </small>
+                    <small class="field-error">Please select a colour.</small>
                   }
                 </div>
               </div>
 
               <div class="form-row">
                 <div class="field-group">
-                  <label for="editBrand">
-                    Brand
-                    <span class="optional">OPTIONAL</span>
-                  </label>
+                  <label for="editBrand"> Brand <span class="optional">OPTIONAL</span> </label>
 
                   <input
                     id="editBrand"
@@ -193,106 +177,106 @@
                 </div>
 
                 <div class="field-group">
-                  <label for="editSize">
-                    Size
-                    <span>*</span>
-                  </label>
+                  <label for="editSize">Size <span>*</span></label>
 
                   <select
                     id="editSize"
                     name="size"
                     [(ngModel)]="editedClothing.size"
+                    required
                     [class.invalid]="getFieldError('size')"
                   >
                     <option value="" disabled>Select size</option>
 
                     @for (size of sizes; track size) {
-                      <option [value]="size">
-                        {{ size }}
-                      </option>
+                      <option [value]="size">{{ size }}</option>
                     }
                   </select>
 
                   @if (getFieldError('size')) {
-                    <small class="field-error"> Please select a size. </small>
+                    <small class="field-error">Please select a size.</small>
                   }
                 </div>
               </div>
             </div>
 
-            <!-- =========================
-                 CLASSIFICATION
-                 ========================= -->
-
+            <!-- CLASSIFICATION -->
             <div class="form-card">
               <div class="form-card-heading">
                 <div>
-                  <span class="section-label"> 02 / CLASSIFICATION </span>
-
+                  <span class="section-label">02 / CLASSIFICATION</span>
                   <h3>When will you wear it?</h3>
                 </div>
               </div>
 
               <div class="form-row">
                 <div class="field-group">
-                  <label for="editSeason"> Season </label>
+                  <label for="editSeason">Season</label>
 
                   <select id="editSeason" name="season" [(ngModel)]="editedClothing.season">
                     @for (season of seasons; track season) {
-                      <option [value]="season">
-                        {{ season }}
-                      </option>
+                      <option [value]="season">{{ season }}</option>
                     }
                   </select>
                 </div>
 
                 <div class="field-group">
-                  <label for="editOccasion">
-                    Occasion
-                    <span>*</span>
-                  </label>
+                  <label for="editOccasion">Occasion <span>*</span></label>
 
                   <select
                     id="editOccasion"
                     name="occasion"
                     [(ngModel)]="editedClothing.occasion"
+                    required
                     [class.invalid]="getFieldError('occasion')"
                   >
                     @for (occasion of occasions; track occasion) {
-                      <option [value]="occasion">
-                        {{ occasion }}
-                      </option>
+                      <option [value]="occasion">{{ occasion }}</option>
                     }
                   </select>
 
                   @if (getFieldError('occasion')) {
-                    <small class="field-error"> Please select an occasion. </small>
+                    <small class="field-error">Please select an occasion.</small>
                   }
                 </div>
               </div>
             </div>
 
-            <!-- =========================
-                 PERSONALISATION
-                 ========================= -->
-
+            <!-- PERSONALISATION -->
             <div class="form-card">
               <div class="form-card-heading">
                 <div>
-                  <span class="section-label"> 03 / PERSONALISE </span>
-
+                  <span class="section-label">03 / PERSONALISE</span>
                   <h3>Finishing touches</h3>
                 </div>
               </div>
 
+              <!-- IMAGE FILE -->
+              <div class="field-group full-width">
+                <label for="editImageFile">Upload a replacement photo</label>
+
+                <input
+                  id="editImageFile"
+                  type="file"
+                  name="editImageFile"
+                  accept="image/jpeg,image/png,image/webp,image/gif"
+                  (change)="onImageSelected($event)"
+                />
+
+                <small class="helper-text">
+                  Choose a JPG, PNG, WEBP, or GIF image up to 5 MB.
+                </small>
+              </div>
+
+              <!-- IMAGE URL -->
               <div class="field-group full-width">
                 <label for="editImage">
-                  Image URL
+                  Or use an image URL
                   <span class="optional">OPTIONAL</span>
                 </label>
 
                 <div class="input-with-icon">
-                  <span class="input-icon"> ⌁ </span>
+                  <span class="input-icon">⌁</span>
 
                   <input
                     id="editImage"
@@ -305,15 +289,13 @@
                 </div>
 
                 <small class="helper-text">
-                  Paste a direct image link to update the clothing preview.
+                  Paste a direct image link if you prefer not to upload a file.
                 </small>
               </div>
 
+              <!-- NOTES -->
               <div class="field-group full-width">
-                <label for="editNotes">
-                  Notes
-                  <span class="optional">OPTIONAL</span>
-                </label>
+                <label for="editNotes"> Notes <span class="optional">OPTIONAL</span> </label>
 
                 <textarea
                   id="editNotes"
@@ -324,14 +306,11 @@
                   placeholder="Add anything you want to remember about this piece..."
                 ></textarea>
 
-                <div class="character-count">{{ editedClothing.notes.length }}/300</div>
+                <div class="character-count">{{ (editedClothing.notes || '').length }}/300</div>
               </div>
             </div>
 
-            <!-- =========================
-                 ACTIONS
-                 ========================= -->
-
+            <!-- ACTIONS -->
             <div class="form-actions">
               <button type="button" class="secondary-button" (click)="resetChanges()">
                 <span>↻</span>
@@ -348,18 +327,14 @@
       </section>
     </main>
 
-    <!-- =========================
-         SUCCESS TOAST
-         ========================= -->
-
+    <!-- SUCCESS TOAST -->
     @if (showSuccess) {
-      <div class="success-toast">
+      <div class="success-toast" role="status">
         <div class="success-check">✓</div>
 
         <div>
-          <strong> Changes saved </strong>
-
-          <span> {{ editedClothing.name }} has been updated successfully. </span>
+          <strong>Changes saved</strong>
+          <span>{{ editedClothing.name }} has been updated successfully.</span>
         </div>
 
         <button type="button" (click)="showSuccess = false" aria-label="Close notification">
@@ -368,14 +343,11 @@
       </div>
     }
   } @else {
-    <!-- =========================
-         NO PIECE SELECTED
-         ========================= -->
-
+    <!-- NO PIECE SELECTED -->
     <main class="no-piece">
       <div class="no-piece-icon">♧</div>
 
-      <span class="eyebrow"> DIGITAL WARDROBE </span>
+      <span class="eyebrow">DIGITAL WARDROBE</span>
 
       <h2>No clothing piece selected</h2>
 

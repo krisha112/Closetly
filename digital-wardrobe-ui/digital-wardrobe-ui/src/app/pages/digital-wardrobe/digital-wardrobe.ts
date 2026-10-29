@@ -24,7 +24,7 @@ export class DigitalWardrobe implements OnDestroy {
    * This keeps the Favorites page and Wardrobe page
    * synchronized.
    */
-  @Input() favoriteItems: number[] = [];
+ @Input() favoriteItems: (string | number)[] = [];
 
   /* =====================================================
      OUTPUTS TO APP

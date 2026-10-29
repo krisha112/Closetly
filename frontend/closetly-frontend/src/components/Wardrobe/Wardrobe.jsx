@@ -1,66 +1,73 @@
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./Wardrobe.css";
 
-const sampleClothes = [
-  {
-    id: 1,
-    name: "White Shirt",
-    category: "Tops",
-    color: "White",
-    season: "Summer",
-    image: "https://placehold.co/300x350/F5F5F5/443223?text=White+Shirt",
-  },
-  {
-    id: 2,
-    name: "Blue Jeans",
-    category: "Bottoms",
-    color: "Blue",
-    season: "All Season",
-    image: "https://placehold.co/300x350/DCE6F1/443223?text=Blue+Jeans",
-  },
-  {
-    id: 3,
-    name: "Black Dress",
-    category: "Dresses",
-    color: "Black",
-    season: "Winter",
-    image: "https://placehold.co/300x350/333333/FFFFFF?text=Black+Dress",
-  },
-  {
-    id: 4,
-    name: "Beige Jacket",
-    category: "Outerwear",
-    color: "Beige",
-    season: "Winter",
-    image: "https://placehold.co/300x350/DBC4A5/443223?text=Beige+Jacket",
-  },
-  {
-    id: 5,
-    name: "Green Top",
-    category: "Tops",
-    color: "Green",
-    season: "Summer",
-    image: "https://placehold.co/300x350/DDE8D5/443223?text=Green+Top",
-  },
-  {
-    id: 6,
-    name: "Black Trousers",
-    category: "Bottoms",
-    color: "Black",
-    season: "All Season",
-    image: "https://placehold.co/300x350/333333/FFFFFF?text=Black+Trousers",
-  },
-];
+const API_URL = "http://localhost:5000/api/clothing";
 
 function Wardrobe() {
+  const [clothes, setClothes] = useState([]);
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("All");
   const [color, setColor] = useState("All");
   const [season, setSeason] = useState("All");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
-  const filteredClothes = sampleClothes.filter((item) => {
-    const matchesSearch = item.name
+  useEffect(() => {
+    let cancelled = false;
+
+    async function loadClothes() {
+      try {
+        setLoading(true);
+        setError("");
+
+        const response = await fetch(API_URL);
+
+        if (!response.ok) {
+          throw new Error(`Could not load wardrobe (${response.status}).`);
+        }
+
+        const result = await response.json();
+
+        if (!result.success) {
+          throw new Error("The wardrobe API returned an unsuccessful response.");
+        }
+
+        if (!cancelled) {
+          setClothes(
+            (result.data ?? []).map((item) => ({
+              ...item,
+              id: item._id ?? item.id,
+              image: item.image || "",
+              category: item.category || "Other",
+              color: item.color || "Other",
+              season: item.season || "All Season",
+            }))
+          );
+        }
+      } catch (err) {
+        if (!cancelled) {
+          console.error("Failed to load wardrobe:", err);
+          setError(
+            "Could not load your wardrobe. Please check the backend connection and try again."
+          );
+        }
+      } finally {
+        if (!cancelled) {
+          setLoading(false);
+        }
+      }
+    }
+
+    loadClothes();
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const filteredClothes = clothes.filter((item) => {
+    const matchesSearch = (item.name || "")
       .toLowerCase()
       .includes(search.toLowerCase());
 
@@ -117,7 +124,8 @@ function Wardrobe() {
             <option value="Tops">Tops</option>
             <option value="Bottoms">Bottoms</option>
             <option value="Dresses">Dresses</option>
-            <option value="Outerwear">Outerwear</option>
+            <option value="Shoes">Shoes</option>
+            <option value="Accessories">Accessories</option>
           </select>
 
           <select
@@ -127,9 +135,18 @@ function Wardrobe() {
             <option value="All">All Colours</option>
             <option value="White">White</option>
             <option value="Black">Black</option>
-            <option value="Blue">Blue</option>
+            <option value="Brown">Brown</option>
             <option value="Beige">Beige</option>
+            <option value="Cream">Cream</option>
+            <option value="Blue">Blue</option>
             <option value="Green">Green</option>
+            <option value="Olive">Olive</option>
+            <option value="Mauve">Mauve</option>
+            <option value="Pink">Pink</option>
+            <option value="Red">Red</option>
+            <option value="Grey">Grey</option>
+            <option value="Yellow">Yellow</option>
+            <option value="Other">Other</option>
           </select>
 
           <select
@@ -139,39 +156,60 @@ function Wardrobe() {
             <option value="All">All Seasons</option>
             <option value="Summer">Summer</option>
             <option value="Winter">Winter</option>
+            <option value="Spring">Spring</option>
+            <option value="Monsoon">Monsoon</option>
             <option value="All Season">All Season</option>
           </select>
 
-          <button
-            className="clear-filters"
-            onClick={clearFilters}
-          >
+          <button className="clear-filters" onClick={clearFilters}>
             Clear Filters
           </button>
         </div>
       </div>
 
-      <div className="wardrobe-grid">
-        {filteredClothes.length > 0 ? (
-          filteredClothes.map((item) => (
-            <div className="wardrobe-card" key={item.id}>
-              <img src={item.image} alt={item.name} />
+      {loading ? (
+        <p>Loading your wardrobe...</p>
+      ) : error ? (
+        <div className="wardrobe-empty">
+          <h3>Wardrobe unavailable</h3>
+          <p>{error}</p>
+          <button onClick={() => window.location.reload()}>
+            Retry
+          </button>
+        </div>
+      ) : (
+        <div className="wardrobe-grid">
+          {filteredClothes.length > 0 ? (
+            filteredClothes.map((item) => (
+              <div className="wardrobe-card" key={item.id}>
+                {item.image ? (
+                  <img src={item.image} alt={item.name} />
+                ) : (
+                  <div className="wardrobe-image-placeholder">
+                    No image available
+                  </div>
+                )}
 
-              <div className="wardrobe-card-info">
-                <h3>{item.name}</h3>
-                <p>{item.category} · {item.color}</p>
-                <span>{item.season}</span>
+                <div className="wardrobe-card-info">
+                  <h3>{item.name}</h3>
+                  <p>{item.category} · {item.color}</p>
+                  <span>{item.season}</span>
+                </div>
               </div>
+            ))
+          ) : (
+            <div className="wardrobe-empty">
+              <h3>No items found</h3>
+              <p>
+                {clothes.length === 0
+                  ? "Your wardrobe is empty. Add clothing to get started."
+                  : "Try changing your search or filters."}
+              </p>
+              <button onClick={clearFilters}>Reset Filters</button>
             </div>
-          ))
-        ) : (
-          <div className="wardrobe-empty">
-            <h3>No items found</h3>
-            <p>Try changing your search or filters.</p>
-            <button onClick={clearFilters}>Reset Filters</button>
-          </div>
-        )}
-      </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }

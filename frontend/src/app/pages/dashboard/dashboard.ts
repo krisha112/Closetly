@@ -1,5 +1,4 @@
-
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
 
@@ -10,6 +9,8 @@ import {
   DashboardService,
   DashboardData
 } from '../../services/dashboard';
+
+import { ClothingService, ClothingItem } from '../../services/Clothing';
 
 @Component({
   selector: 'app-dashboard',
@@ -24,7 +25,6 @@ import {
   styleUrl: './dashboard.scss'
 })
 export class DashboardComponent implements OnInit {
-
   dashboardData: DashboardData = {
     totalClothes: 0,
     totalOutfits: 0,
@@ -32,74 +32,118 @@ export class DashboardComponent implements OnInit {
     recentClothes: []
   };
 
+  clothingItems: ClothingItem[] = [];
   insightsPeriod: 'week' | 'month' | 'threeMonths' = 'month';
-
-  // Sample clothing cards for the empty dashboard preview.
-  // These are not saved to the database.
-  sampleClothes = [
-    {
-      name: 'White Knit Top',
-      category: 'Tops',
-      size: 'S',
-      image: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=400&q=85'
-    },
-    {
-      name: 'Wide Leg Jeans',
-      category: 'Bottoms',
-      size: 'M',
-      image: 'https://images.unsplash.com/photo-1542272604-787c3835535d?auto=format&fit=crop&w=400&q=85'
-    },
-    {
-      name: 'Floral Midi Dress',
-      category: 'Dresses',
-      size: 'S',
-      image: 'https://images.unsplash.com/photo-1595777457583-95e059d581b8?auto=format&fit=crop&w=400&q=85'
-    },
-    {
-      name: 'Beige Blazer',
-      category: 'Outerwear',
-      size: 'M',
-      image: 'https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&w=400&q=85'
-    }
-  ];
-
-  // Illustrative values for the Style Insights preview.
-  sampleCategories = [
-    { name: 'Tops', icon: 'checkroom', count: 12, percentage: 74 },
-    { name: 'Bottoms', icon: 'straighten', count: 8, percentage: 54 },
-    { name: 'Dresses', icon: 'checkroom', count: 6, percentage: 39 },
-    { name: 'Shoes', icon: 'steps', count: 10, percentage: 69 },
-    { name: 'Accessories', icon: 'shopping_bag', count: 7, percentage: 51 }
-  ];
+  loadingClothes = true;
+  clothingError = '';
 
   constructor(
-    private dashboardService: DashboardService
-  ) {}
+  private dashboardService: DashboardService,
+  private clothingService: ClothingService,
+  private cdr: ChangeDetectorRef
+) {}
 
   ngOnInit(): void {
     this.loadDashboardData();
+    this.loadClothingItems();
   }
 
-  loadDashboardData(): void {
-    this.dashboardService.getDashboardData().subscribe({
-      next: (data) => {
-        this.dashboardData = {
-          ...data,
-          recentClothes: data.recentClothes ?? []
-        };
-      },
+ 
+loadDashboardData(): void {
+  this.dashboardService.getDashboardData().subscribe({
+    next: (data) => {
+      console.log('DASHBOARD API RESPONSE:', data);
+
+      this.dashboardData = {
+        ...data,
+        recentClothes: data.recentClothes ?? []
+      };
+    },
+    error: (error) => {
+      console.error('Could not load dashboard summary:', error);
+    }
+  });
+}
+
+
+  loadClothingItems(): void {
+    this.loadingClothes = true;
+    this.clothingError = '';
+
+    this.clothingService.getClothingItems().subscribe({
+     next: (response) => {
+  console.log('CLOTHING DATA:', response.data);
+
+  this.clothingItems = (response.data ?? []).map(item => ({
+    ...item,
+    id: item._id ?? item.id
+  }));
+
+  this.loadingClothes = false;
+  this.cdr.detectChanges();
+
+  console.log('ITEM COUNT:', this.clothingItems.length);
+},
       error: (error) => {
-        console.log(
-          'Could not load dashboard data. Using default values.',
-          error
-        );
+        console.error('Could not load dashboard clothing:', error);
+        this.clothingError = 'Could not load your clothing collection.';
+        this.loadingClothes = false;
       }
     });
   }
 
+  get recentClothes(): ClothingItem[] {
+    return [...this.clothingItems]
+      .sort((a, b) => {
+        const dateA = new Date(a.createdAt ?? 0).getTime();
+        const dateB = new Date(b.createdAt ?? 0).getTime();
+        return dateB - dateA;
+      })
+      .slice(0, 4);
+  }
+
+  get totalClothes(): number {
+    return this.clothingItems.length;
+  }
+
+  get categoryInsights(): Array<{
+    name: string;
+    icon: string;
+    count: number;
+    percentage: number;
+  }> {
+    const categories = [
+      { name: 'Tops', icon: 'checkroom' },
+      { name: 'Bottoms', icon: 'straighten' },
+      { name: 'Dresses', icon: 'checkroom' },
+      { name: 'Shoes', icon: 'steps' },
+      { name: 'Accessories', icon: 'shopping_bag' }
+    ];
+
+    const maximum = Math.max(
+      1,
+      ...categories.map(category =>
+        this.clothingItems.filter(
+          item => item.category?.toLowerCase() === category.name.toLowerCase()
+        ).length
+      )
+    );
+
+    return categories.map(category => {
+      const count = this.clothingItems.filter(
+        item => item.category?.toLowerCase() === category.name.toLowerCase()
+      ).length;
+
+      return {
+        ...category,
+        count,
+        percentage: Math.round((count / maximum) * 100)
+      };
+    });
+  }
+
   onInsightsPeriodChange(event: Event): void {
-    const select = event.target as HTMLSelectElement;
-    const value = select.value;
+    const value = (event.target as HTMLSelectElement).value;
 
     if (
       value === 'week' ||

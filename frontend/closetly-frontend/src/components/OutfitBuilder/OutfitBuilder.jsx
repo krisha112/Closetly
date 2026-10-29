@@ -1,5 +1,4 @@
-import { useState } from "react";
-
+import { useEffect, useState } from "react";
 import "./OutfitBuilder.css";
 
 
@@ -897,6 +896,55 @@ const panelMeta = {
 
 
 export default function OutfitBuilder({ onNavigate }) {
+  
+  const [wardrobeItems, setWardrobeItems] = useState([]);
+  const [wardrobeLoading, setWardrobeLoading] = useState(true);
+  const [wardrobeError, setWardrobeError] = useState("");
+  
+  useEffect(() => {
+    const controller = new AbortController();
+
+    async function loadWardrobe() {
+      try {
+        setWardrobeLoading(true);
+        setWardrobeError("");
+
+        const response = await fetch(
+          "http://localhost:5000/api/clothing",
+          { signal: controller.signal }
+        );
+
+        if (!response.ok) {
+          throw new Error("Could not load wardrobe items.");
+        }
+
+        const result = await response.json();
+
+        setWardrobeItems(
+          (result.data ?? []).map((item) => ({
+            ...item,
+            id: item._id ?? item.id,
+            image: item.image ?? "",
+            category: (item.category ?? "").toLowerCase().trim(),
+          }))
+        );
+      } catch (error) {
+        if (error.name !== "AbortError") {
+          console.error("Could not load outfit wardrobe:", error);
+          setWardrobeError("Could not load your wardrobe. Please try again.");
+        }
+      } finally {
+        if (!controller.signal.aborted) {
+          setWardrobeLoading(false);
+        }
+      }
+    }
+
+    loadWardrobe();
+
+    return () => controller.abort();
+  }, []);
+
 
   const [activePanel, setActivePanel] = useState("bodyShape");
 
@@ -918,7 +966,20 @@ export default function OutfitBuilder({ onNavigate }) {
 
     bodyShapes.find((s) => s.id === bodyShape) ?? bodyShapes[0];
 
-  const items = clothingItems[clothingCategory] ?? [];
+
+const categoryAliases = {
+  tops: ["top", "tops"],
+  bottoms: ["bottom", "bottoms"],
+  dresses: ["dress", "dresses"],
+  outerwear: ["outerwear", "jacket", "jackets", "coat", "coats"],
+};
+
+const items = wardrobeItems.filter((item) =>
+  (categoryAliases[clothingCategory] ?? [clothingCategory])
+    .includes(item.category)
+);
+  
+
 
   const selectedByCategory = {
 
@@ -1313,6 +1374,17 @@ export default function OutfitBuilder({ onNavigate }) {
                       </div>
 
                       <div className="cl-items">
+                        
+{wardrobeLoading && <p>Loading your wardrobe...</p>}
+
+{!wardrobeLoading && wardrobeError && (
+  <p role="alert">{wardrobeError}</p>
+)}
+
+{!wardrobeLoading && !wardrobeError && items.length === 0 && (
+  <p>No clothing items in this category yet. Add items to your wardrobe first.</p>
+)}
+
 
                         {items.map((item) => {
 
@@ -1354,15 +1426,19 @@ export default function OutfitBuilder({ onNavigate }) {
 
                             >
 
-                              <img
+                              
+{item.image ? (
+  <img
+    src={item.image}
+    alt={item.name}
+    loading="lazy"
+  />
+) : (
+  <span className="cl-item-no-image">
+    {item.name}
+  </span>
+)}
 
-                                src={item.image}
-
-                                alt={item.name}
-
-                                loading="lazy"
-
-                              />
 
                             </button>
 

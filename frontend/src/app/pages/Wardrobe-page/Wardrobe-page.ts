@@ -6,6 +6,8 @@ import { SidebarComponent } from '../../components/sidebar/sidebar';
 import { NavbarComponent } from '../../components/navbar/navbar';
 import { DigitalWardrobe } from '../digital-wardrobe/digital-wardrobe';
 import { ClothingService, ClothingItem } from '../../services/Clothing';
+import { AddClothing } from '../add-clothing/add-clothing';
+import { ClothingDetails } from '../clothing-details/clothing-details';
 
 @Component({
   selector: 'app-wardrobe-page',
@@ -14,12 +16,16 @@ import { ClothingService, ClothingItem } from '../../services/Clothing';
     CommonModule,
     SidebarComponent,
     NavbarComponent,
-    DigitalWardrobe
+    DigitalWardrobe,
+    AddClothing,
+    ClothingDetails,
   ],
   templateUrl: './wardrobe-page.html',
   styleUrl: './wardrobe-page.css'
 })
 export class WardrobePageComponent implements OnInit {
+  selectedClothing: ClothingItem | null = null;
+
   private clothingService = inject(ClothingService);
   private router = inject(Router);
   private cdr = inject(ChangeDetectorRef);
@@ -133,16 +139,46 @@ export class WardrobePageComponent implements OnInit {
     });
   }
 
-  showAddMessage(): void {
-    this.errorMessage =
-      'Add Clothing is not connected to the main dashboard yet.';
-  }
-
   showDetails(item: ClothingItem): void {
-    console.log('Selected clothing:', item);
-    this.errorMessage =
-      'Clothing details are not connected to the main dashboard yet.';
-  }
+  this.selectedClothing = item;
+  this.errorMessage = '';
+}
+
+  showAddForm = false;
+
+showAddMessage(): void {
+  this.showAddForm = true;
+  this.errorMessage = '';
+}
+
+closeAddForm(): void {
+  this.showAddForm = false;
+}
+
+saveClothing(clothing: ClothingItem): void {
+  this.errorMessage = '';
+
+  this.clothingService.addClothingItem(clothing).subscribe({
+    next: () => {
+      this.showAddForm = false;
+      this.loadClothing();
+    },
+    error: (error) => {
+      console.error('Could not save clothing:', error);
+      this.errorMessage =
+        'Could not save clothing. Please check that the backend is running.';
+    }
+  });
+}
+
+  closeDetails(): void {
+  this.selectedClothing = null;
+}
+
+deleteSelectedClothing(item: ClothingItem): void {
+  this.deleteClothing(item);
+  this.selectedClothing = null;
+}
 
   onWardrobeNavigate(
     page: 'wardrobe' | 'outfits' | 'favorites' | 'explore' | 'profile'

@@ -14,15 +14,32 @@
         {{ errorMessage }}
       </p>
 
-      <app-digital-wardrobe
-        [clothingItems]="clothingItems.slice()"
-        [favoriteItems]="favoriteItems.slice()"
-        (favoriteToggle)="toggleFavorite($event)"
-        (deleteClothing)="deleteClothing($event)"
-        (addClothing)="showAddMessage()"
-        (clothingDetails)="showDetails($event)"
-        (navigate)="onWardrobeNavigate($event)">
-      </app-digital-wardrobe>
+      <app-add-clothing
+  *ngIf="showAddForm"
+  (backToWardrobe)="closeAddForm()"
+  (clothingSaved)="saveClothing($event)">
+</app-add-clothing>
+
+
+@if (selectedClothing; as item) {
+  <app-clothing-details
+    [clothing]="item"
+    (backToWardrobe)="closeDetails()"
+    (deleteClothingEvent)="deleteSelectedClothing($event)"
+    (editClothing)="errorMessage = 'Edit integration is the next step.'"
+  ></app-clothing-details>
+} @else {
+  <app-digital-wardrobe
+    [clothingItems]="clothingItems.slice()"
+    [favoriteItems]="favoriteItems.slice()"
+    (favoriteToggle)="toggleFavorite($event)"
+    (deleteClothing)="deleteClothing($event)"
+    (addClothing)="showAddMessage()"
+    (clothingDetails)="showDetails($event)"
+    (navigate)="onWardrobeNavigate($event)"
+  ></app-digital-wardrobe>
+}
+
     </main>
   </div>
 </div>

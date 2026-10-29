@@ -25,25 +25,22 @@
 
   <!-- NAVIGATION -->
   <nav>
-    
+
 <a routerLink="/dashboard" routerLinkActive="active"
    [routerLinkActiveOptions]="{ exact: true }">
   <mat-icon>dashboard</mat-icon>
   <span>Dashboard</span>
 </a>
 
-
     <a routerLink="/wardrobe" routerLinkActive="active">
       <mat-icon>checkroom</mat-icon>
       <span>Wardrobe</span>
     </a>
 
-    
-
-<a routerLink="/outfit-creator" routerLinkActive="active">
-  <mat-icon>auto_awesome</mat-icon>
-  <span>Outfit Creator</span>
-</a>
+    <a routerLink="/outfit-creator" routerLinkActive="active">
+      <mat-icon>auto_awesome</mat-icon>
+      <span>Outfit Creator</span>
+    </a>
 
 <a routerLink="/my-outfits" routerLinkActive="active">
   <mat-icon>style</mat-icon>
@@ -61,10 +58,44 @@
     </a>
   </nav>
 
-  <!-- LOGOUT -->
-  <div class="logout">
-    <mat-icon>logout</mat-icon>
-    <span>Logout</span>
-  </div>
+  
+<!-- LOGOUT -->
+<div class="logout" (click)="logout()" role="button" tabindex="0"
+     (keydown.enter)="logout()">
+  <mat-icon>logout</mat-icon>
+  <span>Logout</span>
+</div>
 
+<!-- LOGOUT CONFIRMATION -->
+<div
+  *ngIf="showLogoutModal"
+  class="logout-modal-overlay"
+  (click)="cancelLogout()">
+
+  <div
+    class="logout-modal"
+    role="dialog"
+    aria-modal="true"
+    (click)="$event.stopPropagation()">
+
+    <h3>Are you sure?</h3>
+
+    <p>Are you sure you want to logout from your Closetly account?</p>
+
+    <div class="logout-modal-actions">
+      <button type="button"
+              class="logout-cancel-btn"
+              (click)="cancelLogout()">
+        Cancel
+      </button>
+
+      <button type="button"
+              class="logout-confirm-btn"
+              (click)="confirmLogout()">
+        <mat-icon>logout</mat-icon>
+        Logout
+      </button>
+    </div>
+
+  </div>
 </div>

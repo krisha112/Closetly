@@ -1,9 +1,12 @@
 const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
+const dashboardRoutes = require('./routes/dashboardRoutes');
 
 const connectDB = require('./config/database');
 const clothingRoutes = require('./routes/clothingRoutes');
+const outfitRoutes = require('./routes/outfitRoutes');
+
 
 dotenv.config();
 
@@ -11,6 +14,8 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
+app.use('/api/dashboard', dashboardRoutes);
+
 
 app.get('/', (req, res) => {
   res.status(200).json({
@@ -21,6 +26,7 @@ app.get('/', (req, res) => {
 
 // Clothing API routes
 app.use('/api/clothing', clothingRoutes);
+app.use('/api/outfits', outfitRoutes);
 
 // Handle unknown routes
 app.use((req, res) => {

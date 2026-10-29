@@ -257,19 +257,25 @@
           <span class="stat-caption"> Ways to organize </span>
         </div>
       </div>
+      
+<div
+  class="stat-card stat-card-accent"
+  role="button"
+  tabindex="0"
+  (click)="goToOutfitCreator()"
+  (keydown.enter)="goToOutfitCreator()"
+  (keydown.space)="goToOutfitCreator(); $event.preventDefault()"
+>
+  <div class="stat-icon">+</div>
 
-      <div class="stat-card stat-card-accent">
-        <div class="stat-icon">+</div>
+  <div class="stat-content">
+    <span class="stat-label">Keep growing</span>
+    <strong class="stat-value stat-value-small">Curate</strong>
+    <span class="stat-caption">Your style, your way</span>
+  </div>
+</div>
 
-        <div class="stat-content">
-          <span class="stat-label"> Keep growing </span>
-
-          <strong class="stat-value stat-value-small"> Curate </strong>
-
-          <span class="stat-caption"> Your style, your way </span>
-        </div>
-      </div>
-    </section>
+          </section>
 
     <!-- COLLECTION HEADER -->
     <section class="collection-header">
@@ -287,11 +293,6 @@
           </span>
         </div>
       </div>
-
-      <button type="button" class="add-small-button" (click)="openAddClothing()">
-        <span>+</span>
-        Add piece
-      </button>
     </section>
 
     <!-- TOOLBAR -->

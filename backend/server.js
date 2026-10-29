@@ -1,4 +1,5 @@
-
+const dashboardRoutes = require('./routes/dashboardRoutes');
+app.use('/api/dashboard', dashboardRoutes);
 const express = require("express");
 const cors = require("cors");
 require("dotenv").config();

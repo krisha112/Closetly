@@ -54,7 +54,7 @@
 
           <div class="stat-content">
             <span class="stat-title">TOTAL PIECES</span>
-            <strong>{{ dashboardData.totalClothes }}</strong>
+            <strong>{{ clothingItems.length }}</strong>
             <small>Items in your wardrobe</small>
           </div>
 
@@ -102,7 +102,7 @@
 
           <div class="stat-content">
             <span class="stat-title">RECENTLY ADDED</span>
-            <strong>{{ dashboardData.recentClothes.length }}</strong>
+            <strong>{{ recentClothes.length }}</strong>
             <small>Latest wardrobe additions</small>
           </div>
 
@@ -132,54 +132,41 @@
 
           <div class="recent-items">
 
-            @if (dashboardData.recentClothes.length > 0) {
-              @for (item of dashboardData.recentClothes; track $index) {
-                <article class="recent-item">
-                  <div class="recent-item-image">
-                    @if (item.image) {
-                      <img [src]="item.image" [alt]="item.name" />
-                    } @else {
-                      <mat-icon>checkroom</mat-icon>
-                    }
+     
+@if (loadingClothes) {
+  <p class="sample-note">Loading your wardrobe...</p>
+} @else if (recentClothes.length > 0) {
+  @for (item of recentClothes; track item.id) {
+    <article class="recent-item">
+      <div class="recent-item-image">
+        @if (item.image) {
+          <img [src]="item.image" [alt]="item.name" />
+        } @else {
+          <mat-icon>checkroom</mat-icon>
+        }
 
-                    <span class="item-favorite">
-                      <mat-icon>favorite_border</mat-icon>
-                    </span>
-                  </div>
+        <span class="item-favorite">
+          <mat-icon>favorite_border</mat-icon>
+        </span>
+      </div>
 
-                  <div class="recent-item-info">
-                    <strong>{{ item.name }}</strong>
-                    <span>{{ item.category }}</span>
-                  </div>
-                </article>
-              }
-            } @else {
-              @for (item of sampleClothes; track item.name) {
-                <article class="recent-item sample-item">
-                  <div class="recent-item-image">
-                    <img [src]="item.image" [alt]="item.name" />
-
-                    <span class="item-favorite">
-                      <mat-icon>favorite_border</mat-icon>
-                    </span>
-                  </div>
-
-                  <div class="recent-item-info">
-                    <strong>{{ item.name }}</strong>
-                    <span>{{ item.category }} · {{ item.size }}</span>
-                  </div>
-                </article>
-              }
-            }
-
+      <div class="recent-item-info">
+        <strong>{{ item.name }}</strong>
+        <span>{{ item.category }}</span>
+      </div>
+    </article>
+  }
+} @else {
+  <div class="empty-state">
+    <mat-icon>checkroom</mat-icon>
+    <p>Your wardrobe is empty.</p>
+    <a class="text-action" routerLink="/wardrobe">
+      Add your first clothing item
+    </a>
+  </div>
+}
           </div>
-
-          @if (dashboardData.recentClothes.length === 0) {
-            <p class="sample-note">
-              Sample items shown for preview. Add clothes to display your collection.
-            </p>
-          }
-        </article>
+          </article>
 
         <!-- Style Insights -->
         <article class="content-card analytics-card">
@@ -203,7 +190,7 @@
 
           <div class="insights-layout">
             <div class="insights-list">
-              @for (category of sampleCategories; track category.name) {
+              @for (category of categoryInsights; track category.name) {
                 <div class="insight-row">
                   
 <span class="insight-icon">
@@ -262,10 +249,6 @@
               
             </div>
           </div>
-
-          <p class="sample-note">
-            Illustrative category values for the design preview.
-          </p>
         </article>
 
       </section>

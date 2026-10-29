@@ -142,6 +142,10 @@ ngOnChanges(): void {
     this.navigate.emit('explore');
   }
 
+  goToOutfitCreator(): void {
+  this.navigate.emit('explore');
+}
+
   goToProfile(): void {
     this.navigate.emit('profile');
   }

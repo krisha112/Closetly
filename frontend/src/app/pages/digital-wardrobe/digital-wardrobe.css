@@ -447,13 +447,13 @@
 
 .wardrobe-hero {
   position: relative;
-  min-height: 330px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 40px;
-  padding: 48px 42px;
-  margin-top: 32px;
+  min-height: 300px; 
+  padding: 36px 42px;
+  margin-top: 16px;
   box-sizing: border-box;
   overflow: hidden;
   border: 1px solid rgba(114, 88, 62, 0.1);
@@ -633,7 +633,7 @@
 .wardrobe-stats {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 14px;
+  gap: 16px;
   margin-top: 20px;
 }
 
@@ -1585,7 +1585,7 @@
 
   .wardrobe-stats {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 9px;
+    gap: 16px;
   }
 
   .stat-card {
@@ -1772,16 +1772,13 @@
   display: block;
   position: relative;
   width: 100%;
+  max-width: 100%;
+  min-width: 0;
   min-height: 100vh;
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
   overflow: visible;
-}
-
-.wardrobe-main > section {
-  display: block;
-  width: 100%;
-  min-height: 100%;
 }
 
 /* FINAL CLOTHING GRID FIX */
@@ -1835,4 +1832,12 @@
     min-height: 160px !important;
     max-height: 160px !important;
   }
+}
+
+.stat-card-accent {
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  position: relative !important;
+  z-index: 5 !important;
 }

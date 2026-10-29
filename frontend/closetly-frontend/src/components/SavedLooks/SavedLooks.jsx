@@ -29,9 +29,6 @@ const [outfits, setOutfits] = useState(() => {
 const [loading, setLoading] = useState(true)
 const [error, setError] = useState('')
 
-  const [favorites, setFavorites] = useState(() =>
-    readStorage('closetlyFavorites')
-  )
 
     useEffect(() => {
     const fetchOutfits = async () => {
@@ -68,22 +65,47 @@ const [error, setError] = useState('')
     setOutfits(updated)
     localStorage.setItem('closetlyOutfits', JSON.stringify(updated))
   }
+  
+const isFavorite = (outfit) => outfit.isFavorite === true;
 
-  const saveFavorites = (updated) => {
-    setFavorites(updated)
-    localStorage.setItem('closetlyFavorites', JSON.stringify(updated))
+const toggleFavorite = async (outfit) => {
+  const nextFavorite = !outfit.isFavorite;
+
+  try {
+    const response = await fetch(
+      `${API_URL}/${outfit._id}/favorite`,
+      {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          isFavorite: nextFavorite,
+        }),
+      }
+    );
+
+    const result = await response.json();
+
+    if (!response.ok || !result.success) {
+      throw new Error(result.message || 'Could not update favorite.');
+    }
+
+    setOutfits((previous) =>
+      previous.map((item) =>
+        item._id === outfit._id
+          ? { ...item, ...result.data }
+          : item
+      )
+    );
+  } catch (err) {
+    console.error('Favorite update error:', err);
+    setError(err.message || 'Could not update favorite. Please try again.');
   }
+};
 
-  const isFavorite = (outfit) =>
-    favorites.some((item) => item.id === outfit._id)
 
-  const toggleFavorite = (outfit) => {
-    const updated = isFavorite(outfit)
-      ? favorites.filter((item) => item.id !== outfit._id)
-      : [...favorites, outfit]
-
-    saveFavorites(updated)
-  }
+  
 
   const scheduleOutfit = (outfit, date) => {
     const updated = outfits.map((item) =>
@@ -114,19 +136,6 @@ const [error, setError] = useState('')
     setOutfits((previous) =>
       previous.filter((item) => item._id !== id)
     )
-
-    setFavorites((previous) => {
-      const updated = previous.filter(
-        (item) => item._id !== id && item.id !== id
-      )
-
-      localStorage.setItem(
-        'closetlyFavorites',
-        JSON.stringify(updated)
-      )
-
-      return updated
-    })
 
     setDeleteId(null)
   } catch (err) {
@@ -191,7 +200,10 @@ const [error, setError] = useState('')
                     className={`saved-heart ${
                       isFavorite(outfit) ? 'is-favorite' : ''
                     }`}
-                    onClick={() => toggleFavorite(outfit)}
+                    onClick={() => {
+  console.log('HEART CLICKED:', outfit._id);
+  toggleFavorite(outfit);
+}}
                     aria-label={
                       isFavorite(outfit)
                         ? 'Remove from favorites'
